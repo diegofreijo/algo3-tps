@@ -12,6 +12,9 @@ public abstract class Ej3
 {
 	public static void Ejecutar()
 	{
+		System.out.println("Ejecutando Ej3:");
+		System.out.println("===============");
+		
 		Datos datos = Parser.Leer("Tp1Ej3.in");
 		Matriz potencia = datos.matriz.Potenciar(datos.n);
 		System.out.println(datos.matriz.toString() + "^" + datos.n + ":\n" + potencia.toString());

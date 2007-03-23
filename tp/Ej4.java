@@ -13,6 +13,9 @@ public abstract class Ej4
 {
 	public static void Ejecutar()
 	{
+		System.out.println("Ejecutando Ej4:");
+		System.out.println("===============");
+		
 		Integer n = Parser.Leer("Tp1Ej4.in").get(0);
 		List<Integer> factorizacion = new ArrayList<Integer>();
 		factorizacion = Factorizacion(n);
