@@ -46,7 +46,8 @@ public abstract class Ej4
 		return ret;
 	}
 
-	private static boolean EsPrimo(int n, final List<Integer> primos)
+	// Precond: primos tiene todos los primos menores a n
+	public static boolean EsPrimo(int n, final List<Integer> primos)
 	{
 		boolean ret = true;
 		int r = (int)Math.round(Math.sqrt(n)) + 1;
