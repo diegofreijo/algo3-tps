@@ -75,44 +75,7 @@ public class Ej1
 			}
 			i++;
 		}
-		
-		List<Integer> Sumas = new ArrayList<Integer>();
-		
-		int j = 0;
-		
-		while(j < ret.size()){
-							
-			int suma = ret.get(j).get(0) + ret.get(j).get(1);
-			Sumas.add(suma);
-					
-			j++;
-		}
-		
-		List<Integer> SumasTotales = new ArrayList<Integer>();
-		
-		int k = 0;
-		
-		while (k < A.size()){
 			
-			int l = 0;
-			
-			while (l < B.size()){
-				
-				int sumtot = A.get(k) + B.get(l);
-				SumasTotales.add(sumtot);
-				
-				l++;
-			}
-			
-			k++;
-		}
-		
-		Collections.sort(SumasTotales);
-		Collections.reverse(SumasTotales);
-		System.out.println(ret);
-		System.out.println(SumasTotales);
-		System.out.println(Sumas);
-		
 		return ret;	
 	}
 	
@@ -123,7 +86,7 @@ public class Ej1
 		
 		while(j <= n)
 		{	
-			if (A.get(j)+B.get(i) > valor)
+			if (A.get(j)+B.get(i) >= valor)
 			{
 				List<Integer> ret1 = new ArrayList<Integer>();
 				ret1.add(A.get(j));

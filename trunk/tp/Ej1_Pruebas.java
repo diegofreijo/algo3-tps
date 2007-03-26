@@ -18,7 +18,7 @@ public abstract class Ej1_Pruebas {
 		
 		int i = 0;
 		
-		//while(i<50){
+		//while(i<10){
 			
 			String archivo = "salida";
 			String numero =String.valueOf(i);
@@ -69,10 +69,11 @@ public abstract class Ej1_Pruebas {
 			//System.out.println(Sumas);
 			System.out.println(PruebaMayores(Sumas));
 			System.out.println(PruebaConjuntos(Sumas,SumasTotales));		
-				
+			
 		//i++;
 			
 		//}
+	
 	}	
 	
 	private static boolean PruebaMayores(List<Integer> Sumas){
@@ -105,7 +106,7 @@ public abstract class Ej1_Pruebas {
 		List<Integer>TempSumasTotales = SumasTotales.subList(0, tamaño);
 		
 		System.out.println(Sumas);
-		System.out.println(SumasTotales);
+		//System.out.println(SumasTotales);
 		System.out.println(TempSumasTotales);
 		
 		int i = 0;
@@ -113,9 +114,6 @@ public abstract class Ej1_Pruebas {
 		boolean ret = true;
 		
 		while (i < tamaño && ret){
-			
-			System.out.println(TempSumasTotales.get(i));
-			System.out.println(Sumas.get(i));
 			
 			if(TempSumasTotales.get(i) != Sumas.get(i)){
 				
