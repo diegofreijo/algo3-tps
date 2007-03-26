@@ -8,5 +8,6 @@ public class Main
 		//Ej1_Pruebas.Probar();
 		//Ej4_Pruebas.Probar();
 		//Ej4_Pruebas.ProbarPrimos();
+		Ej1.Ejecutar();
 	}
 }

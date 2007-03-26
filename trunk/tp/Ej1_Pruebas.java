@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 public abstract class Ej1_Pruebas {
 
@@ -26,12 +27,12 @@ public abstract class Ej1_Pruebas {
 			
 			Datos conjuntos = Parser.Leer(archivo);
 			
-			System.out.println(conjuntos.S);
-			System.out.println(conjuntos.T);
+			//System.out.println(conjuntos.S);
+			//System.out.println(conjuntos.T);
 			
 			List<List<Integer>> mayores = Ej1.Mayores(conjuntos.S, conjuntos.T);
 			
-			System.out.println(mayores);
+			//System.out.println(mayores);
 			//System.out.println(mayores.size());
 			
 			List<Integer> Sumas = new ArrayList<Integer>();
@@ -65,9 +66,9 @@ public abstract class Ej1_Pruebas {
 				k++;
 			}
 			
-			System.out.println(Sumas);
+			//System.out.println(Sumas);
 			System.out.println(PruebaMayores(Sumas));
-			//PruebaConjunto(Sumas,SumasTotales);		
+			System.out.println(PruebaConjuntos(Sumas,SumasTotales));		
 				
 		//i++;
 			
@@ -93,7 +94,40 @@ public abstract class Ej1_Pruebas {
 		return ret;
 		
 	}
-
+	
+	private static boolean PruebaConjuntos(List<Integer> Sumas, List<Integer> SumasTotales ){
+		
+		Collections.sort(SumasTotales);
+		Collections.reverse(SumasTotales);
+		
+		int tamaño = Sumas.size();
+		
+		List<Integer>TempSumasTotales = SumasTotales.subList(0, tamaño);
+		
+		System.out.println(Sumas);
+		System.out.println(SumasTotales);
+		System.out.println(TempSumasTotales);
+		
+		int i = 0;
+		
+		boolean ret = true;
+		
+		while (i < tamaño && ret){
+			
+			System.out.println(TempSumasTotales.get(i));
+			System.out.println(Sumas.get(i));
+			
+			if(TempSumasTotales.get(i) != Sumas.get(i)){
+				
+				ret = false;
+			}
+			
+			i++;
+		}
+						
+		return ret;
+	}
+	
 	private static class Datos
 	{
 		List<Integer> S;
