@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 public class Ej1
 {
@@ -16,12 +17,12 @@ public class Ej1
 		System.out.println("Ejecutando Ej1:");
 		System.out.println("===============");
 		
-		Datos conjuntos = Parser.Leer("Tp1Ej1.in");
+		Datos conjuntos = Parser.Leer("salida0.txt");
 		System.out.println(conjuntos.S.toString());
 		System.out.println(conjuntos.T.toString());
 		
 		List<List<Integer>> mayores = Mayores(conjuntos.S, conjuntos.T);
-		System.out.println(mayores.toString() + "\n");
+		//System.out.println(mayores.toString() + "\n");
 	}
 	
 	public static List<List<Integer>> Mayores(final List<Integer> A, final List<Integer> B)
@@ -74,6 +75,43 @@ public class Ej1
 			}
 			i++;
 		}
+		
+		List<Integer> Sumas = new ArrayList<Integer>();
+		
+		int j = 0;
+		
+		while(j < ret.size()){
+							
+			int suma = ret.get(j).get(0) + ret.get(j).get(1);
+			Sumas.add(suma);
+					
+			j++;
+		}
+		
+		List<Integer> SumasTotales = new ArrayList<Integer>();
+		
+		int k = 0;
+		
+		while (k < A.size()){
+			
+			int l = 0;
+			
+			while (l < B.size()){
+				
+				int sumtot = A.get(k) + B.get(l);
+				SumasTotales.add(sumtot);
+				
+				l++;
+			}
+			
+			k++;
+		}
+		
+		Collections.sort(SumasTotales);
+		Collections.reverse(SumasTotales);
+		System.out.println(ret);
+		System.out.println(SumasTotales);
+		System.out.println(Sumas);
 		
 		return ret;	
 	}
