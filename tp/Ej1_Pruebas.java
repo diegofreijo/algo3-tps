@@ -18,7 +18,12 @@ public abstract class Ej1_Pruebas {
 		
 		int i = 0;
 		
-		//while(i<10){
+		while(i<10){
+			
+			System.out.println("=============");
+			System.out.println("Prueba:");
+			System.out.println(i);
+			System.out.println("=============");
 			
 			String archivo = "salida";
 			String numero =String.valueOf(i);
@@ -70,9 +75,9 @@ public abstract class Ej1_Pruebas {
 			System.out.println(PruebaMayores(Sumas));
 			System.out.println(PruebaConjuntos(Sumas,SumasTotales));		
 			
-		//i++;
+		i++;
 			
-		//}
+		}
 	
 	}	
 	
