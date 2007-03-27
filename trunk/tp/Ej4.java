@@ -11,16 +11,25 @@ import java.lang.Math;
 
 public abstract class Ej4
 {
+	static String ruta_entrada = "Tp1Ej4.in";
+	static String ruta_salida = "Tp1Ej4.out";
+	
 	public static void Ejecutar()
 	{
 		System.out.println("Ejecutando Ej4:");
 		System.out.println("===============");
+	
+		List<Integer> entradas = Parser.Leer(ruta_entrada);
+		List<Integer> factorizacion;
 		
-		Integer n = Parser.Leer("Tp1Ej4.in").get(0);
-		List<Integer> factorizacion = new ArrayList<Integer>();
-		factorizacion = Factorizacion(n);
-		System.out.println(n + ":  " + factorizacion.toString());
-		Parser.Escribir("Tp1Ej4.out", n, factorizacion);
+		Parser.AgregarValor(ruta_salida, entradas.size(), false);
+		for(Integer n : entradas)
+		{
+			factorizacion = Factorizacion(n);
+			System.out.println(n + ":  " + factorizacion.toString());
+			Parser.Escribir(ruta_salida, n, factorizacion);	
+		}
+		Parser.AgregarValor(ruta_salida, 0, true);
 	}
 	
 	public static List<Integer> Factorizacion(Integer n)
@@ -93,13 +102,31 @@ public abstract class Ej4
 		    return ret;
 		}
 		
+		public static void AgregarValor(String ruta, Integer valor, Boolean agregar)
+		{
+			ruta = System.getProperty("java.class.path") + System.getProperty("file.separator") + ruta;
+			
+			try
+			{
+				BufferedWriter out = new BufferedWriter(new FileWriter(ruta, agregar));
+				out.append(valor.toString() + "\n");
+		        out.close();
+			}
+			catch (IOException e)
+			{
+		    	System.out.println("Error agregando valor al archivo de salida: ");
+		    	e.printStackTrace();
+			}
+			
+		}
+
 		public static void Escribir(String ruta, int n,  List<Integer> valores)
 		{
 			ruta = System.getProperty("java.class.path") + System.getProperty("file.separator") + ruta;
 			
 			try
 			{
-				BufferedWriter out = new BufferedWriter(new FileWriter(ruta));
+				BufferedWriter out = new BufferedWriter(new FileWriter(ruta, true));
 		        String salida;
 		        
 		        salida = Integer.toString(n) + "\n";	        
@@ -107,9 +134,9 @@ public abstract class Ej4
 		        {
 		        	salida += Integer.toString(val) + " ";
 		        }
-				salida += "\n0";
+				salida += "\n";
 		        
-				out.write(salida);
+				out.append(salida);
 		        out.close();
 			}
 			catch (IOException e)
