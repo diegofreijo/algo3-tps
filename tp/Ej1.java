@@ -60,14 +60,14 @@ public class Ej1
 					}				
 				}
 				
-					if (n > 0)
-					{
-						List<Integer> temp1 = new ArrayList<Integer>();
-						temp1.add(A.get(i));
-						temp1.add(B.get(i+1));
-						ret.add(temp1);
-						n--;
-					}
+				if (n > 0)
+				{
+					List<Integer> temp1 = new ArrayList<Integer>();
+					temp1.add(A.get(i));
+					temp1.add(B.get(i+1));
+					ret.add(temp1);
+					n--;
+				}
 			}
 			i++;
 		}
