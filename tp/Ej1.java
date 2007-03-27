@@ -45,6 +45,11 @@ public class Ej1
 			
 			List<List<Integer>> mayores = new ArrayList<List<Integer>>();
 			mayores = BuscoMayor(valor,A,B,i,n);
+			int valor1 = A.get(i+1) + B.get(i+1);
+			List<List<Integer>> menores = new ArrayList<List<Integer>>();
+			menores = BuscoMayor(valor1,A,B,i,n);
+			List<List<Integer>> menores1 = new ArrayList<List<Integer>>();
+			menores1 = BuscoMayor(valor1, B, A, i, n);
 			
 			if(n>0){
 				if (!mayores.isEmpty())
@@ -67,6 +72,22 @@ public class Ej1
 					temp1.add(B.get(i+1));
 					ret.add(temp1);
 					n--;
+				}
+				
+				if (n > 0)
+				{
+					if (!menores.isEmpty())
+					{
+						int k = menores.size();
+						int m = 0;
+						
+						while (m < k && n > 0)
+						{
+							ret.add(menores.get(m));
+							m++;
+							n--;
+						}				
+					}
 				}
 			}
 			i++;
