@@ -12,30 +12,35 @@ def noreverso(a,b):
 	c = b[1], b[0]
 	ret = pertenece(a,c)
 	return ret
-
+	
+def randomSinCero(a):
+	ret = 0
+	while ret == 0:
+		ret = random.randrange(a)
+	return ret
 familia = sys.argv[1]
 familia = int(familia)
 enemigos = sys.argv[2]
 enemigos = int(enemigos)
 instancias = sys.argv[3]
 instancias = int(instancias)
-x = pow(2,familia)
+x = ((familia*(familia-1))/2)
 if enemigos > x:
 	print "Los enemigos son mayores a la cantidad posible"
 else:
-	f=open("salida", 'w')
-	f.write(str(familia))
-	f.write(" ")
-	f.write(str(enemigos))
-	f.write('\n')
+	f=open("salida.in", 'w')
 	for i in range (0, instancias):
+		f.write(str(familia))
+		f.write(" ")
+		f.write(str(enemigos))
+		f.write('\n')
 		a = []
 		while len(a) < enemigos:
 			print len(a)
-			enemigo1 = random.randrange(familia)
-			enemigo2 = random.randrange(familia)
+			enemigo1 = randomSinCero(familia)
+			enemigo2 = randomSinCero(familia)
 			while enemigo1 == enemigo2:
-				enemigo2 = random.randrange(familia)
+				enemigo2 = randomSinCero(familia)
 			b= enemigo1, enemigo2
 			if pertenece(a,b) or noreverso(a,b):
 				a = a
