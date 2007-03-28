@@ -17,9 +17,9 @@ public class Ej2
 		System.out.println("Ejecutando Ej2:");
 		System.out.println("===============");
 		
-		Datos paresEnemistados = Parser.Leer("Tp1Ej2.in");
+		List<Datos> paresEnemistados = Parser.Leer("Tp1Ej2.in");
 		
-		Integer cantInvitados = TimeForParty(paresEnemistados);
+		List<Integer> cantInvitados = TimeForParty(paresEnemistados);
 		
 		System.out.println("Habra esta cantidad de invitados: " + cantInvitados);
 
@@ -37,10 +37,10 @@ public class Ej2
 	
 	private static class Parser
 	{
-		public static Datos Leer(String ruta)
+		public static List<Datos> Leer(String ruta)
 		{
-			Datos ret = new Datos();
-			
+			int tam = 200;
+			List<Datos> ret = new ArrayList<Datos>(tam);
 			ruta = System.getProperty("java.class.path") + System.getProperty("file.separator") + ruta;
 			
 			try
@@ -48,19 +48,31 @@ public class Ej2
 		        BufferedReader in = new BufferedReader(new FileReader(ruta));
 		        List<Integer> linea = new ArrayList<Integer>();
 
-
 		        linea = LeerLinea(in.readLine().trim());
-		        ret.n = linea.get(0);
-		        ret.m = linea.get(1);
-		        ret.paresEnemistados = new ArrayList<List<Integer>>(ret.m);
 		        
-		        for(int i = 0; i < ret.m; ++i)
+		        do
 		        {
-		        	linea = LeerLinea(in.readLine().trim());
-		        	ret.paresEnemistados.add(linea);
-		        }
+		        	Datos instancia = new Datos();
+
+			        instancia.n = linea.get(0);
+			        instancia.m = linea.get(1);
+			        instancia.paresEnemistados = new ArrayList<List<Integer>>(instancia.m);
+			        
+					for(int i = 0; i < instancia.m; ++i)
+			        {
+			        	linea = LeerLinea(in.readLine().trim());
+			        	
+			        	instancia.paresEnemistados.add(linea);
+			        }
+			        
+			        ret.add(instancia);
+			        
+			        linea = LeerLinea(in.readLine().trim());
+			        
+		        }while(linea.get(0) != 0);
+		        	
+		        //if(Integer.valueOf(in.readLine()) != 0) throw new IOException("Falta el cero del final");
 		        
-		        if(Integer.valueOf(in.readLine()) != 0) throw new IOException("Falta el cero del final");
 		        in.close();
 
 		    } 
@@ -68,9 +80,8 @@ public class Ej2
 		    {
 		    	System.out.println("Error leyendo el archivo de entrada: ");
 		    	e.printStackTrace();
-		    }
-		    
-		    return ret;
+		    }		    
+			return ret;
 		}
 
 		private static List<Integer> LeerLinea(String linea)
@@ -97,7 +108,7 @@ public class Ej2
 			return valores;
 		}
 	
-		public static void Escribir(String ruta, Integer n)
+		public static void Escribir(String ruta, List<Integer> tInst)
 		{
 			ruta = System.getProperty("java.class.path") + System.getProperty("file.separator") + ruta;
 			
@@ -106,8 +117,15 @@ public class Ej2
 				BufferedWriter out = new BufferedWriter(new FileWriter(ruta));
 		        String salida;
 		        
-		        salida = Integer.toString(n) + "\n" + "0";	        
-
+		        salida = Integer.toString(tInst.size()) + '\n';
+		        
+		        for(int i = 0; i < tInst.size(); ++i)
+		        {
+		        	salida += Integer.toString(tInst.get(i)) + '\n';	        
+		        }
+		        
+		        salida += "0";
+		        
 				out.write(salida);
 		        out.close();
 			}
@@ -119,28 +137,35 @@ public class Ej2
 		}
 	}
 
-	private static Integer TimeForParty(Datos d)
-	{
-		List<Integer> listaProblematicos = new ArrayList<Integer>(d.n);
-		Integer invitados = 0;
+	private static List<Integer> TimeForParty(List<Datos> d)
+	{	
+		List<Integer> ret = new ArrayList<Integer>(d.size());
 		
-		for(int h = 1; h <= d.n; ++h)
+		for(int i = 0; i < d.size(); ++i)
 		{
-			if(EstaEnAlgunPar(h, d.paresEnemistados))
-			{
-				listaProblematicos.add(h);
+			List<Integer> listaProblematicos = new ArrayList<Integer>(d.get(i).n);
+			Integer invitados = 0;
+			
+			for(int h = 1; h <= d.get(i).n; ++h)
+			{				
+				if(EstaEnAlgunPar(h, d.get(i).paresEnemistados))
+				{
+					listaProblematicos.add(h);
+				}
+				else
+				{
+					invitados++;
+				}
 			}
-			else
-			{
-				invitados++;
-			}
+	
+			List<Integer> lPQueridos = new ArrayList<Integer>(listaProblematicos.size());
+			List<Integer> paraSumar =  new ArrayList<Integer>(listaProblematicos.size());
+	
+			invitados += MasQueridos(d.get(i).paresEnemistados, listaProblematicos,lPQueridos, paraSumar, 0);
+			
+			ret.add(invitados);
 		}
-
-		List<Integer> lPQueridos = new ArrayList<Integer>(listaProblematicos.size());
-		List<Integer> paraSumar =  new ArrayList<Integer>(listaProblematicos.size());
-
-		invitados += MasQueridos(d.paresEnemistados, listaProblematicos,lPQueridos, paraSumar, 0);
-		return invitados;
+		return ret;
 	}
 	
 	private static boolean EstanLosPares(int k, List<Integer> Acompletar,List<List<Integer>> pE)
@@ -198,7 +223,6 @@ public class Ej2
 			{
 				if(!EstanLosPares(lP.get(k),Acompletar,pE))
 				{
-					//Acompletar.add(lP.get(k));
 					MasQueridos(pE, lP, Acompletar, res, k);	
 				}
 			}
