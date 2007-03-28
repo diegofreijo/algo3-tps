@@ -3,9 +3,14 @@ import sys
 import math
 def pertenece (a,b):
 	ret = False
-	i = 0
 	if a.count(b):
 		ret = True
+	return ret
+
+def noreverso(a,b):
+	ret = False
+	c = b[1], b[0]
+	ret = pertenece(a,c)
 	return ret
 
 familia = sys.argv[1]
@@ -25,7 +30,6 @@ else:
 	f.write('\n')
 	for i in range (0, instancias):
 		a = []
-		i=0
 		while len(a) < enemigos:
 			print len(a)
 			enemigo1 = random.randrange(familia)
@@ -33,12 +37,13 @@ else:
 			while enemigo1 == enemigo2:
 				enemigo2 = random.randrange(familia)
 			b= enemigo1, enemigo2
-			if pertenece(a,b):
+			if pertenece(a,b) or noreverso(a,b):
 				a = a
 			else:
 				a.append(b)
-			#f.write(str(enemigo1))
-			#f.write(" ")
-			#f.write(str(enemigo2))
-			#f.write('\n')
+		for i in a:
+			f.write(str(i[0]))
+			f.write(" ")
+			f.write(str(i[1]))
+			f.write('\n')
 	f.write(str(0))
