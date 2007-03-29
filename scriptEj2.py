@@ -18,6 +18,7 @@ def randomSinCero(a):
 	while ret == 0:
 		ret = random.randrange(a)
 	return ret
+
 familia = sys.argv[1]
 familia = int(familia)
 enemigos = sys.argv[2]
@@ -29,14 +30,13 @@ if enemigos > x:
 	print "Los enemigos son mayores a la cantidad posible"
 else:
 	f=open("salida.in", 'w')
+	f.write(str(familia))
+	f.write(" ")
+	f.write(str(enemigos))
+	f.write('\n')
 	for i in range (0, instancias):
-		f.write(str(familia))
-		f.write(" ")
-		f.write(str(enemigos))
-		f.write('\n')
 		a = []
 		while len(a) < enemigos:
-			print len(a)
 			enemigo1 = randomSinCero(familia)
 			enemigo2 = randomSinCero(familia)
 			while enemigo1 == enemigo2:
