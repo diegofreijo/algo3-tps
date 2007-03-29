@@ -5,18 +5,52 @@
 % Introduccion
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Introducci'on}
-
+?????????????????
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Detalles de implementacion
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Detalles de implementaci'on}
+En cierta manera, los algoritmos a implementar fueron relativamente sencillos. La mayor desici'on a tomar fue con respecto al tipo de lista utilizado. 
+
+La lista $ret$ en Factorizaci'on tiene como prop'osito mantener valores en el orden que fueron agregados. Su acceso aleatorio no es relevante ya que en ning'un momento se toman valores ya guardados. En cambio, es cr'itico que el insertado sea en tiempo constante, la complejidad final ser'a afectada por la cantidad de factores por la cantidad de operaciones que conlleva el insertado. Es por 'esto que se eligi'o la lista doblemente enlazada, la cual tiene un acceso lineal pero un insertado constante.
+
+La otra lista utilizada fue la de $primos$ en Factorizaci'on. El acceso aleatorio en 'este caso tampoco es importante porque los 'unicos accesos realizados son lineales (en EsPrimo), con lo que acceder al siguiente elemento es siempre O(1). Pero el insertado s'i que importa ya que si el valor a verificar efectivamente es primo, entonces hay que agregarlo. Por eso utilizamos tambi'en una lista doblemente enlazada.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Pseudocodigo
+% Pseudocodigos
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Pseudoc'odigo}
+\subsection{Pseudoc'odigos}
+\begin{algorithm}
+\caption{Devuelve la factorizacion en primos de $n$ $\rightarrow$ O($n\sqrt{n}$)}
+\begin{algorithmic}[1]
+	\STATE p = 2 
+	\WHILE{n $>$ 1} 
+		\IF{EsPrimo(p, primos)}
+			\STATE primos.add(p)
+			\WHILE{p $|$ n}
+				\STATE n = n / p
+				\STATE ret.add(p)
+			\ENDWHILE
+		\ENDIF
+		\STATE ++p
+	\ENDWHILE
+	\RETURN ret
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{Decide si $n$ es o no primo $\rightarrow$ O($\sqrt{n}$)}
+\begin{algorithmic}[1]
+\REQUIRE $primos$ tiene todos los primos enteros menores a $n$ ordenados crecientemente
+	\STATE r = $\sqrt{n} + 1$;
+		\FORALL{$p < r$ en $primos$}
+			\IF{p $|$ n} \RETURN false \ENDIF
+		\ENDFOR
+	\RETURN true
+\end{algorithmic}
+\end{algorithm}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -25,23 +59,55 @@
 \subsection{Respuestas}
 ????????????
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Analisis de complejidad
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Analisis de complejidad}
+\subsubsection{EsPrimo}
+La idea de este algoritmo se basa en la Criba de Eratóstenes. Es decir, afirma que si para cierto n'umero $n$ no existe un primo $p$ menor a $\sqrt{n}$ tal que $p | n$, entonces $n$ es primo. 
+
+Para ello, se recibe una lista con los primos menores a $n$ (astutamente llamada $primos$) y se verifica (hasta alcanzar alg'un elemento mayor o igual a $\sqrt{n}$ ya que esta ordenada) si alguno de esos valores divide a $n$. 
+
+F'acilmente se ve que el peor caso es cuando $n$ efectivamente es primo, ya que fue necesario calcular todos los restos con los primos menores a $\sqrt{n}$. La mayor cantidad posible de valores le'idos es $\lfloor\sqrt{n}\rfloor$, y viene de suponer que todos los naturales menores a ese valor son primos.
+
+Luego, la complejidad es O($\sqrt{n}$).
+
+
+\subsubsection{Factorizacion}
+'Este algoritmo devuelve una Lista de naturales, ordenados de menor a mayor, representando cada uno a un producto de la factorizaci'on de $n$. 
+
+Para calcularla, comienza por el menor primo (el 2) y verifica si lo es. De serlo, lo agrega a una lista (utilizada luego para probar si los siguientes valores son primos) y comienza a agregarlo tantas veces como divida a $n$. Luego, incrementa el natural a probar y repite el procedimiento hasta que se hallan obtenido todos los divisores primos.
+
+El peor de los casos es cuando $n$ es primo, ya que se deber'a llamar a EsPrimo $n$ veces (el 'unico divisor que se encontrar'a es $n$). De ser un n'umero compuesto, se llamar'a a lo sumo $n/t$ veces a 'esta funci'on, siendo $t$ el menor primo en la factorizaci'on. Adem'as, el bucle interno que verifica cuantas veces divide un primo a $n$ nunca se ejecutar'a en total (o sea, sumando para todos los primos divisibles) m'as de $\log_p{n}$ veces, siendo $p$ el m'aximo primo en la factorizaci'on.
+
+Por lo tanto, como EsPrimo se ejecuta a lo sumo $n$ veces, y en cada llamado cuesta O($\sqrt{n}$) operaciones, entonces la complejidad es O($n \sqrt{n}$).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Resultados
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Resultados}
+Se contaron la cantidad de operaciones realizadas por Factorizaci'on para entradas desde 2 hasta 500 y, como se puede ver en el gr'afico, la complejidad te'orica supera a la pr'actica a partir de cierto valor (140 aproximadamente). Por lo tanto, la cota te'orica est'a bien calculada
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Comentarios
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Comentarios}
+?????????????????????????'
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Conclusiones
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Conclusiones}
+?????????????????????????????????
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Referencias
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Referencias}
-\begin{itemize}
-    \item Referencias???
-\end{itemize}
-
+???????????????????????????
