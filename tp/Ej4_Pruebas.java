@@ -1,4 +1,4 @@
-package tp;
+package ej4;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public abstract class Ej4_Pruebas
 		
 		List<Integer> primos = new ArrayList<Integer>();
 		
-		for(int i = 2; i <= 55503787; ++i)
+		for(int i = 2; i <= 500; ++i)
 		{
 			if(Ej4.EsPrimo(i,primos))
 			{
