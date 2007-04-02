@@ -7,7 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-//import java.util.Collections;
+import java.util.Collections;
 
 public class Ej1
 {
@@ -17,7 +17,7 @@ public class Ej1
 		System.out.println("Ejecutando Ej1:");
 		System.out.println("===============");
 				
-		Datos conjuntos = Parser.Leer("Tp1Ej1.in");
+		Datos conjuntos = Parser.Leer("salida0.txt");
 		System.out.println(conjuntos.S.toString());
 		System.out.println(conjuntos.T.toString());
 		
@@ -49,12 +49,16 @@ public class Ej1
 			List<List<Integer>> menores = new ArrayList<List<Integer>>();
 			menores = BuscoMayor(valor1,A,B,i);
 			List<List<Integer>> menores1 = new ArrayList<List<Integer>>();
-			menores1 = BuscoMayor(valor1, B, A, i);
+			menores1 = BuscoMayor2(valor1, B, A, i);
 			List<List<Integer>> ingresar = new ArrayList<List<Integer>>();
-			ingresar = OrdenarListas(mayores,menores,menores1);
+			List<Integer> temp1 = new ArrayList<Integer>();
+			temp1.add(A.get(i));
+			temp1.add(B.get(i+1));
+			mayores.add(temp1);
+			ingresar = OrdenarListas(Ordenar(mayores),Ordenar(menores),Ordenar(menores1),ret);
 			
 			int f = 0;
-			while(n > 0){
+			while(n > 0 && f < ingresar.size()){
 				ret.add(ingresar.get(f));
 				f++;
 				n--;
@@ -104,13 +108,13 @@ public class Ej1
 	
 	private static List<List<Integer>> BuscoMayor(int valor,final List<Integer> A, final List<Integer> B, Integer i)
 	{
-		int j = i+1;
 		List<List<Integer>> ret = new ArrayList<List<Integer>>();
 		
 		int k = 0;
 		
-		while(k < A.size()){
-		
+		while(k <= i){
+			
+			int j = i+1;			
 			while(j < A.size())
 			{	
 				int g = A.get(j);
@@ -132,7 +136,37 @@ public class Ej1
 		return ret;
 	}
 	
-	private static List<List<Integer>> OrdenarListas(List<List<Integer>>a,List<List<Integer>>b,List<List<Integer>>c){
+	private static List<List<Integer>> BuscoMayor2(int valor,final List<Integer> A, final List<Integer> B, Integer i)
+	{
+		List<List<Integer>> ret = new ArrayList<List<Integer>>();
+		
+		int k = 0;
+		
+		while(k <= i){
+			
+			int j = i+1;			
+			while(j < A.size())
+			{	
+				int g = A.get(j);
+				int h = B.get(k);
+				
+				if (g+h >= valor)
+				{
+					List<Integer> ret1 = new ArrayList<Integer>();
+					ret1.add(B.get(k));
+					ret1.add(A.get(j));
+					ret.add(ret1);
+					j++;
+				}else{
+					j++;
+				}
+			}	
+			k++;
+		}
+		return ret;
+	}
+	
+	private static List<List<Integer>> OrdenarListas(List<List<Integer>>a,List<List<Integer>>b,List<List<Integer>>c,List<List<Integer>>r){
 		
 		List<List<Integer>> ret = new ArrayList<List<Integer>>();
 		
@@ -141,64 +175,90 @@ public class Ej1
 			if (a.size() > 0 && b.size() > 0 && c.size()>0){
 				if (valor(a.get(0)) > valor(b.get(0))){
 					if (valor(a.get(0)) > valor(c.get(0))){
-						ret.add(a.get(0));
+						if(!ret.contains(a.get(0))&&!r.contains(a.get(0))){
+							ret.add(a.get(0));
+						}
 						a.remove(0);
 					} else {
-						ret.add(c.get(0));
+						if(!ret.contains(c.get(0))&&!r.contains(c.get(0))){
+							ret.add(c.get(0));
+						}
 						c.remove(0);
 					}
 				} else {
 					if (valor(b.get(0)) > valor(c.get(0))){
-						ret.add(b.get(0));
+						if(!ret.contains(b.get(0))&&!r.contains(b.get(0))){
+							ret.add(b.get(0));
+						}
 						b.remove(0);
 					} else {
-						ret.add(c.get(0));
+						if(!ret.contains(c.get(0))&&!r.contains(c.get(0))){
+							ret.add(c.get(0));
+						}
 						c.remove(0);
 					}					
 				} 
 			} else {
 				if(a.size() > 0 && b.size()>0 && c.size() == 0){
 					if (valor(a.get(0)) > valor(b.get(0))){
-						ret.add(a.get(0));
+						if(!ret.contains(a.get(0))&&!r.contains(a.get(0))){
+							ret.add(a.get(0));
+						}
 						a.remove(0);
 					} else {
-						ret.add(b.get(0));
+						if(!ret.contains(b.get(0))&&!r.contains(b.get(0))){
+							ret.add(b.get(0));
+						}
 						b.remove(0);						
 					}		
 				} else if(a.size() > 0 && b.size() == 0 && c.size() > 0){
 					if (valor(a.get(0)) > valor(c.get(0))){
-						ret.add(a.get(0));
+						if(!ret.contains(a.get(0))&&!r.contains(a.get(0))){
+							ret.add(a.get(0));
+						}
 						a.remove(0);
 					} else {
-						ret.add(c.get(0));
+						if(!ret.contains(c.get(0))&&!r.contains(c.get(0))){
+							ret.add(c.get(0));
+						}
 						c.remove(0);						
 					}	
 				} else if(a.size() == 0 && b.size() > 0 && c.size() > 0){
 					if (valor(b.get(0)) > valor(c.get(0))){
-						ret.add(b.get(0));
+						if(!ret.contains(b.get(0))&&!r.contains(b.get(0))){
+							ret.add(b.get(0));
+						}
 						b.remove(0);
 					} else {
-						ret.add(c.get(0));
+						if(!ret.contains(c.get(0))&&!r.contains(c.get(0))){
+							ret.add(c.get(0));
+						}
 						c.remove(0);						
 					}					
 				} else if(a.size() > 0 && b.size() == 0 && c.size() == 0){
 					int i = a.size();
 					while(i > 0){
-						ret.add(a.get(0));
+						if(!ret.contains(a.get(0))&&!r.contains(a.get(0))){
+							ret.add(a.get(0));
+						}
 						a.remove(0);
 						i--;
 					}
 				} else if(a.size() == 0 && b.size() > 0 && c.size() == 0){
 					int i = b.size();
 					while(i > 0){
-						ret.add(b.get(0));
+						if(!ret.contains(b.get(0))&&!r.contains(b.get(0))){
+							ret.add(b.get(0));
+						}
 						b.remove(0);
 						i--;
 					}					
 				} else if(a.size() == 0 && b.size() == 0 && c.size() > 0){
 					int i = c.size();
 					while(i > 0){
-						ret.add(c.get(0));
+						if(!ret.contains(c.get(0))&&!r.contains(c.get(0))){
+							ret.add(c.get(0));
+						}
 						c.remove(0);
 						i--;
 					}				
@@ -215,6 +275,34 @@ public class Ej1
 		return ret;
 	}
 	
+	private static List<List<Integer>> Ordenar(List<List<Integer>> A){
+		
+		List<List<Integer>> ret = new ArrayList<List<Integer>>();
+		List<Integer> maximo = new ArrayList<Integer>();
+		if(A.isEmpty()){
+			ret = A;
+		} else {
+			int j = A.size();
+			
+			while(ret.size() < j){
+				int i = 0;
+				maximo = A.get(0);
+				int valormax = valor(maximo);
+				while(i < A.size()){
+					if(valor(A.get(i)) > valormax){
+						maximo = A.get(i);
+						valormax = valor(maximo);
+						i++;
+					} else {
+						i++;			
+					}
+				}
+				ret.add(maximo);
+				A.remove(maximo);
+			}
+		}
+		return ret;
+	}
 	private static class Datos
 	{
 		List<Integer> S;
