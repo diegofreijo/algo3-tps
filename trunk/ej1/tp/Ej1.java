@@ -18,7 +18,7 @@ public class Ej1
 		System.out.println("===============");
 		int x = 1;
 		
-		Datos conjuntos = Parser.Leer("salida6.txt");
+		Datos conjuntos = Parser.Leer("Tp1Ej1.in");
 		System.out.println(conjuntos.S.toString());
 		System.out.println(conjuntos.T.toString());
 		
@@ -51,45 +51,14 @@ public class Ej1
 			menores = BuscoMayor(valor1,A,B,i,n);
 			List<List<Integer>> menores1 = new ArrayList<List<Integer>>();
 			menores1 = BuscoMayor(valor1, B, A, i, n);
+			List<List<Integer>> ingresar = new ArrayList<List<Integer>>();
+			ingresar = OrdenarListas(mayores,menores,menores1);
 			
-			if(n>0){
-				if (!mayores.isEmpty())
-				{
-					int k = mayores.size();
-					int m = 0;
-					
-					while (m < k && n > 0)
-					{
-						ret.add(mayores.get(m));
-						m++;
-						n--;
-					}				
-				}
-				
-				if (n > 0)
-				{
-					List<Integer> temp1 = new ArrayList<Integer>();
-					temp1.add(A.get(i));
-					temp1.add(B.get(i+1));
-					ret.add(temp1);
-					n--;
-				}
-				
-				if (n > 0)
-				{
-					if (!menores.isEmpty())
-					{
-						int k = menores.size();
-						int m = 0;
-						
-						while (m < k && n > 0)
-						{
-							ret.add(menores.get(m));
-							m++;
-							n--;
-						}				
-					}
-				}
+			int f = 0;
+			while(n > 0){
+				ret.add(ingresar.get(f));
+				f++;
+				n--;
 			}
 			i++;
 		}
@@ -163,7 +132,90 @@ public class Ej1
 		}
 		return ret;
 	}
+	
+	private static List<List<Integer>> OrdenarListas(List<List<Integer>>a,List<List<Integer>>b,List<List<Integer>>c){
+		
+		List<List<Integer>> ret = new ArrayList<List<Integer>>();
+		
+		while(a.size() > 0 || b.size() > 0 || c.size()>0)	
+		{	
+			if (a.size() > 0 && b.size() > 0 && c.size()>0){
+				if (valor(a.get(0)) > valor(b.get(0))){
+					if (valor(a.get(0)) > valor(c.get(0))){
+						ret.add(a.get(0));
+						a.remove(0);
+					} else {
+						ret.add(c.get(0));
+						c.remove(0);
+					}
+				} else {
+					if (valor(b.get(0)) > valor(c.get(0))){
+						ret.add(b.get(0));
+						b.remove(0);
+					} else {
+						ret.add(c.get(0));
+						c.remove(0);
+					}					
+				} 
+			} else {
+				if(a.size() > 0 && b.size()>0 && c.size() == 0){
+					if (valor(a.get(0)) > valor(b.get(0))){
+						ret.add(a.get(0));
+						a.remove(0);
+					} else {
+						ret.add(b.get(0));
+						b.remove(0);						
+					}		
+				} else if(a.size() > 0 && b.size() == 0 && c.size() > 0){
+					if (valor(a.get(0)) > valor(c.get(0))){
+						ret.add(a.get(0));
+						a.remove(0);
+					} else {
+						ret.add(c.get(0));
+						c.remove(0);						
+					}	
+				} else if(a.size() == 0 && b.size() > 0 && c.size() > 0){
+					if (valor(b.get(0)) > valor(c.get(0))){
+						ret.add(b.get(0));
+						b.remove(0);
+					} else {
+						ret.add(c.get(0));
+						c.remove(0);						
+					}					
+				} else if(a.size() > 0 && b.size() == 0 && c.size() == 0){
+					int i = a.size();
+					while(i > 0){
+						ret.add(a.get(0));
+						a.remove(0);
+						i--;
+					}
+				} else if(a.size() == 0 && b.size() > 0 && c.size() == 0){
+					int i = b.size();
+					while(i > 0){
+						ret.add(b.get(0));
+						b.remove(0);
+						i--;
+					}					
+				} else if(a.size() == 0 && b.size() == 0 && c.size() > 0){
+					int i = c.size();
+					while(i > 0){
+						ret.add(c.get(0));
+						c.remove(0);
+						i--;
+					}				
+				}
+			}
+		}
+		return ret;
+	}
 
+	private static Integer valor(List<Integer> a){
+		
+		int ret = a.get(0) + a.get(1);
+			
+		return ret;
+	}
+	
 	private static class Datos
 	{
 		List<Integer> S;
