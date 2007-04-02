@@ -1,0 +1,42 @@
+public static List<List<Integer>> Mayores(final List<Integer> A, final List<Integer> B)
+	{
+		List<List<Integer>> ret = new ArrayList<List<Integer>>();
+		
+		Integer i = 0;
+		
+		Integer n = A.size();
+		
+		while (n > 0)
+		{
+			List<Integer> temp = new ArrayList<Integer>();// O(1)
+			temp.add(A.get(i));// O(cantidad de elementos de A) + O(1)
+			temp.add(B.get(i));// O(cantidad de elementos de B) + O(1)
+			ret.add(temp);// O(1)
+			n--;// O(1)
+			
+			Integer valor = A.get(i) + B.get(i+1);// O(2*cantidad de elementos de A) ya que A y B tienen la misma dimension por precondición
+			
+			List<List<Integer>> mayores = new ArrayList<List<Integer>>();
+			mayores = BuscoMayor(valor,A,B,i); // O(n^2)
+			int valor1 = A.get(i+1) + B.get(i+1);
+			List<List<Integer>> menores = new ArrayList<List<Integer>>();
+			menores = BuscoMayor(valor1,A,B,i); // O(n^2)
+			List<List<Integer>> menores1 = new ArrayList<List<Integer>>();
+			menores1 = BuscoMayor2(valor1, B, A, i); // O(n^2)
+			List<List<Integer>> ingresar = new ArrayList<List<Integer>>();
+			List<Integer> temp1 = new ArrayList<Integer>();
+			temp1.add(A.get(i));// O(n) + O(1)
+			temp1.add(B.get(i+1)); //O(n) + O(1)
+			mayores.add(temp1); //O(1)
+			ingresar = OrdenarListas(Ordenar(mayores),Ordenar(menores),Ordenar(menores1),ret); // O(n^2)
+			
+			int f = 0;
+			while(n > 0 && f < ingresar.size()){	// Este ciclo se repite, si n > f => f, sino n
+				ret.add(ingresar.get(f));			// 	O(cantidad de elementos de Ingresar) + O(1) + O(1) 
+				f++;								//	Peor caso= O(n)
+				n--;								//
+			}
+			i++; O(1)
+		}
+		
+	//Complejidad del algoritmo = O(n+n+n+n^2+n+n^2+n^2+n^2+n+n+n^2+n) = O(n^2)
