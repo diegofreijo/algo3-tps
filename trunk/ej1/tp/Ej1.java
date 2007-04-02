@@ -7,7 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Collections;
+//import java.util.Collections;
 
 public class Ej1
 {
@@ -16,14 +16,13 @@ public class Ej1
 	{
 		System.out.println("Ejecutando Ej1:");
 		System.out.println("===============");
-		int x = 1;
-		
+				
 		Datos conjuntos = Parser.Leer("Tp1Ej1.in");
 		System.out.println(conjuntos.S.toString());
 		System.out.println(conjuntos.T.toString());
 		
 		List<List<Integer>> mayores = Mayores(conjuntos.S, conjuntos.T);
-		//System.out.println(mayores.toString() + "\n");
+		System.out.println(mayores.toString() + "\n");
 	}
 	
 	public static List<List<Integer>> Mayores(final List<Integer> A, final List<Integer> B)
@@ -45,12 +44,12 @@ public class Ej1
 			Integer valor = A.get(i) + B.get(i+1);
 			
 			List<List<Integer>> mayores = new ArrayList<List<Integer>>();
-			mayores = BuscoMayor(valor,A,B,i,n);
+			mayores = BuscoMayor(valor,A,B,i);
 			int valor1 = A.get(i+1) + B.get(i+1);
 			List<List<Integer>> menores = new ArrayList<List<Integer>>();
-			menores = BuscoMayor(valor1,A,B,i,n);
+			menores = BuscoMayor(valor1,A,B,i);
 			List<List<Integer>> menores1 = new ArrayList<List<Integer>>();
-			menores1 = BuscoMayor(valor1, B, A, i, n);
+			menores1 = BuscoMayor(valor1, B, A, i);
 			List<List<Integer>> ingresar = new ArrayList<List<Integer>>();
 			ingresar = OrdenarListas(mayores,menores,menores1);
 			
@@ -96,14 +95,14 @@ public class Ej1
 		
 		//Collections.sort(SumasTotales);
 		//Collections.reverse(SumasTotales);
-		System.out.println(ret);
+		//System.out.println(ret);
 		//System.out.println(SumasTotales);
 		//System.out.println(Sumas);
 		
 		return ret;	
 	}
 	
-	private static List<List<Integer>> BuscoMayor(int valor,final List<Integer> A, final List<Integer> B, Integer i, Integer n)
+	private static List<List<Integer>> BuscoMayor(int valor,final List<Integer> A, final List<Integer> B, Integer i)
 	{
 		int j = i+1;
 		List<List<Integer>> ret = new ArrayList<List<Integer>>();
@@ -117,7 +116,7 @@ public class Ej1
 				int g = A.get(j);
 				int h = B.get(k);
 				
-				if (A.get(j)+B.get(k) >= valor)
+				if (g+h >= valor)
 				{
 					List<Integer> ret1 = new ArrayList<Integer>();
 					ret1.add(A.get(j));
