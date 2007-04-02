@@ -1,0 +1,102 @@
+	private static List<List<Integer>> OrdenarListas(List<List<Integer>>a,List<List<Integer>>b,List<List<Integer>>c,List<List<Integer>>r){
+		
+		List<List<Integer>> ret = new ArrayList<List<Integer>>();
+		
+		while(a.size() > 0 || b.size() > 0 || c.size()>0)	
+		{	
+			if (a.size() > 0 && b.size() > 0 && c.size()>0){
+				if (valor(a.get(0)) > valor(b.get(0))){
+					if (valor(a.get(0)) > valor(c.get(0))){
+						if(!ret.contains(a.get(0))&&!r.contains(a.get(0))){
+							ret.add(a.get(0));
+						}
+						a.remove(0);
+					} else {
+						if(!ret.contains(c.get(0))&&!r.contains(c.get(0))){
+							ret.add(c.get(0));
+						}
+						c.remove(0);
+					}
+				} else {
+					if (valor(b.get(0)) > valor(c.get(0))){
+						if(!ret.contains(b.get(0))&&!r.contains(b.get(0))){
+							ret.add(b.get(0));
+						}
+						b.remove(0);
+					} else {
+						if(!ret.contains(c.get(0))&&!r.contains(c.get(0))){
+							ret.add(c.get(0));
+						}
+						c.remove(0);
+					}					
+				} 
+			} else {
+				if(a.size() > 0 && b.size()>0 && c.size() == 0){
+					if (valor(a.get(0)) > valor(b.get(0))){
+						if(!ret.contains(a.get(0))&&!r.contains(a.get(0))){
+							ret.add(a.get(0));
+						}
+						a.remove(0);
+					} else {
+						if(!ret.contains(b.get(0))&&!r.contains(b.get(0))){
+							ret.add(b.get(0));
+						}
+						b.remove(0);						
+					}		
+				} else if(a.size() > 0 && b.size() == 0 && c.size() > 0){
+					if (valor(a.get(0)) > valor(c.get(0))){
+						if(!ret.contains(a.get(0))&&!r.contains(a.get(0))){
+							ret.add(a.get(0));
+						}
+						a.remove(0);
+					} else {
+						if(!ret.contains(c.get(0))&&!r.contains(c.get(0))){
+							ret.add(c.get(0));
+						}
+						c.remove(0);						
+					}	
+				} else if(a.size() == 0 && b.size() > 0 && c.size() > 0){
+					if (valor(b.get(0)) > valor(c.get(0))){
+						if(!ret.contains(b.get(0))&&!r.contains(b.get(0))){
+							ret.add(b.get(0));
+						}
+						b.remove(0);
+					} else {
+						if(!ret.contains(c.get(0))&&!r.contains(c.get(0))){
+							ret.add(c.get(0));
+						}
+						c.remove(0);						
+					}					
+				} else if(a.size() > 0 && b.size() == 0 && c.size() == 0){
+					int i = a.size();
+					while(i > 0){
+						if(!ret.contains(a.get(0))&&!r.contains(a.get(0))){
+							ret.add(a.get(0));
+						}
+						a.remove(0);
+						i--;
+					}
+				} else if(a.size() == 0 && b.size() > 0 && c.size() == 0){
+					int i = b.size();
+					while(i > 0){
+						if(!ret.contains(b.get(0))&&!r.contains(b.get(0))){
+							ret.add(b.get(0));
+						}
+						b.remove(0);
+						i--;
+					}					
+				} else if(a.size() == 0 && b.size() == 0 && c.size() > 0){
+					int i = c.size();
+					while(i > 0){
+						if(!ret.contains(c.get(0))&&!r.contains(c.get(0))){
+							ret.add(c.get(0));
+						}
+						c.remove(0);
+						i--;
+					}				
+				}
+			}
+		}
+		return ret;
+		
+// Este algoritmo se puede resumir, que tiene complejidad O(tamaño del maximo conjunto^2)

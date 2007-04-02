@@ -171,6 +171,8 @@ public abstract class Ej1_Pruebas {
 	
 	private static class Parser
 	{
+		static String fs = System.getProperty("file.separator");
+		
 		public static Datos Leer(String ruta)
 		{
 			Datos ret = new Datos();
@@ -231,5 +233,23 @@ public abstract class Ej1_Pruebas {
 		    	e.printStackTrace();
 			}
 		}
+		
+		public static void EscribirEstadisticas(String ruta, Integer n, Long op)
+        {
+			ruta = System.getProperty("java.class.path") + fs + "ej4" + fs + "dat" + fs + ruta;
+			
+			try
+			{
+				BufferedWriter out = new BufferedWriter(new FileWriter(ruta, true));
+		        
+		        out.write(n.toString() + " " + op.toString() + "\n");
+		        out.close();
+			}
+			catch (IOException e)
+			{
+		    	System.out.println("Error escribiendo las estadisticas: ");
+		    	e.printStackTrace();
+			}
+        }
 	}
 }

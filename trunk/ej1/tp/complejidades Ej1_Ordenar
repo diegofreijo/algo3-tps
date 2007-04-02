@@ -1,0 +1,30 @@
+private static List<List<Integer>> Ordenar(List<List<Integer>> A){
+		
+		List<List<Integer>> ret = new ArrayList<List<Integer>>();
+		List<Integer> maximo = new ArrayList<Integer>();
+		if(A.isEmpty()){
+			ret = A;
+		} else {
+			int j = A.size();
+			
+			while(ret.size() < j){
+				int i = 0;
+				maximo = A.get(0);
+				int valormax = valor(maximo);
+				while(i < A.size()){
+					if(valor(A.get(i)) > valormax){
+						maximo = A.get(i);
+						valormax = valor(maximo);
+						i++;
+					} else {
+						i++;			
+					}
+				}
+				ret.add(maximo);
+				A.remove(maximo);
+			}
+		}
+		return ret;
+	}
+	
+// Es un Selection Sort, asi que en peor caso, tiene complejidad O(n^2) con n = cantidad de elementos del array
