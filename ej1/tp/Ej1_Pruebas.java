@@ -18,12 +18,15 @@ public abstract class Ej1_Pruebas {
 		
 		int i = 0;
 		
-		while(i<10){
+		List<Integer> M = new ArrayList<Integer>();
+		List<Integer> C = new ArrayList<Integer>();
+		
+		while(i<500){
 			
-			System.out.println("=============");
+			/*System.out.println("=============");
 			System.out.println("Prueba:");
 			System.out.println(i);
-			System.out.println("=============");
+			System.out.println("=============");*/
 			
 			String archivo = "salida";
 			String numero =String.valueOf(i);
@@ -72,13 +75,42 @@ public abstract class Ej1_Pruebas {
 			}
 			
 			//System.out.println(Sumas);
-			System.out.println(PruebaMayores(Sumas));
-			System.out.println(PruebaConjuntos(Sumas,SumasTotales));		
+			boolean May = PruebaMayores(Sumas);
+			//System.out.println(May);
+			boolean Con = PruebaConjuntos(Sumas,SumasTotales);
+			//System.out.println(Con);		
 			
+			if(May){
+				M.add(1);
+			}
+			
+			if(Con){
+				C.add(1);
+			}
 		i++;
-			
 		}
 	
+		boolean temp = true;
+		int k = 0;
+		while(k < M.size() && temp){
+			if(M.get(k) != 1){
+				temp = false;
+			}
+			k++;
+		}
+		
+		boolean temp1 = true;
+		int d = 0;
+		while(d < C.size() && temp1){
+			if(C.get(d) != 1){
+				temp1 = false;
+			}
+			d++;
+		}
+		
+		System.out.println(temp);
+		System.out.println(temp1);
+		
 	}	
 	
 	private static boolean PruebaMayores(List<Integer> Sumas){
@@ -110,9 +142,9 @@ public abstract class Ej1_Pruebas {
 		
 		List<Integer>TempSumasTotales = SumasTotales.subList(0, tamaño);
 		
-		System.out.println(Sumas);
+		//System.out.println(Sumas);
 		//System.out.println(SumasTotales);
-		System.out.println(TempSumasTotales);
+		//System.out.println(TempSumasTotales);
 		
 		int i = 0;
 		
