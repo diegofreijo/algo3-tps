@@ -1,14 +1,15 @@
 \documentclass[spanish, a4paper, 11pt]{article}
 
-\usepackage[a4paper,margin=3.5cm,top=3.0cm,bottom=3.0cm]{geometry}			% Define los margenes
-\usepackage[spanish,activeacute]{babel}										% Idioma castellano
+\usepackage[a4paper,margin=3.5cm,top=3.0cm,bottom=3.0cm]{geometry}	% Define los margenes
+\usepackage[spanish,activeacute]{babel}								% Idioma castellano
 \usepackage{caratula}														% Caratula de Algo2
-\usepackage{graphicx} 														% Permite insertar graficos
+%\usepackage[pdftex]{graphicx} 											% Permite insertar graficos
 \usepackage{fancyhdr}														% Permite manejo de cabeceras de pagina
 \usepackage{eufrak}															% Usado en el enunciado del trabajo
 \usepackage{latexsym}
 \usepackage{algorithm}														% Para escribir los algos
 \usepackage{algorithmic}													% Idem
+
 
 % Estilo de pagina para tener las cabeceras
 \pagestyle{fancy}
@@ -23,6 +24,19 @@
 \floatname{algorithm}{Algoritmo}
 \algsetup{indent=2em}
 
+					% Helps LaTeX put figures where YOU want
+%\renewcommand{\topfraction}{0.9}	% 90% of page top can be a float
+%\renewcommand{\bottomfraction}{0.9}	% 90% of page bottom can be a float
+%\renewcommand{\textfraction}{0.1}	% only 10% of page must to be text
+
+\newcommand{\imagen}[3]
+{
+	\begin{figure}[h]
+	  \centering
+	%    \includegraphics[width=#2cm]{#1}
+	  \caption{#3}
+	\end{figure}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -53,7 +67,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\input{ej1.tex}
 %\input{ej2.tex}
-%\input{ej3.tex}
+\input{ej3.tex}
 \input{ej4.tex}
 
 

@@ -8,7 +8,7 @@ for i in range(0,k):
 	matriz[i][0:k] = random.sample(xrange(50), k)
 
 salida = open("Tp1Ej3.in", 'w')
-for n in range(1,20):
+for n in range(1,1000):
 	salida.write(str(n) + ' ' + str(k) + '\n')
 	#salida.writelines(matriz)
 	for i in range(0,k):

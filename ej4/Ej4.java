@@ -1,6 +1,5 @@
 package ej4;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.io.BufferedReader;
@@ -12,10 +11,12 @@ import java.lang.Math;
 
 public abstract class Ej4
 {
+	// Nombres de los archivos
 	static String ruta_entrada = "Tp1Ej4.in";
 	static String ruta_salida = "Tp1Ej4.out";
 	static String ruta_estadisticas = "Tp1Ej4.dat";
-		
+	
+	// Contadores de operaciones
 	private static long op_fac;
 	private static long op_ep;
 	
@@ -34,7 +35,7 @@ public abstract class Ej4
 			factorizacion = Factorizacion(n);
 			System.out.println(n + ":  " + factorizacion.toString());
 			Parser.Escribir(ruta_salida, n, factorizacion);
-			Parser.EscribirEstadisticas(ruta_estadisticas, n, op_fac + op_ep);
+			//Parser.EscribirEstadisticas(ruta_estadisticas, n, op_fac + op_ep);
 		}
 		Parser.AgregarValor(ruta_salida, 0, true);
 	}
@@ -95,7 +96,7 @@ public abstract class Ej4
 		
 		public static List<Integer> Leer(String ruta)
 		{
-			List<Integer> ret = new ArrayList<Integer>();
+			List<Integer> ret = new LinkedList<Integer>();
 			ruta = System.getProperty("java.class.path") + fs + "ej4" + fs + "in" + fs + ruta;
 			
 		    try
@@ -162,24 +163,5 @@ public abstract class Ej4
 		    	e.printStackTrace();
 			}
 		}
-		
-		public static void EscribirEstadisticas(String ruta, Integer n, Long op)
-        {
-			ruta = System.getProperty("java.class.path") + fs + "ej4" + fs + "dat" + fs + ruta;
-			
-			try
-			{
-				BufferedWriter out = new BufferedWriter(new FileWriter(ruta, true));
-		        
-		        out.write(n.toString() + " " + op.toString() + "\n");
-		        out.close();
-			}
-			catch (IOException e)
-			{
-		    	System.out.println("Error escribiendo las estadisticas: ");
-		    	e.printStackTrace();
-			}
-        }
-
 	}
 }
