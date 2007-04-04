@@ -46,62 +46,59 @@ public abstract class Ej3
 	
 	public static void Contar_Multiplicar()
 	{
-		System.out.println("Contando operaciones de multiplicar:");
+		System.out.println("Contando operaciones de Multiplicar:");
 		System.out.println("====================================");
 		
 		Matriz prueba;
 		List<Punto2d> estadistica = new LinkedList<Punto2d>();
 		
-		for(int i = 2; i <= 100; ++i)
+		for(int i = 2; i <= 150; ++i)
 		{
-			System.out.print("i = " + i + " ---> ");
 			prueba = new Matriz(i);
 			prueba.Identidad();
 			op_mul = 0;
 			prueba = prueba.Multiplicar(prueba);
-			System.out.println(op_mul);
-			estadistica.add(new Punto2d((long)i,op_mul));
+			System.out.println("i = " + i + " ---> " + op_mul);
+			estadistica.add(new Punto2d((long)i, op_mul));
 		}
 		Estadistica.GuardarDatos(ruta_contar_mul, estadistica);
 	}
 	
 	public static void Contar_CantMul()
 	{
-		System.out.println("Contando cantidad de multiplicaciones:");
-		System.out.println("======================================");
+		System.out.println("Contando cantidad de multiplicaciones de Potenciar:");
+		System.out.println("===================================================");
 		
 		Matriz prueba = new Matriz(2);
 		prueba.Identidad();
 		List<Punto2d> estadistica = new LinkedList<Punto2d>();
 		
-		for(int n = 1; n <= 200; ++n)
+		for(int n = 1; n <= 5000; ++n)
 		{
-			System.out.print("n = " + n + " ---> ");	
 			cant_mul = 0;
 			prueba = prueba.Potenciar(n);
-			System.out.println(cant_mul);
-			estadistica.add(new Punto2d((long)n,cant_mul));
+			System.out.println("n = " + n + " ---> " + cant_mul);
+			estadistica.add(new Punto2d((long)n, cant_mul));
 		}
 		Estadistica.GuardarDatos(ruta_contar_cant_mul, estadistica);
 	}
 	
 	public static void Contar_Potenciar()
 	{
-		System.out.println("Contando operaciones de potenciar:");
+		System.out.println("Contando operaciones de Potenciar:");
 		System.out.println("==================================");
 		
 		Matriz prueba;
 		List<Punto3d> estadistica = new LinkedList<Punto3d>();
 		
-		for(int k = 2; k <= 20; ++k)
+		for(int k = 2; k <= 40; ++k)
 		{
 			prueba = new Matriz(k);
-			for(int n = 1; n <= 20; ++n)
+			for(int n = 1; n <= 40; ++n)
 			{
-				System.out.print("(k = " + k + ") n = " + n + " ---> ");	
 				op_mul = 0; op_pot = 0;
 				prueba = prueba.Potenciar(n);
-				System.out.println(op_mul + op_pot);
+				System.out.println("(k = " + k + ") n = " + n + " ---> " + (op_mul + op_pot));
 				estadistica.add(new Punto3d((long)k, (long)n, op_mul + op_pot));
 			}
 		}
