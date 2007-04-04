@@ -9,17 +9,23 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.Math;
 
+import estadistica.Estadistica;
+import estadistica.Punto2d;
+
 public abstract class Ej4
 {
 	// Nombres de los archivos
 	static String ruta_entrada = "Tp1Ej4.in";
 	static String ruta_salida = "Tp1Ej4.out";
-	static String ruta_estadisticas = "Tp1Ej4.dat";
+	static String ruta_contar_ep = "ej4\\dat\\Tp1Ej4(es_primo).dat";
+	static String ruta_contar_cant_ep = "ej4\\dat\\Tp1Ej4(cant_ep).dat";
+	static String ruta_contar_fac = "ej4\\dat\\Tp1Ej4(factorizacion).dat";
 	
 	// Contadores de operaciones
 	private static long op_fac;
 	private static long op_ep;
-	
+	private static long cant_ep;
+		
 	public static void Ejecutar()
 	{
 		System.out.println("Ejecutando Ej4:");
@@ -31,13 +37,63 @@ public abstract class Ej4
 		Parser.AgregarValor(ruta_salida, entradas.size(), false);
 		for(Integer n : entradas)
 		{
-			op_fac = 0;	op_ep = 0;
 			factorizacion = Factorizacion(n);
 			System.out.println(n + ":  " + factorizacion.toString());
 			Parser.Escribir(ruta_salida, n, factorizacion);
-			//Parser.EscribirEstadisticas(ruta_estadisticas, n, op_fac + op_ep);
 		}
 		Parser.AgregarValor(ruta_salida, 0, true);
+	}
+	
+	public static void Contar_EsPrimo()
+	{
+		System.out.println("Contando operaciones de EsPrimo:");
+		System.out.println("================================");
+		
+		List<Integer> primos = new LinkedList<Integer>();
+		List<Punto2d> estadistica = new LinkedList<Punto2d>();
+		
+		for(int n = 2; n <= 10000; ++n)
+		{
+			op_ep = 0;
+			if(EsPrimo(n, primos)) primos.add(n);
+			System.out.println("n = " + n + " ---> " + op_ep);
+			estadistica.add(new Punto2d((long)n, op_ep));
+		}
+		Estadistica.GuardarDatos(ruta_contar_ep, estadistica);
+	}
+	
+	public static void Contar_CantEP()
+	{
+		System.out.println("Contando cantidad de EsPrimo en Factorizar:");
+		System.out.println("===========================================");
+		
+		List<Punto2d> estadistica = new LinkedList<Punto2d>();
+		
+		for(int n = 2; n <= 1000; ++n)
+		{
+			cant_ep = 0;
+			Factorizacion(n);
+			System.out.println("n = " + n + " ---> " + cant_ep);
+			estadistica.add(new Punto2d((long)n, cant_ep));
+		}
+		Estadistica.GuardarDatos(ruta_contar_cant_ep, estadistica);
+	}
+	
+	public static void Contar_Factorizacion()
+	{
+		System.out.println("Contando operaciones de Factorizacion:");
+		System.out.println("======================================");
+		
+		List<Punto2d> estadistica = new LinkedList<Punto2d>();
+		
+		for(int n = 2; n <= 1000; ++n)
+		{
+			op_ep = 0; op_fac = 0;
+			Factorizacion(n);
+			System.out.println("n = " + n + " ---> " + (op_ep + op_fac));
+			estadistica.add(new Punto2d((long)n, op_ep + op_fac));
+		}
+		Estadistica.GuardarDatos(ruta_contar_fac, estadistica);
 	}
 	
 	public static List<Integer> Factorizacion(Integer n)
@@ -49,6 +105,7 @@ public abstract class Ej4
 		while(n > 1)
 		{
 			++op_fac;
+			++cant_ep;
 			if(EsPrimo(p, primos))
 			{
 				++op_fac;
