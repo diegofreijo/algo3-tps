@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 //import java.util.Collections;
 
+//import ej4.Ej4.Parser;
+
+//import ej4.Ej4.Parser;
+
 
 public class Ej1
 {
@@ -18,23 +22,28 @@ public class Ej1
 	private static long op_ord;
 	private static long op_val;
 	static String ruta_estadisticas = "Tp1Ej1.dat";
+	static String ruta_salida = "Tp1Ej1.out";
+	static String ruta_entrada = "Tp1Ej1.in";
 	
 	public static void Ejecutar()
 	{
 		System.out.println("Ejecutando Ej1:");
 		System.out.println("===============");
-				
-		Datos conjuntos = Parser.Leer("salida0.txt");
-		//System.out.println(conjuntos.S.toString());
-		//System.out.println(conjuntos.T.toString());
-		
-		int n = conjuntos.S.size();
-		
-		List<List<Integer>> mayores = Mayores(conjuntos.S, conjuntos.T);
-		//System.out.println(mayores.toString() + "\n");
-		long operaciones = op_val+op_may+op_bus+op_orl+op_ord;
-		System.out.println(operaciones);
-		Parser.EscribirEstadisticas(ruta_estadisticas, n, operaciones);
+							
+		List<Datos> entradas = Parser.Leer(ruta_entrada);
+		List<List<Integer>> mayores; 
+			
+		Parser.AgregarValor(ruta_salida, entradas.size(), false);
+		for(Datos i : entradas)
+		{
+			op_may=0;op_bus=0;op_orl=0;op_ord=0;op_val=0;
+			mayores = Mayores(i.S, i.T);
+			System.out.println(mayores);
+			Parser.Escribir(ruta_salida, i.S.size(), mayores);
+			long operaciones = op_val+op_may+op_bus+op_orl+op_ord;
+			Parser.EscribirEstadisticas(ruta_estadisticas, i.S.size(), operaciones);
+		}
+		Parser.AgregarValor(ruta_salida, 0, true);
 		
 	}
 	
@@ -377,28 +386,36 @@ public class Ej1
 	{
 		static String fs = System.getProperty("file.separator");
 		
-		public static Datos Leer(String ruta)
+		public static List<Datos> Leer(String ruta)
 		{
-			Datos ret = new Datos();
-			ret.S = new ArrayList<Integer>();
-			ret.T = new ArrayList<Integer>();
+			List<Datos> ret = new ArrayList<Datos>();
+			//ret.S = new ArrayList<Integer>();
+			//ret.T = new ArrayList<Integer>();
 			
 			ruta = System.getProperty("java.class.path") + System.getProperty("file.separator") + ruta;
+			Datos temp = new Datos();
 			
 		    try
 		    {
 		        BufferedReader in = new BufferedReader(new FileReader(ruta));
 		        
-		        Integer n = Integer.valueOf(in.readLine().trim());
+		        Integer actual;
 		        
-		        for(int i = 0; i < n; ++i)
-		        {
-		        	ret.S.add(Integer.valueOf(in.readLine().trim()));
-		        }
-		        
-		        for(int i = 0; i < n; ++i)
-		        {
-		        	ret.T.add(Integer.valueOf(in.readLine().trim()));
+    	        while ((actual = Integer.valueOf(in.readLine().trim())) != 0){
+		        	
+			        Integer n = actual;
+			        			    			        
+			        for(int i = 0; i < n; ++i)
+			        {			        	
+			        	temp.S.add(Integer.valueOf(in.readLine().trim()));
+			        }
+			        
+			        for(int i = 0; i < n; ++i)
+			        {
+			        	temp.T.add(Integer.valueOf(in.readLine().trim()));
+			        }
+			        
+			        ret.add(temp);
 		        }
 		        
 		        in.close();
@@ -412,7 +429,7 @@ public class Ej1
 		    return ret;
 		}
 		
-		public static void Escribir(String ruta, int n,  List<Integer> valores)
+		public static void Escribir(String ruta, int n,  List<List<Integer>> valores)
 		{
 			ruta = System.getProperty("java.class.path") + System.getProperty("file.separator") + ruta;
 			
@@ -422,9 +439,9 @@ public class Ej1
 		        String salida;
 		        
 		        salida = Integer.toString(n) + "\n";	        
-		        for(Integer val : valores)
+		        for(List<Integer> val : valores)
 		        {
-		        	salida += Integer.toString(val) + " ";
+		        	salida += Integer.toString(val.get(0)) + " " + Integer.toString(val.get(1)) + "\n";
 		        }
 				salida += "\n0";
 		        
@@ -455,6 +472,24 @@ public class Ej1
 		    	e.printStackTrace();
 			}
         }
+		
+		public static void AgregarValor(String ruta, Integer valor, Boolean agregar)
+		{
+			ruta = System.getProperty("java.class.path") + fs + "ej4" + fs + "out" + fs + ruta;
+			
+			try
+			{
+				BufferedWriter out = new BufferedWriter(new FileWriter(ruta, agregar));
+				out.append(valor.toString() + "\n");
+		        out.close();
+			}
+			catch (IOException e)
+			{
+		    	System.out.println("Error agregando valor al archivo de salida: ");
+		    	e.printStackTrace();
+			}
+			
+		}
 
 		
 	}
