@@ -12,7 +12,7 @@ Luego se pens'o en atacar el problema m'as desde arriba. Cada multiplicaci'on en
 $$A = A*A*A*A$$
 costando tres multiplicaciones (complejidad lineal). Pero 'esto se puede mejorar, ya que
 $$A = (A^2)^2$$
-con lo que la cantidad de multiplicaciones requeridas hubiesen sido una para multiplicar $A$ por s'i misma ($A^2$) y otra para multiplicar el resultado por s'i mismo ($(A*2)^2$), disminuyendo una tercera parte la cantidad de multiplicaciones. En efecto, la complejidad resultante (contando solamente multiplicaciones) ser'ia logar'itmica. Pero hab'ia un serio problema de fondo: el exponente no ten'ia porque ser potencia de dos.
+con lo que la cantidad de multiplicaciones requeridas hubiesen sido una para multiplicar $A$ por s'i misma ($A^2$) y otra para multiplicar el resultado por s'i mismo ($(A^2)^2$), disminuyendo en una tercera parte la cantidad de multiplicaciones. En efecto, la complejidad resultante (contando solamente multiplicaciones) ser'ia logar'itmica. Pero hab'ia un serio problema de fondo: el exponente no ten'ia porque ser potencia de dos.
 
 Con ello en mente, buscamos informaci'on sobre como aplicar la misma idea a cualquier exponente. Y nos encontramos con el algortimo de potenciaci'on binaria ({\it binary power}) \cite{binpow}. 'Este utiliza la misma idea que ten'iamos pero salva los casos que no son potencia de dos tomando la representaci'on binaria del exponente. As'i es como funciona:
 
@@ -35,24 +35,81 @@ o sea que para formar a $n$ debo sumar aquellas potencias de 2 en donde su d'igi
 % Detalles de implementacion
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Detalles de implementaci'on}
+Para facilitar la implementaci'on lo primero que se hizo fue una clase Matriz, la cual representa una matriz cuadrada y posee solamente los m'etodos necesarios para resolver 'este ejercicio (principalmente, Multiplicar y Potenciar).
+
+Al algoritmo Potenciar se le hicieron peque'nos cambios al implementarlo con el 'unico fin de hacerlo m'as eficiente:
+\begin{itemize}
+\item La representaci'on binaria de $n$ no se calcula antes de comenzar a multiplicar matrices, sino que se realizan las dos operaciones a la vez. Se utiliz'o el algoritmo {\it standart} para obtenerla.
+\item Si se analiza el algoritmo, siempre se van a realizar dos multiplicaciones sea cual sea $n$. 'Estas son en la primer iteraci'on, al multiplicar la matriz resultado por $A$ (que en 'ese entonces ser'a la identidad) y la matriz de potencias de dos tambi'en por $A$ (porque tamb'ien ser'a la identidad). Para evitarlas, directamente 'estas dos comenzar'an siendo $A$ y el exponente se disminuir'a en 1.
+\end{itemize}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Pseudocodigos
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
 \subsection{Pseudoc'odigos}
 
+\algoritmo{Potenciar($A,n$)}{Devuelve $A^n$}{O($log_2(n)*k^3$)}
+\begin{algorithmic}[1]
+\REQUIRE $A \in \nat^{k \times k}$
+\IF{$n = 0$}
+	\RETURN $I \in \nat^{k \times k}$
+\ENDIF
+\STATE $ret, pot2 \leftarrow A$
+\STATE $n \leftarrow n-1$
+\WHILE{$n \ge 1$}
+	\IF{$2\ |\ n$}
+		\STATE $n \leftarrow n\ /\ 2$ 
+	\ELSE
+		\STATE $n \leftarrow (n-1)\ /\ 2$
+		\STATE $ret \leftarrow$ Multiplicar($ret,pot2$)
+	\ENDIF
+	\STATE $pot2 \leftarrow$ Multiplicar($pot2,pot2$) 
+\ENDWHILE
+\RETURN $ret$
+\end{algorithmic}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Respuestas
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\subsection{Respuestas}
+\vspace{2em}
+
+\algoritmo{Multiplicar($A,B$)}{Multiplica la matriz $A$ por $B$}{O($k^3$)}
+\begin{algorithmic}[1]
+\REQUIRE $A,B \in \nat^{k \times k}$
+	\STATE $ret \in \nat^{k \times k}$
+	\FOR{$i = 1 \dots k$}
+		\FOR{$j = 1 \dots k$}
+			\STATE $ret_{ij} \leftarrow \sum_{t=1}^{k}{A_{it}*B_{tj}}$
+		\ENDFOR
+	\ENDFOR
+	\RETURN $ret$
+\end{algorithmic}
+
+
+\clearpage
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Analisis de complejidad
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Analisis de complejidad}
+\subsubsection{Multiplicar}
+F'acilmente se puede ver en el algoritmo que para cada fila de $A$ (las cuales son $k$) y cada columna de $B$ (las cuales tambi'en son $k$) se debe recorrer cada elemento de ellas (los cuales, nuevamente, son $k$).
+ 
+Luego, la complejidad es O($k^3$).
+
+
+\subsubsection{Potenciar}
+Dado que una multiplicaci'on entre matrices es muy costosa, y que es la m'as costosa en 'este algoritmo,  el peor de los casos para Potenciar ser'a cuando deba realizar la mayor cantidad de 'estas. Como $pot2$ siempre ser'a elevada al cuadrado, en cada iteraci'on se realizar'a por lo menos una multiplicaci'on. Pero la otra, correspondiente a $ret * pot2$, s'olo cuando el $n$ actual sea impar. 'Esto, como mejor se explic'o en la Introducci'on del presente, sucede si se encuentra un 1 en la representaci'on binaria de $n$. 
+
+Por lo tanto, el peor $n$ de entrada ser'a aquel con todos unos en su representaci'on binaria. Y 'esto es equivalente a decir que
+$$n = 2^t-1$$
+para alg'un $t \in \nat$.
+
+Ya que con un $n$ as'i se realizar'an 2 multiplicaciones por cada d'igito binario suyo, y que la cantidad de 'estos es $\log_2(n)$, la cantidad de multiplicaciones ser'an O($2*\log_2(n)$). Pero, como cada multiplicaci'on es O($k^3$), la complejidad de Potenciar ser'a
+$$O(2*\log_2(n)*k^3) = O(\log_2(n)*k^3)$$
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -71,6 +128,7 @@ o sea que para formar a $n$ debo sumar aquellas potencias de 2 en donde su d'igi
 \subsection{Discusi'on}
 
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Conclusiones
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -83,9 +141,9 @@ o sea que para formar a $n$ debo sumar aquellas potencias de 2 en donde su d'igi
 \subsection{Referencias}
 \begin{thebibliography}{99}
 
-	\bibitem{cw} Algoritmo de Coppersmith-–Winograd para la multiplicaci'on de matrices cuadradas:  {\it http://en.wikipedia.org/wiki/Coppersmith\%E2\%80\%93Winograd\_algorithm}
+	\bibitem{cw} Algoritmo de Coppersmith-–Winograd para la multiplicaci'on de matrices cuadradas:\\  {\it http://en.wikipedia.org/wiki/Coppersmith\%E2\%80\%93Winograd\_algorithm}
 
-	\bibitem{strassen} Algoritmo de Strassen para la multiplicaci'on de matrices cuadradas:  {\it http://en.wikipedia.org/wiki/Strassen\_algorithm}
+	\bibitem{strassen} Algoritmo de Strassen para la multiplicaci'on de matrices cuadradas:\\  {\it http://en.wikipedia.org/wiki/Strassen\_algorithm}
 
 	\bibitem{binpow} {\it http://wiki.octave.org/wiki.pl?CodaTutorial}
 

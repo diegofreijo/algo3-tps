@@ -26,8 +26,8 @@ La otra lista utilizada fue la de $primos$ en Factorizaci'on. El acceso aleatori
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
 \subsection{Pseudoc'odigos}
-\begin{algorithm}
-\caption{Devuelve la factorizacion en primos de $n$ $\rightarrow$ O($n\sqrt{n}$)}
+
+\algoritmo{Factorizacion($n$)}{Devuelve la factorizaci'on en primos de $n$}{O($n\sqrt{n}$)}
 \begin{algorithmic}[1]
 \REQUIRE $n \in \nat$ tal que $n \geq 2$
 	\STATE p = 2 
@@ -43,10 +43,10 @@ La otra lista utilizada fue la de $primos$ en Factorizaci'on. El acceso aleatori
 	\ENDWHILE
 	\RETURN ret
 \end{algorithmic}
-\end{algorithm}
 
-\begin{algorithm}
-\caption{Decide si $n$ es o no primo $\rightarrow$ O($\sqrt{n}$)}
+\vspace{2em}
+
+\algoritmo{EsPrimo($n$)}{Decide si $n$ es o no primo}{O($\sqrt{n}$)}
 \begin{algorithmic}[1]
 \REQUIRE $primos$ tiene todos los primos enteros menores a $n$ ordenados crecientemente
 	\STATE r = $\sqrt{n} + 1$;
@@ -55,7 +55,6 @@ La otra lista utilizada fue la de $primos$ en Factorizaci'on. El acceso aleatori
 		\ENDFOR
 	\RETURN true
 \end{algorithmic}
-\end{algorithm}
 
 \clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
