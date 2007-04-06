@@ -11,7 +11,7 @@ plot '..\..\ej4\dat\Tp1Ej4(es_primo).dat' tit 'Práctica', sqrt(x) tit 'Teórica [
 set xlabel "Número entrada (n)"
 set ylabel "Cantidad de llamadas a EsPrimo"
 set output "Tp1Ej4(cant_ep).png"
-plot '..\..\ej4\dat\Tp1Ej4(cant_ep).dat' tit 'Práctica', x tit 'Teórica [n]', x/2, x/3, x/4
+plot '..\..\ej4\dat\Tp1Ej4(cant_ep).dat' tit 'Práctica', x tit 'Teórica [n]', x/2 tit 'n/2', x/3 tit 'n/3', x/4 tit 'n/4'
 
 
 set xlabel "Número entrada (n)"
