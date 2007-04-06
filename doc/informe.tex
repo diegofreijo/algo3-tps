@@ -1,15 +1,18 @@
 \documentclass[spanish, a4paper, 11pt]{article}
 
+
 \usepackage[a4paper,margin=3.5cm,top=3.0cm,bottom=3.0cm]{geometry}	% Define los margenes
 \usepackage[spanish,activeacute]{babel}								% Idioma castellano
 \usepackage{caratula}														% Caratula de Algo2
-\usepackage[pdftex]{graphicx} 											% Permite insertar graficos
+\usepackage[a4paper=true,pagebackref=true]{hyperref}				% Le agrega la TOC al PDF
+%\usepackage[pdftex]{graphicx} 											% Permite insertar graficos
 \usepackage{fancyhdr}														% Permite manejo de cabeceras de pagina
 \usepackage{eufrak}															% Usado en el enunciado del trabajo
 \usepackage{latexsym}
 \usepackage{algorithm}														% Para escribir los algos
 \usepackage{algorithmic}													% Idem
 \usepackage{dsfont}															% Para el simbolo de naturales
+%\usepackage{natbib}																% Para las citas de bibliografia
 
 
 % Estilo de pagina para tener las cabeceras
@@ -29,7 +32,7 @@
 {
 	\begin{figure}[h]
 	  \centering
-	    \includegraphics[width=#2cm]{#1}
+	  %  \includegraphics[width=#2cm]{#1}
 	  \caption{#3}
 	\end{figure}
 }
@@ -59,6 +62,12 @@
 \section*{Resumen}
 ??????????????
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Indice
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+%\tableofcontents
+\clearpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Ejercicios
@@ -66,7 +75,7 @@
 %\input{ej1.tex}
 %\input{ej2.tex}
 \input{ej3.tex}
-\input{ej4.tex}
+%\input{ej4.tex}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

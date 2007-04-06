@@ -5,6 +5,30 @@
 % Introduccion
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Introducci'on}
+Al comenzar a pensar la soluci'on de 'este ejercicio, partimos de un algortimo por fuerza bruta e intentamos de mejorarlo. Cre'imos que el punto clave en donde se podr'ian ahorrar operaciones era en la multiplicaci'on de matrices. Luego de varios intentos e investigaci'ones por internet, hallamos que exist'ian algoritmos de multiplicaci'on de matrices cuadradas m'as r'apidos que el {\it standart}. 
+¿¿¿¿¿CUAL USAMOS????????????????
+
+Luego se pens'o en atacar el problema m'as desde arriba. Cada multiplicaci'on entre matrices es un algoritmo muy costoso, por lo que nos pareci'o interesante lograr disminu'ir el n'umero de 'estas al realizar la potenciaci'on. La primer idea que surgi'o fue de suponer al exponente como potencia de 2, por ejemplo 4. Por fuerza bruta, el algoritmo hubiese hecho
+$$A = A*A*A*A$$
+costando tres multiplicaciones (complejidad lineal). Pero 'esto se puede mejorar, ya que
+$$A = (A^2)^2$$
+con lo que la cantidad de multiplicaciones requeridas hubiesen sido una para multiplicar $A$ por s'i misma ($A^2$) y otra para multiplicar el resultado por s'i mismo ($(A*2)^2$), disminuyendo una tercera parte la cantidad de multiplicaciones. En efecto, la complejidad resultante (contando solamente multiplicaciones) ser'ia logar'itmica. Pero hab'ia un serio problema de fondo: el exponente no ten'ia porque ser potencia de dos.
+
+Con ello en mente, buscamos informaci'on sobre como aplicar la misma idea a cualquier exponente. Y nos encontramos con el algortimo de potenciaci'on binaria ({\it binary power}) \cite{binpow}. 'Este utiliza la misma idea que ten'iamos pero salva los casos que no son potencia de dos tomando la representaci'on binaria del exponente. As'i es como funciona:
+
+\begin{itemize}
+	\item Suponer que quiero realizar $A^n$.
+	\item Suponer que la representaci'on binaria de $n$ es $b_{k-1}...b_0$, donde cada $b_i$ es un d'igito binario.
+	\item Claramente 
+\begin{equation}
+	\label{sumabin}
+	n = \sum_{i=0}^{k-1} b_i * 2^i
+\end{equation}
+o sea que para formar a $n$ debo sumar aquellas potencias de 2 en donde su d'igito binario de $n$ es 1.
+	\item De 'esta forma es f'acil construirse el algoritmo. La matriz resultado comienza siendo la identidad (considerar que equivale a $A^0$). A su vez tengo otra matriz con exponentes de $A$ potencias de dos (comienza tambi'en siendo $A^0$). Voy tomando los valores de $b_0$ en adelante y en donde halla un uno, multiplico la matriz resultado por la de las potencias (ya que la multiplicaci'on entre las matrices se toma como una suma entre los exponentes). Al final de cada iteraci'on elevo al cuadrado la matriz de las potencias de 2 para pasar a la siguiente. Repitiendo con cada $b_i$ es como voy transformando el exponente del resultado en $n$. Al terminar con $b_{k-1}$, 'este va a ser efectivamente $n$ (y la justificaci'on es la sumatoria expresada en (\ref{sumabin})).
+\end{itemize}
+
+'Este algoritmo es del orden de $2*log_2(n)$ multiplicaciones en el peor caso, con lo que nos quedamos bastante satisfechos y fue el utilizado.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -57,7 +81,12 @@
 % Referencias
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Referencias}
-\begin{itemize}
-    \item ¿¿¿¿¿¿¿¿¿PONGO http://wiki.octave.org/wiki.pl?CodaTutorial?????
-\end{itemize}
+\begin{thebibliography}{99}
 
+	\bibitem{cw} Algoritmo de Coppersmith-–Winograd para la multiplicaci'on de matrices cuadradas:  {\it http://en.wikipedia.org/wiki/Coppersmith\%E2\%80\%93Winograd\_algorithm}
+
+	\bibitem{strassen} Algoritmo de Strassen para la multiplicaci'on de matrices cuadradas:  {\it http://en.wikipedia.org/wiki/Strassen\_algorithm}
+
+	\bibitem{binpow} {\it http://wiki.octave.org/wiki.pl?CodaTutorial}
+
+\end{thebibliography}
