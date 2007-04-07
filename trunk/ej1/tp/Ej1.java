@@ -118,7 +118,7 @@ public class Ej1
 					ret.add(ret1);op_bus++;
 					j++;op_bus++;
 				}else{
-					j++;op_bus++;
+					break;
 				}
 			}	
 			k++;op_bus++;
@@ -152,7 +152,7 @@ public class Ej1
 					ret.add(ret1);op_bus++;
 					j++; op_bus++;
 				}else{
-					j++;op_bus++;
+					break;
 				}
 			}	
 			k++;op_bus++;
@@ -336,6 +336,7 @@ public class Ej1
 		op_ord++;
 		return ret;
 	}
+	
 	public static class Datos
 	{
 		private List<Integer> S;
