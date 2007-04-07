@@ -18,7 +18,6 @@ f=open(salida, 'w')
 f.close()
 f=open(salida, 'a')
 while i < cantidad:
-	x = 0
 	x = i+2
 	rango=2*x
 	a = []
