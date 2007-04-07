@@ -21,9 +21,10 @@ public class Ej1
 	private static long op_orl;
 	private static long op_ord;
 	private static long op_val;
-	static String ruta_estadisticas = "Tp1Ej1.dat";
+	static String ruta_estadisticas = "Tp1Ej1BM.dat";
 	static String ruta_salida = "Tp1Ej1.out";
-	static String ruta_entrada = "Tp1Ej1.in";
+	//static String ruta_entrada = "Tp1Ej1.in";
+	static String ruta_entrada = "Tp1Ej1pruebas.in";
 	
 	public static void Ejecutar()
 	{
@@ -32,17 +33,21 @@ public class Ej1
 		
 		List<Instancia> entradas = Parser.Leer(ruta_entrada);
 		List<List<Integer>> mayores; 
-			
+		
+		System.out.println(entradas.size());
 		Parser.AgregarValor(ruta_salida, entradas.size(), false);
 		for(Instancia i : entradas)
 		{
+			System.out.println(i.Datos.S.size());
 			op_may=0;op_bus=0;op_orl=0;op_ord=0;op_val=0;
 			mayores = Mayores(i.Datos.S, i.Datos.T);
-			System.out.println(mayores);
+			//System.out.println(mayores);
 			Parser.Escribir(ruta_salida, entradas.size(), mayores);
-			long operaciones = op_val+op_may+op_bus+op_orl+op_ord;
+			long operaciones = op_may;
+			//long operaciones = op_val+op_may+op_bus+op_orl+op_ord;
 			Parser.EscribirEstadisticas(ruta_estadisticas, i.Datos.S.size(), operaciones);
 		}
+		System.out.println(op_val + " " + op_may + " " + op_bus + " " + op_orl + " " + op_ord);
 	}
 	
 	public static List<List<Integer>> Mayores(final List<Integer> A, final List<Integer> B)
@@ -66,17 +71,22 @@ public class Ej1
 			
 			List<List<Integer>> mayores = new ArrayList<List<Integer>>();op_may++;
 			mayores = BuscoMayor(valor,A,B,i);op_may++;
+			
 			int valor1 = A.get(i+1) + B.get(i+1);op_may++;
 			List<List<Integer>> menores = new ArrayList<List<Integer>>();op_may++;
 			menores = BuscoMayor(valor1,A,B,i);op_may++;
+			
 			List<List<Integer>> menores1 = new ArrayList<List<Integer>>();op_may++;
 			menores1 = BuscoMayor2(valor1, B, A, i);op_may++;
+			
 			List<List<Integer>> ingresar = new ArrayList<List<Integer>>();op_may++;
 			List<Integer> temp1 = new ArrayList<Integer>();op_may++;
 			temp1.add(A.get(i));op_may++;
 			temp1.add(B.get(i+1));op_may++;
 			mayores.add(temp1);op_may++;
-			ingresar = OrdenarListas(Ordenar(mayores),Ordenar(menores),Ordenar(menores1),ret);op_may++;op_may++;op_may++;op_may++;
+			
+			ingresar = OrdenarListas(OrdenarQS(mayores),OrdenarQS(menores),OrdenarQS(menores1),ret);op_may++;op_may++;op_may++;op_may++;
+			//ingresar = OrdenarListas(Ordenar(mayores),Ordenar(menores),Ordenar(menores1),ret);op_may++;op_may++;op_may++;op_may++;
 			
 			int f = 0;op_may++;
 			while(n > 0 && f < ingresar.size()){
@@ -134,7 +144,6 @@ public class Ej1
 		int k = 0;op_bus++;
 		
 		while(k <= i){
-			
 			op_bus++;
 			int j = i+1;op_bus++;			
 			while(j < A.size())
@@ -301,7 +310,7 @@ public class Ej1
 		return ret;
 	}
 	
-	private static List<List<Integer>> Ordenar(List<List<Integer>> A){
+/*	private static List<List<Integer>> Ordenar(List<List<Integer>> A){
 		
 		List<List<Integer>> ret = new ArrayList<List<Integer>>();op_ord++;
 		List<Integer> maximo = new ArrayList<Integer>();op_ord++;
@@ -332,9 +341,57 @@ public class Ej1
 				ret.add(maximo);op_ord++;
 				A.remove(maximo);op_ord++;
 			}
+
 		}
 		op_ord++;
 		return ret;
+	}*/
+	
+	
+	private static List<List<Integer>> OrdenarQS(List<List<Integer>> A){
+		
+		List<List<Integer>> ret = new ArrayList<List<Integer>>();
+		
+		if (A.size() > 0){
+			op_ord++;
+			List<Integer> pivot = new ArrayList<Integer>();op_ord++; 
+			pivot = A.get(0);op_ord++;
+			
+			List<List<Integer>> mayores = new ArrayList<List<Integer>>();op_ord++;
+			List<List<Integer>> menores = new ArrayList<List<Integer>>();op_ord++;
+			
+			int i = 1;op_ord++;
+			while(i < A.size()){
+				op_ord++;
+				if (valor(A.get(i)) >= valor(pivot)){
+					op_ord++;
+					mayores.add(A.get(i));op_ord++;
+				} else {
+					op_ord++;
+					menores.add(A.get(i));op_ord++;
+				}
+				i++;op_ord++;
+			}
+			
+			if(mayores.size() > 0){
+				op_ord++;
+				ret.addAll(OrdenarQS(mayores));op_ord++;
+			}
+			
+			ret.add(pivot);op_ord++;
+			
+			if(menores.size() > 0){
+				op_ord++;
+				ret.addAll(OrdenarQS(menores));op_ord++;
+			}
+		} else {
+			op_ord++;
+			ret = A;op_ord++;
+		}
+		
+		op_ord++;
+		return ret;
+		
 	}
 	
 	public static class Datos
