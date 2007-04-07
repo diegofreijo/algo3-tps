@@ -8,8 +8,6 @@ def randomSinCero(a):
 
 a=[]
 b=[]
-##arg2 = sys.argv[2]
-##arg2 = int(arg2)
 cantidad = sys.argv[1]
 cantidad = int(cantidad)
 i = 0
