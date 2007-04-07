@@ -7,11 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-//import java.util.Collections;
 
-//import ej4.Ej4.Parser;
-
-//import ej4.Ej4.Parser;
 
 
 public class Ej1
@@ -21,7 +17,7 @@ public class Ej1
 	private static long op_orl;
 	private static long op_ord;
 	private static long op_val;
-	static String ruta_estadisticas = "Tp1Ej1BM.dat";
+	static String ruta_estadisticas = "Tp1Ej1.dat";
 	static String ruta_salida = "Tp1Ej1.out";
 	//static String ruta_entrada = "Tp1Ej1.in";
 	static String ruta_entrada = "Tp1Ej1pruebas.in";
@@ -43,8 +39,8 @@ public class Ej1
 			mayores = Mayores(i.Datos.S, i.Datos.T);
 			//System.out.println(mayores);
 			Parser.Escribir(ruta_salida, entradas.size(), mayores);
-			long operaciones = op_may;
-			//long operaciones = op_val+op_may+op_bus+op_orl+op_ord;
+			//long operaciones = op_may;
+			long operaciones = op_val+op_may+op_bus+op_orl+op_ord;
 			Parser.EscribirEstadisticas(ruta_estadisticas, i.Datos.S.size(), operaciones);
 		}
 		System.out.println(op_val + " " + op_may + " " + op_bus + " " + op_orl + " " + op_ord);
@@ -419,7 +415,7 @@ public class Ej1
 		public static List<Instancia> Leer(String ruta)
 		{
 			List<Instancia> ret = new ArrayList<Instancia>();	
-			ruta = System.getProperty("java.class.path") + System.getProperty("file.separator") + fs + "tp" + fs + "in" + fs + ruta;
+			ruta = System.getProperty("java.class.path") + System.getProperty("file.separator") + fs + "ej1" + fs + "in" + fs + ruta;
 			Integer actual;
 		    Instancia temporal;
 		    Datos temp;
@@ -464,7 +460,7 @@ public class Ej1
 		
 		public static void Escribir(String ruta, int n,  List<List<Integer>> valores)
 		{
-			ruta = System.getProperty("java.class.path") + System.getProperty("file.separator") + fs + "tp" + fs + "out" + fs + ruta;
+			ruta = System.getProperty("java.class.path") + System.getProperty("file.separator") + fs + "ej1" + fs + "out" + fs + ruta;
 			
 			try
 			{
@@ -490,7 +486,7 @@ public class Ej1
 		
 		public static void EscribirEstadisticas(String ruta, Integer n, Long op)
         {
-			ruta = System.getProperty("java.class.path") + fs + "tp" + fs + "dat" + fs + ruta;
+			ruta = System.getProperty("java.class.path") + fs + "ej1" + fs + "dat" + fs + ruta;
 			
 			try
 			{
@@ -508,7 +504,7 @@ public class Ej1
 		
 		public static void AgregarValor(String ruta, Integer valor, Boolean agregar)
 		{
-			ruta = System.getProperty("java.class.path") + fs + "tp" + fs + "out" + fs + ruta;
+			ruta = System.getProperty("java.class.path") + fs + "ej1" +  fs + "out" + fs + ruta;
 			
 			try
 			{

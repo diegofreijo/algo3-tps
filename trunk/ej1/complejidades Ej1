@@ -28,15 +28,15 @@ public static List<List<Integer>> Mayores(final List<Integer> A, final List<Inte
 			temp1.add(A.get(i));// O(n) + O(1)
 			temp1.add(B.get(i+1)); //O(n) + O(1)
 			mayores.add(temp1); //O(1)
-			ingresar = OrdenarListas(Ordenar(mayores),Ordenar(menores),Ordenar(menores1),ret); // O(n^2)
+			ingresar = OrdenarListas(Ordenar(mayores),Ordenar(menores),Ordenar(menores1),ret); // O(n log(n))
 			
 			int f = 0;
-			while(n > 0 && f < ingresar.size()){	// Este ciclo se repite, si n > f => f, sino n
+			while(n > 0 && f < ingresar.size()){	// Este ciclo se repite, si n > f => f, sino n - 1
 				ret.add(ingresar.get(f));			// 	O(cantidad de elementos de Ingresar) + O(1) + O(1) 
-				f++;								//	Peor caso= O(n)
+				f++;								//	Peor caso= O(n-1)
 				n--;								//
 			}
 			i++; O(1)
 		}
 		
-	//Complejidad del algoritmo = O(n+n+n+n^2+n+n^2+n^2+n^2+n+n+n^2+n) = O(n^2)
+	//Complejidad del algoritmo = O(n+n+2n+n+n+n^2+n^2+n^2+n log(n)) = O(6n + 3n^2 + n log(n)))
