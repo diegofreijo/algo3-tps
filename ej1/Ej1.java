@@ -1,4 +1,4 @@
-package tp;
+package ej1;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

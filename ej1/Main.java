@@ -1,4 +1,4 @@
-package tp;
+package ej1;
 
 public class Main
 {
