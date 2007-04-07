@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="doc/|ej4/dat/|ej4/in/|ej4/out/|ej3/dat/|ej3/in/|ej3/out/" kind="src" path=""/>
+	<classpathentry excluding="doc/|ej4/dat/|ej4/in/|ej4/out/|ej3/dat/|ej3/in/|ej3/out/|ej1/dat/|ej1/in/|ej1/out/|ej1/tp/|tp/dat/|tp/in/|tp/out/" kind="src" path=""/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path=""/>
 </classpath>
