@@ -29,22 +29,20 @@ public class Ej1
 	{
 		System.out.println("Ejecutando Ej1:");
 		System.out.println("===============");
-							
-		List<Datos> entradas = Parser.Leer(ruta_entrada);
+		
+		List<Instancia> entradas = Parser.Leer(ruta_entrada);
 		List<List<Integer>> mayores; 
 			
 		Parser.AgregarValor(ruta_salida, entradas.size(), false);
-		for(Datos i : entradas)
+		for(Instancia i : entradas)
 		{
 			op_may=0;op_bus=0;op_orl=0;op_ord=0;op_val=0;
-			mayores = Mayores(i.S, i.T);
+			mayores = Mayores(i.Datos.S, i.Datos.T);
 			System.out.println(mayores);
-			Parser.Escribir(ruta_salida, i.S.size(), mayores);
+			Parser.Escribir(ruta_salida, entradas.size(), mayores);
 			long operaciones = op_val+op_may+op_bus+op_orl+op_ord;
-			Parser.EscribirEstadisticas(ruta_estadisticas, i.S.size(), operaciones);
+			Parser.EscribirEstadisticas(ruta_estadisticas, i.Datos.S.size(), operaciones);
 		}
-		Parser.AgregarValor(ruta_salida, 0, true);
-		
 	}
 	
 	public static List<List<Integer>> Mayores(final List<Integer> A, final List<Integer> B)
@@ -57,7 +55,6 @@ public class Ej1
 		
 		while (n > 0)
 		{
-			System.out.println(n);
 			op_may++;
 			List<Integer> temp = new ArrayList<Integer>();op_may++;
 			temp.add(A.get(i));op_may++;
@@ -91,43 +88,6 @@ public class Ej1
 			}
 			i++;op_may++;
 		}
-		
-		/*List<Integer> Sumas = new ArrayList<Integer>();
-		
-		int j = 0;
-		
-		while(j < ret.size()){
-							
-			int suma = ret.get(j).get(0) + ret.get(j).get(1);
-			Sumas.add(suma);
-					
-			j++;
-		}
-		
-		List<Integer> SumasTotales = new ArrayList<Integer>();
-		
-		int k = 0;
-		
-		while (k < A.size()){
-			
-			int l = 0;
-			
-			while (l < B.size()){
-				
-				int sumtot = A.get(k) + B.get(l);
-				SumasTotales.add(sumtot);
-				
-				l++;
-			}
-			
-			k++;
-		}*/
-		
-		//Collections.sort(SumasTotales);
-		//Collections.reverse(SumasTotales);
-		//System.out.println(ret);
-		//System.out.println(SumasTotales);
-		//System.out.println(Sumas);
 		
 		op_may++;
 		return ret;	
@@ -378,33 +338,44 @@ public class Ej1
 	}
 	public static class Datos
 	{
-		List<Integer> S;
-		List<Integer> T;
+		private List<Integer> S;
+		private List<Integer> T;
+		
+		public Datos() {
+			super();
+			S = new ArrayList<Integer>();
+			T = new ArrayList<Integer>();
+		}
+	}
+	
+	private static class Instancia
+	{
+		Datos Datos;
+		Integer n;
 	}
 	
 	public static class Parser
 	{
 		static String fs = System.getProperty("file.separator");
 		
-		public static List<Datos> Leer(String ruta)
+		public static List<Instancia> Leer(String ruta)
 		{
-			List<Datos> ret = new ArrayList<Datos>();
-			//ret.S = new ArrayList<Integer>();
-			//ret.T = new ArrayList<Integer>();
-			
-			ruta = System.getProperty("java.class.path") + System.getProperty("file.separator") + ruta;
-			Datos temp = new Datos();
+			List<Instancia> ret = new ArrayList<Instancia>();	
+			ruta = System.getProperty("java.class.path") + System.getProperty("file.separator") + fs + "tp" + fs + "in" + fs + ruta;
+			Integer actual;
+		    Instancia temporal;
+		    Datos temp;
 			
 		    try
 		    {
+		    	
 		        BufferedReader in = new BufferedReader(new FileReader(ruta));
-		        
-		        Integer actual;
 		        
     	        while ((actual = Integer.valueOf(in.readLine().trim())) != 0){
 		        	
 			        Integer n = actual;
-			        			    			        
+			        temp = new Datos();
+			        
 			        for(int i = 0; i < n; ++i)
 			        {			        	
 			        	temp.S.add(Integer.valueOf(in.readLine().trim()));
@@ -415,7 +386,11 @@ public class Ej1
 			        	temp.T.add(Integer.valueOf(in.readLine().trim()));
 			        }
 			        
-			        ret.add(temp);
+			        temporal = new Instancia();
+			        temporal.Datos = temp;
+			        temporal.n = actual;
+			        
+			        ret.add(temporal);
 		        }
 		        
 		        in.close();
@@ -431,19 +406,19 @@ public class Ej1
 		
 		public static void Escribir(String ruta, int n,  List<List<Integer>> valores)
 		{
-			ruta = System.getProperty("java.class.path") + System.getProperty("file.separator") + ruta;
+			ruta = System.getProperty("java.class.path") + System.getProperty("file.separator") + fs + "tp" + fs + "out" + fs + ruta;
 			
 			try
 			{
-				BufferedWriter out = new BufferedWriter(new FileWriter(ruta));
+				BufferedWriter out = new BufferedWriter(new FileWriter(ruta,true));
 		        String salida;
-		        
-		        salida = Integer.toString(n) + "\n";	        
+		        salida = "";
+		        	        
 		        for(List<Integer> val : valores)
 		        {
 		        	salida += Integer.toString(val.get(0)) + " " + Integer.toString(val.get(1)) + "\n";
 		        }
-				salida += "\n0";
+				salida += "0\n";
 		        
 				out.write(salida);
 		        out.close();
@@ -457,7 +432,7 @@ public class Ej1
 		
 		public static void EscribirEstadisticas(String ruta, Integer n, Long op)
         {
-			ruta = System.getProperty("java.class.path") + fs + "ej1" + fs + "dat" + fs + ruta;
+			ruta = System.getProperty("java.class.path") + fs + "tp" + fs + "dat" + fs + ruta;
 			
 			try
 			{
@@ -475,7 +450,7 @@ public class Ej1
 		
 		public static void AgregarValor(String ruta, Integer valor, Boolean agregar)
 		{
-			ruta = System.getProperty("java.class.path") + fs + "ej4" + fs + "out" + fs + ruta;
+			ruta = System.getProperty("java.class.path") + fs + "tp" + fs + "out" + fs + ruta;
 			
 			try
 			{
