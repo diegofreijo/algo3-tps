@@ -17,6 +17,7 @@ public abstract class Ej4
 	// Nombres de los archivos
 	static String ruta_entrada = "Tp1Ej4.in";
 	static String ruta_salida = "Tp1Ej4.out";
+	static String ruta_contar_ejecutar = "ej4\\dat\\Tp1Ej4.dat";
 	static String ruta_contar_ep = "ej4\\dat\\Tp1Ej4(es_primo).dat";
 	static String ruta_contar_cant_ep = "ej4\\dat\\Tp1Ej4(cant_ep).dat";
 	static String ruta_contar_fac = "ej4\\dat\\Tp1Ej4(factorizacion).dat";
@@ -34,15 +35,19 @@ public abstract class Ej4
 	
 		List<Integer> entradas = Parser.Leer(ruta_entrada);
 		List<Integer> factorizacion;
+		List<Punto2d> estadistica = new LinkedList<Punto2d>();
 		
 		Parser.AgregarValor(ruta_salida, entradas.size(), false);
 		for(Integer n : entradas)
 		{
+			op_ep = 0; op_fac = 0;
 			factorizacion = Factorizacion(n);
 			System.out.println(n + ":  " + factorizacion.toString());
 			Parser.Escribir(ruta_salida, n, factorizacion);
+			estadistica.add(new Punto2d((long)n, op_ep + op_fac));
 		}
 		Parser.AgregarValor(ruta_salida, 0, true);
+		Estadistica.GuardarDatos(ruta_contar_ejecutar, estadistica);
 	}
 	
 	public static void Contar_EsPrimo()

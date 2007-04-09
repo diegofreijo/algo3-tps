@@ -17,6 +17,7 @@ public abstract class Ej3
 	// Nombres de los archivos
 	static String ruta_entrada = "Tp1Ej3.in";
 	static String ruta_salida = "Tp1Ej3.out";
+	static String ruta_contar_ejecutar = "ej3\\dat\\Tp1Ej3.dat";
 	static String ruta_contar_mul = "ej3\\dat\\Tp1Ej3(multiplicar).dat";
 	static String ruta_contar_cant_mul = "ej3\\dat\\Tp1Ej3(cant_mul).dat";
 	static String ruta_contar_pot = "ej3\\dat\\Tp1Ej3(potenciar).dat";
@@ -34,15 +35,19 @@ public abstract class Ej3
 		
 		List<Instancia> entradas = Parser.Leer(ruta_entrada);
 		Matriz potencia;
+		List<Punto3d> estadistica = new LinkedList<Punto3d>();
 		
 		Parser.AgregarValor(ruta_salida, entradas.size(), false);
 		for(Instancia instancia : entradas)
 		{
+			op_mul = 0; op_pot = 0;
 			potencia = instancia.matriz.Potenciar(instancia.n);
 			System.out.println(instancia.matriz.toString() + "^" + instancia.n + ":\n" + potencia.toString());
 			Parser.Escribir(ruta_salida, instancia.n, potencia.Tam(), potencia);
+			estadistica.add(new Punto3d((long)instancia.matriz.Tam(), (long)instancia.n, op_mul + op_pot));
 		}
 		Parser.AgregarValor(ruta_salida, 0, true);
+		Estadistica.GuardarDatos(ruta_contar_ejecutar, estadistica);
 	}
 	
 	public static void Contar_Multiplicar()

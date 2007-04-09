@@ -3,7 +3,7 @@
 \usepackage[a4paper,margin=3.5cm,top=3.0cm,bottom=3.0cm]{geometry}	% Define los margenes
 \usepackage[spanish,activeacute]{babel}								% Idioma castellano
 \usepackage{caratula}														% Caratula de Algo2
-%\usepackage[a4paper=true,pagebackref=true]{hyperref}				% Le agrega la TOC al PDF
+%\usepackage[a4paper=true,pagebackref=true]{hyperref}				% Agrega la TOC al PDF e hipervinculos
 %\usepackage[pdftex]{graphicx} 											% Permite insertar graficos
 \usepackage{fancyhdr}														% Permite manejo de cabeceras de pagina
 \usepackage{eufrak}															% Usado en el enunciado del trabajo
@@ -36,7 +36,12 @@
 \newcommand{\nat}{\mathds{N}}
 \newcommand{\algoritmo}[3]{\noindent {\bf\underline{#1}:} #2 $\longrightarrow$ #3}
 \newcommand{\superindice}[1]{$^\textrm{{\tiny #1}}$}
+\newcommand{\subsubsubsection}[1]{
 
+{\bf\small #1}
+
+}
+\newcommand{\negrita}[1]{{\bf #1}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -52,7 +57,7 @@
 \materia{Algoritmos y Estructuras de Datos III}
 \submateria{Primer Cuatrimestre de 2007}
 \titulo{Trabajo Pr'actico 1}
-\subtitulo{????????}
+\subtitulo{}
 \integrante{Blanco, Matias}{???/??}{matiasblanco18@gmail.com}
 \integrante{Freijo, Diego}{4/05}{giga.freijo@gmail.com}
 \integrante{Giusto, Maximiliano}{486/05}{maxi.giusto@gmail.com}
