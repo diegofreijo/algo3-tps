@@ -37,9 +37,7 @@ public class Ej1
 			System.out.println(i.Datos.S.size());
 			op_may=0;op_bus=0;op_orl=0;op_ord=0;op_val=0;
 			mayores = Mayores(i.Datos.S, i.Datos.T);
-			//System.out.println(mayores);
 			Parser.Escribir(ruta_salida, entradas.size(), mayores);
-			//long operaciones = op_may;
 			long operaciones = op_val+op_may+op_bus+op_orl+op_ord;
 			Parser.EscribirEstadisticas(ruta_estadisticas, i.Datos.S.size(), operaciones);
 		}
