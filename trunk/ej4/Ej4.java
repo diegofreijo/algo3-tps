@@ -20,6 +20,7 @@ public abstract class Ej4
 	static String ruta_contar_ep = "ej4\\dat\\Tp1Ej4(es_primo).dat";
 	static String ruta_contar_cant_ep = "ej4\\dat\\Tp1Ej4(cant_ep).dat";
 	static String ruta_contar_fac = "ej4\\dat\\Tp1Ej4(factorizacion).dat";
+	static String ruta_contar_fac_fb = "ej4\\dat\\Tp1Ej4(factorizacion_fb).dat";
 	
 	// Contadores de operaciones
 	private static long op_fac;
@@ -96,6 +97,23 @@ public abstract class Ej4
 		Estadistica.GuardarDatos(ruta_contar_fac, estadistica);
 	}
 	
+	public static void Contar_Factorizacion_FuerzaBruta()
+	{
+		System.out.println("Contando operaciones de Factorizacion por Fuerza Bruta:");
+		System.out.println("=======================================================");
+		
+		List<Punto2d> estadistica = new LinkedList<Punto2d>();
+		
+		for(int n = 2; n <= 1000; ++n)
+		{
+			op_ep = 0; op_fac = 0;
+			Factorizacion_FuerzaBruta(n);
+			System.out.println("n = " + n + " ---> " + (op_ep + op_fac));
+			estadistica.add(new Punto2d((long)n, op_ep + op_fac));
+		}
+		Estadistica.GuardarDatos(ruta_contar_fac_fb, estadistica);
+	}
+	
 	public static List<Integer> Factorizacion(Integer n)
 	{
 		List<Integer> primos = new LinkedList<Integer>(); ++op_fac;
@@ -123,6 +141,32 @@ public abstract class Ej4
 		++op_fac;
 		return ret;
 	}
+	
+	public static List<Integer> Factorizacion_FuerzaBruta(Integer n)
+	{
+		List<Integer> ret = new LinkedList<Integer>(); ++op_fac;
+		int p = 2; ++op_fac;
+		
+		while(n > 1)
+		{
+			++op_fac;
+			++cant_ep;
+			if(EsPrimo_FuerzaBruta(p))
+			{
+				++op_fac;
+				while(n % p == 0)
+				{
+					++op_fac;
+					n = n / p; ++op_fac;
+					ret.add(p); ++op_fac;
+				}
+			}
+			++p; ++op_fac;
+		}
+		
+		++op_fac;
+		return ret;
+	}
 
 	// Precond: primos tiene todos los primos enteros menores a n ordenados crecientemente
 	public static boolean EsPrimo(int n, final List<Integer> primos)
@@ -137,7 +181,26 @@ public abstract class Ej4
 			if(p >= r) break;
 			if(n % p == 0)
 			{
-				 ++op_ep;
+				++op_ep;
+				ret = false; ++op_ep;
+				break;
+			}
+		}
+		
+		++op_ep;
+		return ret;
+	}
+	
+	public static boolean EsPrimo_FuerzaBruta(int n)
+	{
+		boolean ret = true; ++op_ep;
+		
+		for (int p = 2; p < n; ++p)
+		{
+			op_ep += 2;
+			if(n % p == 0)
+			{
+				++op_ep;
 				ret = false; ++op_ep;
 				break;
 			}

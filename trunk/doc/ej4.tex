@@ -5,18 +5,18 @@
 % Introduccion
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Introducci'on}
-Desde el principio, para resolver este problema se pens'o en armar la factorizaci'on probando todos los naturales (comenzando por el 2, ya que el 1 no es primo ni compuesto). Si 'este era primo, se verificaba si dividia al n'umero de entrada y se agregaban tantas repeticiones como fueran necesarias. 
+Desde el principio, para resolver este problema se pens'o en armar la factorizaci'on probando todos los naturales (comenzando por el 2, ya que el 1 no es primo ni compuesto). Si 'este era primo, se verificaba si dividia al n'umero de entrada y se agregaban tantas repeticiones como fueran necesarias. Y ello fue lo que terminamos haciendo.
 
-Para verificar si un n'umero era primo o no se utiliz'o el corolario de la criba de Eratóstenes, es decir, probar si alg'un otro primo menor a su ra'iz lo divide. De no ser as'i, es porque efectivamente lo era; caso contrario, no. Pero 'este algoritmo era extremadamente ineficiente ya que deb'ia efectuar llamadas recursivas para cada natural menor a la ra'iz de la entrada para verificar si 'este era o no primo (y luego verificar si lo divid'ia). Por eso se opt'o por reutilizar mucha de 'esta informaci'on. 'Esto es, evitar preguntar si un n'umero es primo mas de una vez. Para ello se agreg'o una lista ordenada como entrada en donde dever'an estar todos los primos menores al valor que se est'a pasando. La ganancia fue exponencial.
+Para verificar si un n'umero era primo o no se utiliz'o el corolario de la criba de Erat'ostenes, es decir, probar si alg'un otro primo menor a su ra'iz lo divide. De no ser as'i, es porque efectivamente lo era; caso contrario, no. Pero 'este algoritmo era extremadamente ineficiente ya que deb'ia efectuar llamadas recursivas para cada natural menor a la ra'iz de la entrada para verificar si 'este era o no primo (y luego verificar si lo divid'ia). Por eso se opt'o por reutilizar mucha de 'esta informaci'on. 'Esto es, evitar preguntar si un n'umero es primo mas de una vez. Para ello se agreg'o una lista ordenada como entrada en donde dever'an estar todos los primos menores al valor que se est'a pasando. La ganancia fue del orden exponencial.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Detalles de implementacion
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Detalles de implementaci'on}
-En cierta manera, los algoritmos a implementar fueron relativamente sencillos. La mayor decisi'on a tomar fue con respecto al tipo de lista utilizado. 
+En cierta manera, los algoritmos a implementar fueron relativamente sencillos. La mayor desici'on a tomar fue con respecto al tipo de lista utilizado. 
 
-La lista $ret$ en Factorizaci'on tiene como prop'osito mantener valores en el orden que fueron agregados. Su acceso aleatorio no es relevante ya que en ning'un momento se toman valores ya guardados. En cambio, es cr'itico que el insertado sea en tiempo constante, la complejidad final ser'a afectada por la cantidad de factores por la cantidad de operaciones que conlleva el insertado. Es por 'esto que se eligi'o la lista doblemente enlazada, la cual tiene un acceso lineal pero un insertado constante.
+La lista $ret$ en Factorizaci'on tiene como prop'osito mantener valores en el orden que fueron agregados. Su acceso aleatorio no es relevante ya que en ning'un momento se toman valores ya guardados. En cambio, es cr'itico que el insertado sea en tiempo constante ya que la complejidad final ser'a afectada por la cantidad de operaciones que conlleva el insertado de cada factor. Es por 'esto que se eligi'o la lista doblemente enlazada, la cual tiene un acceso lineal pero un insertado constante.
 
 La otra lista utilizada fue la de $primos$ en Factorizaci'on. El acceso aleatorio en 'este caso tampoco es importante porque los 'unicos accesos realizados son lineales (en EsPrimo), con lo que acceder al siguiente elemento es siempre O(1). Pero el insertado s'i que importa ya que si el valor a verificar efectivamente es primo, entonces hay que agregarlo. Por eso utilizamos tambi'en una lista doblemente enlazada.
 
@@ -30,18 +30,18 @@ La otra lista utilizada fue la de $primos$ en Factorizaci'on. El acceso aleatori
 \algoritmo{Factorizacion($n$)}{Devuelve la factorizaci'on en primos de $n$}{O($n\sqrt{n}$)}
 \begin{algorithmic}[1]
 \REQUIRE $n \in \nat$ tal que $n \geq 2$
-	\STATE p = 2 
-	\WHILE{n $>$ 1} 
-		\IF{EsPrimo(p, primos)}
-			\STATE primos.add(p)
-			\WHILE{p $|$ n}
-				\STATE n = n / p
-				\STATE ret.add(p)
+	\STATE $p \leftarrow 2$
+	\WHILE{$n > 1$}
+		\IF{EsPrimo($p,primos$)}
+			\STATE $primos$.AgregarAtras($p$)
+			\WHILE{$p\ |\ n$}
+				\STATE $n \leftarrow n / p$
+				\STATE $ret$.AgregarAtras($p$)
 			\ENDWHILE
 		\ENDIF
-		\STATE ++p
+		\STATE $p \leftarrow p + 1$
 	\ENDWHILE
-	\RETURN ret
+	\RETURN $ret$
 \end{algorithmic}
 
 \vspace{2em}
@@ -49,11 +49,11 @@ La otra lista utilizada fue la de $primos$ en Factorizaci'on. El acceso aleatori
 \algoritmo{EsPrimo($n$)}{Decide si $n$ es o no primo}{O($\sqrt{n}$)}
 \begin{algorithmic}[1]
 \REQUIRE $primos$ tiene todos los primos enteros menores a $n$ ordenados crecientemente
-	\STATE r = $\sqrt{n} + 1$;
-		\FORALL{$p < r$ en $primos$}
-			\IF{p $|$ n} \RETURN false \ENDIF
+	\STATE $r \leftarrow \lfloor \sqrt{n} \rfloor$;
+		\FORALL{$p \leq r$ {\bf in} $primos$}
+			\IF{$p\ |\ n$} \RETURN \FALSE \ENDIF
 		\ENDFOR
-	\RETURN true
+	\RETURN \TRUE
 \end{algorithmic}
 
 \clearpage
@@ -66,11 +66,11 @@ La otra lista utilizada fue la de $primos$ en Factorizaci'on. El acceso aleatori
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Analisis de complejidad
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Analisis de complejidad}
+\subsection{An'alisis de complejidad}
 \subsubsection{EsPrimo}
-La idea de este algoritmo se basa en la Criba de Eratóstenes. Es decir, afirma que si para cierto n'umero $n$ no existe un primo $p$ menor a $\sqrt{n}$ tal que $p | n$, entonces $n$ es primo. 
+La idea de este algoritmo se basa en la Criba de Erat'ostenes. Es decir, afirma que si para cierto n'umero $n$ no existe un primo $p$ menor a $\sqrt{n}$ tal que $p\ |\ n$, entonces $n$ es primo. 
 
-F'acilmente se ve que el peor caso es cuando $n$ efectivamente es primo, ya que fue necesario calcular todos los restos con los primos menores a $\sqrt{n}$. La mayor cantidad posible de valores le'idos es $\lfloor\sqrt{n}\rfloor$, y viene de suponer que todos los naturales menores a ese valor son primos.
+F'acilmente se ve que el peor caso es cuando $n$ efectivamente es primo, ya que fue necesario calcular todos los restos por divisi'on entera con los primos menores a $\sqrt{n}$. La mayor cantidad posible de valores le'idos es $\lfloor\sqrt{n}\rfloor$, y viene de suponer que todos los naturales menores a ese valor son primos.
 
 Luego, la complejidad es O($\sqrt{n}$).
 
@@ -84,6 +84,47 @@ El peor de los casos es cuando $n$ es primo, ya que se deber'a llamar a EsPrimo 
 
 Por lo tanto, como EsPrimo se ejecuta a lo sumo $n$ veces, y en cada llamado cuesta O($\sqrt{n}$) operaciones, entonces la complejidad de Factorizacion es O($n \sqrt{n}$).
 
+\subsubsection{Fuerza Bruta}
+Las diferencias entre el algoritmo de fuerza bruta y el implementado son principalmente dos en EsPrimo:
+\begin{itemize}
+\item El algoritmo verificar'a si alg'un primo menor a $n$ lo divide, en lugar de verificar hasta $\sqrt{n}$.
+\item No posee una lista de primos menores a $n$, por lo que deber'a verificar para cada natural $p$ desde 2 hasta $n$ si es o no primo, donde a su vez deber'a verificar tambi'en si alg'un primo de 2 a $p-1$ lo divide, etc.
+\end{itemize}
+As'i es como la cantidad de llamadas recursivas ser'a expresada en funci'on de la cantidad de llamadas de los valores anteriores (suponiendo que todos los n'umeros de 2 a $n$ son primos). i.e.
+\begin{itemize}
+\item $T(2) = 0$
+\item $T(3) = T(2) + 1 = 0 + 1 = 1$
+\item $T(4) = T(2) + T(3) + 2 = 0 + 1 + 2 = 3$
+\item $T(5) = T(2) + T(3) + T(4) + 3 = 0 + 1 + 3 + 3 = 7$
+\item $T(6) = T(2) + T(3) + T(4) + T(5) + 4 = 0 + 1 + 3 + 7 + 4 = 15$
+\item $T(7) = T(2) + T(3) + T(4) + T(5) + T(6) + 5 = 0 + 1 + 3 + 7 + 15 + 5 = 31$
+\item $\dots$
+\item $T(n) = \sum_{i=2}^{n-1}{T(i)} + (n-2)$
+\end{itemize}
+
+El t'ermino general de la recursi'on es
+$$T(n) = \sum_{i=2}^{n-1}{2^{i-2}} = \sum_{j=0}^{n-3}{2^j} = \frac{2^{n-2}-1}{2-1} = 2^{n-2} - 1$$
+
+Demostraci'on por inducci'on sobre $n$:
+
+\underline{Caso base ($n$ = 2)}:
+$$T(2) = 2^{2-2} - 1 = 0$$
+
+\underline{Caso inductivo (se cumple para $T(n-1) \Longrightarrow$ se cumple para $T(n)$)}:
+$$T(n) = \sum_{i=2}^{n-1}{T(i)} + (n-2) = \sum_{i=2}^{n-2}{T(i)} + T(n-1) + (n-3+1) =$$
+$$\sum_{i=2}^{n-2}{T(i)} + (n-3) + T(n-1) + 1 = T(n-1) + T(n-1) + 1 =  (HI)$$
+$$2*(2^{n-3} - 1) + 1 = 2^{n-2} - 1 $$
+\begin{flushright}
+$\Box$   
+\end{flushright}
+
+Por lo tanto la complejidad de EsPrimo por fuerza bruta es (en el peor caso)
+$$O(2^{n-2}-1) = O(2^n)$$
+
+con lo que de Factorizar por fuerza bruta es
+$$O(n*2^n)$$
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Resultados
@@ -93,7 +134,9 @@ Por lo tanto, como EsPrimo se ejecuta a lo sumo $n$ veces, y en cada llamado cue
 \imagen{img/Tp1Ej4(es_primo).png}{14}{Cantidad de operaciones b'asicas de EsPrimo en funci'on del n'umero de entrada}
 \imagen{img/Tp1Ej4(cant_ep).png}{14}{Cantidad de llamadas a la funci'on EsPrimo desde Factorizacion en funci'on del n'umero a factorizar}
 \imagen{img/Tp1Ej4(factorizacion).png}{14}{Cantidad de operaciones b'asicas de Factorizacion en funci'on del n'umero a factorizar}
+\imagen{img/Tp1Ej4(factorizacion_fb).png}{14}{Cantidad de operaciones b'asicas de Factorizacion mediante el algoritmo 'optimo y el de fuerza bruta en funci'on del n'umero a factorizar}
 \clearpage
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Discusion
@@ -106,11 +149,13 @@ En el segundo se notan patrones peculiares en la distribuci'on de los valores: c
 \item La mayor son la cantidad de llamados que se hicieron a EsPrimo para valores que efectivamente eran primos. Es m'as, los tiempos de {\bf todos} los primos calleron aqu'i. Dado que la distribuci'on es id'entica a la funcion $n$, nos demuestra que el an'alisis te'orico fue correcto: si el valor $n$ a factorizar es primo entonces la cantidad de valores consultados por EsPrimo ser'a del orden de $n$.
 \item La recta que le sigue a la anterior tiene la mitad de pendiente que la anterior, es decir, sigue la funci'on $n/2$. Los valores para los cuales se hacen esta cantidad de llamadas a EsPrimo es cuando en su factorizaci'on aparecen s'olo dos productos, y uno de ellos es el 2. 'Esto tiene mucho sentido debido a que, al encontrar el primer primo f'acilmente (es el primero) el algoritmo deber'a correr hasta encontrar al primo restante. Al no ser 'este compuesto, la cantidad de llamados a EsPrimo que le restan por hacer ser'a del orden de 'este valor. Por lo tanto, la cantidad de llamadas ser'a del orden de $n/2$, lo cual justifica la distribuci'on adoptada.
 \item La siguiente recta tiene pendiente $n/3$, y similarmente al caso anterior, aqu'i recaen aquellos valores que en su factorizaci'on est'a el 3 y otro primo.
-\item La siguiente es $n/4$ y los valores tienen una factorizaci'on de la forma 2*2*otro primo...
-\item etc...
+\item La siguiente es $n/4$ y los valores tienen una factorizaci'on con el 2 dos veces y luego otro primo.
+\item etc\dots
 \end{itemize}
 
 El tercer gr'afico se basa en los dos anteriores. El patr'on de rectas se sigue notando y se debe a la cantidad de llamados a EsPrimo. La cota te'orica es v'alida pero, debido a que la cota en EsPrimo era elevada y la primera se basa en la segunda, aqu'i tambi'en termina si'endolo.
+
+Por 'ultimo, en el cuarto gr'afico se puede ver que nuesto algoritmo es mucho m'as eficiente en comparaci'on con el de fuerza bruta. Y era de esperar ya que nuestro algoritmo es polinomial y el de fuerza bruta, exponencial.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -118,9 +163,3 @@ El tercer gr'afico se basa en los dos anteriores. El patr'on de rectas se sigue 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Conclusiones}
 ?????????????????????????????????
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Referencias
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\subsection{Referencias}

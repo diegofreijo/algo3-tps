@@ -5,16 +5,15 @@
 % Introduccion
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Introducci'on}
-Al comenzar a pensar la soluci'on de 'este ejercicio, partimos de un algortimo por fuerza bruta e intentamos de mejorarlo. Cre'imos que el punto clave en donde se podr'ian ahorrar operaciones era en la multiplicaci'on de matrices. Luego de varios intentos e investigaci'ones por internet, hallamos que exist'ian algoritmos de multiplicaci'on de matrices cuadradas m'as r'apidos que el {\it standart}. 
-¿¿¿¿¿CUAL USAMOS????????????????
+Al comenzar a pensar la soluci'on de 'este ejercicio, partimos de un algortimo por fuerza bruta e intentamos mejorarlo. Cre'imos que el punto clave en donde se podr'ian ahorrar operaciones era en la multiplicaci'on de matrices. Luego de varios intentos e investigaci'ones por internet, hallamos que exist'ian algoritmos de multiplicaci'on de matrices cuadradas m'as r'apidos que el {\it standart} de orden c'ubico sobre las dimensiones de la matriz. Por ejemplo, el algoritmo de Strassen\superindice{\cite{strassen}} del orden de O($k^{2.807}$) y el de Coppersmith-–Winograd\superindice{\cite{cw}} del orden de O($k^{2.376}$). Pero ninguno de ellos fue utilizado. La desici'on provino de notar que los algoritmos eran dif'iciles de implementar y solamente para obtener una peque'na disminuci'on en la complejidad. Evidentemente, el gran salto entre la fuerza bruta y un algoritmo m'as 'optimo no estaba all'i.
 
-Luego se pens'o en atacar el problema m'as desde arriba. Cada multiplicaci'on entre matrices es un algoritmo muy costoso, por lo que nos pareci'o interesante lograr disminu'ir el n'umero de 'estas al realizar la potenciaci'on. La primer idea que surgi'o fue de suponer al exponente como potencia de 2, por ejemplo 4. Por fuerza bruta, el algoritmo hubiese hecho
+Entonces se pens'o en atacar el problema m'as desde arriba. Cada multiplicaci'on entre matrices es una operaci'on muy costosa, por lo que nos pareci'o interesante lograr disminu'ir el n'umero de 'estas al realizar la potenciaci'on. La primer idea que surgi'o fue de suponer al exponente como potencia de 2, por ejemplo 4. Por fuerza bruta, el algoritmo hubiese hecho
 $$A = A*A*A*A$$
 costando tres multiplicaciones (complejidad lineal). Pero 'esto se puede mejorar, ya que
 $$A = (A^2)^2$$
 con lo que la cantidad de multiplicaciones requeridas hubiesen sido una para multiplicar $A$ por s'i misma ($A^2$) y otra para multiplicar el resultado por s'i mismo ($(A^2)^2$), disminuyendo en una tercera parte la cantidad de multiplicaciones. En efecto, la complejidad resultante (contando solamente multiplicaciones) ser'ia logar'itmica. Pero hab'ia un serio problema de fondo: el exponente no ten'ia porque ser potencia de dos.
 
-Con ello en mente, buscamos informaci'on sobre como aplicar la misma idea a cualquier exponente. Y nos encontramos con el algortimo de potenciaci'on binaria ({\it binary power}) \cite{binpow}. 'Este utiliza la misma idea que ten'iamos pero salva los casos que no son potencia de dos tomando la representaci'on binaria del exponente. As'i es como funciona:
+Con ello en mente, buscamos informaci'on sobre como aplicar la misma idea a cualquier exponente. Y nos encontramos con el algortimo de potenciaci'on binaria ({\it binary power})\superindice{\cite{binpow}}. 'Este utiliza la misma idea que ten'iamos pero salva los casos que no son potencia de dos tomando la representaci'on binaria del exponente. As'i es como funciona:
 
 \begin{itemize}
 	\item Suponer que quiero realizar $A^n$.
@@ -25,7 +24,7 @@ Con ello en mente, buscamos informaci'on sobre como aplicar la misma idea a cual
 	n = \sum_{i=0}^{k-1} b_i * 2^i
 \end{equation}
 o sea que para formar a $n$ debo sumar aquellas potencias de 2 en donde su d'igito binario de $n$ es 1.
-	\item De 'esta forma es f'acil construirse el algoritmo. La matriz resultado comienza siendo la identidad (considerar que equivale a $A^0$). A su vez tengo otra matriz con exponentes de $A$ potencias de dos (comienza tambi'en siendo $A^0$). Voy tomando los valores de $b_0$ en adelante y en donde halla un uno, multiplico la matriz resultado por la de las potencias (ya que la multiplicaci'on entre las matrices se toma como una suma entre los exponentes). Al final de cada iteraci'on elevo al cuadrado la matriz de las potencias de 2 para pasar a la siguiente. Repitiendo con cada $b_i$ es como voy transformando el exponente del resultado en $n$. Al terminar con $b_{k-1}$, 'este va a ser efectivamente $n$ (y la justificaci'on es la sumatoria expresada en (\ref{sumabin})).
+	\item De 'esta forma es f'acil construirse el algoritmo. La matriz resultado comienza siendo la identidad (considerar que equivale a $A^0$). A su vez tengo otra matriz con exponentes de $A$ potencias de dos (comienza tambi'en siendo $A^0$). Voy tomando los valores de $b_0$ en adelante y en donde halla un uno, multiplico la matriz resultado por la de las potencias (ya que la multiplicaci'on entre las matrices repercute como una suma entre los exponentes). Al final de cada iteraci'on elevo al cuadrado la matriz de las potencias de 2 para pasar a la siguiente. Repitiendo con cada $b_i$ es como voy transformando el exponente del resultado en $n$. Al terminar con $b_{k-1}$, 'este va a ser efectivamente $n$ (y la justificaci'on es la sumatoria expresada en (\ref{sumabin})).
 \end{itemize}
 
 'Este algoritmo es del orden de $2*log_2(n)$ multiplicaciones en el peor caso, con lo que nos quedamos bastante satisfechos y fue el utilizado.
@@ -92,11 +91,24 @@ Al algoritmo Potenciar se le hicieron peque'nos cambios al implementarlo con el 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Analisis de complejidad
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Analisis de complejidad}
+\subsection{An'alisis de complejidad}
 \subsubsection{Multiplicar}
+
+{\bf\small Modelo Uniforme}
+
 F'acilmente se puede ver en el algoritmo que para cada fila de $A$ (las cuales son $k$) y cada columna de $B$ (las cuales tambi'en son $k$) se debe recorrer cada elemento de ellas (los cuales, nuevamente, son $k$).
  
 Luego, la complejidad es O($k^3$).
+
+\vspace{2em}
+
+{\bf\small Modelo Logar'itmico}
+
+Si se considera que los valores de entrada no est'an acotados, entonces la complejidad de las multiplicaciones entre cada valor y al igual que las sumas de 'estas no ser'a constante.
+
+Para facilitar los c'alculos, se considerar'a que todos los valores de la matriz ser'an el m'as grande de todos y que por consiguiente m'as espacio ocupe. 'Esto no afectar'a la validez del resultado ya que se estar'a calculando un orden, una cota superior. Supongo que $m$ es 'este valor. Luego, el espacio que ocupar'a su representaci'on binaria ser'a $t = \lceil \log_2(m) \rceil$. De 'esta forma, cada operaci'on aritm'etica entre elementos de la matriz costar'a $t$ operaciones b'asicas.
+
+Por lo tanto cada multiplicaci'on entre cada $A_{it}$ y $B_{tj}$ costar'a $t$. Notar que el resultado ser'a $m^2$, con lo que la primer suma de la sumatoria costar'a $\log_2(m^2) = 2\log_2(m) = 2t$. La segunda suma ser'a entre el resultado de la primera ($2m^2$) y $m^2$, por lo que costar'a
 
 
 \subsubsection{Potenciar}
@@ -109,6 +121,11 @@ para alg'un $t \in \nat$.
 Ya que con un $n$ as'i se realizar'an 2 multiplicaciones por cada d'igito binario suyo, y que la cantidad de 'estos es $\log_2(n)$, la cantidad de multiplicaciones ser'an O($2*\log_2(n)$). Pero, como cada multiplicaci'on es O($k^3$), la complejidad de Potenciar ser'a
 $$O(2*\log_2(n)*k^3) = O(\log_2(n)*k^3)$$
 
+Notar que el mejor caso ser'a aquel donde $n$ tenga la mayor cantidad de ceros posible en su representaci'on binaria. 'Es decir, $n = 100\dots 00$. Por lo tanto, el mejor caso ser'a con $n$ potencia de dos.
+
+
+\subsubsection{Fuerza Bruta}
+El cambio con respecto a la fuerza bruta recae en Potenciar exclusivamente. Aqu'i, para calcular $A^n$ se ir'a multiplicando el resultado actual con $A$ hasta formar $A^n$. M'as exactamente, se realizar'an $n-1$ multiplicaciones. Por lo tanto, la complejidad ser'a O($(n-1) * k^3$) = O($n*k^3$).
 
 
 
@@ -120,12 +137,20 @@ $$O(2*\log_2(n)*k^3) = O(\log_2(n)*k^3)$$
 \imagen{img/Tp1Ej3(multiplicar).png}{14}{Cantidad de operaciones b'asicas de Multiplicar en funci'on de las dimensiones de las matrices}
 \imagen{img/Tp1Ej3(cant_mul).png}{14}{Cantidad de multiplicaciones realizadas en Potenciar en funci'on del exponente}
 \imagen{img/Tp1Ej3(potenciar).png}{14}{Cantidad de operaciones b'asicas de Potenciar en funci'on del exponente y las dimensiones de las matrices}
+\imagen{img/Tp1Ej3(potenciar_fb).png}{14}{Cantidad de operaciones b'asicas de Potenciar mediante el algoritmo 'optimo y el de fuerza bruta en funci'on del exponente y las dimensiones de las matrices}
 \clearpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Discusion
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Discusi'on}
+El primer gr'afico muestra que la complejidad te'orica y pr'actica son pr'acticamente la misma. Era de esperar un comportamiento as'i ya que el algoritmo es muy simple. Adem'as, la curva pr'actica est'a bien definida por ser el algoritmo $\Theta$($k^3$) en cualquier caso, no simplemente el "peor" (porque, en realidad, aqu'i no existe peor caso). Las constantes a la hora de sumar los valores son los responsables de ese $5*k^2$ adicional en comparaci'on con el caso te'orico (siguen estando en el mismo orden por ser $k^2 < k^3$).
+
+En el segundo se ve la cantidad de multiplicaciones matriciales que realiza Potenciar en funci'on de $n$. Se verifica que en la pr'actica 'esta cantidad es exactamente $2*\log_2(n)$ en el peor caso. Es decir, es exactamente como se calcul'o te'oricamente. Notar que siempre el valor siguiente a un peor caso es de los mejores casos (es decir, cuando el exponente es potencia de 2) como tambi'en se calcul'o te'oricamente.
+
+El tercer gr'afico se apoya en los dos anteriores. 'Es decir, como las complejidades te'oricas anteriores fueron v'alidas, es de esperar que 'esta tambi'en lo sea ya que, como se ve en el an'alisis de la complejidad, se basa en 'estas dos. Y efectivamente, el orden de la complejidad te'orica es buena cota de la complejidad pr'actica.
+
+Por 'ultimo, el cuarto gr'afico es el an'alisis contra el algoritmo de fuerza bruta. Como era de esperar, al necesitar m'as multiplicaciones el segundo que el primero la cantidad total de operaciones b'asicas realizadas es notablemente mayor a medida que $n$ y $k$ aumentan.
 
 
 
@@ -134,17 +159,3 @@ $$O(2*\log_2(n)*k^3) = O(\log_2(n)*k^3)$$
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Conclusiones}
 ????????????
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Referencias
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Referencias}
-\begin{thebibliography}{99}
-
-	\bibitem{cw} Algoritmo de Coppersmith-–Winograd para la multiplicaci'on de matrices cuadradas:\\  {\it http://en.wikipedia.org/wiki/Coppersmith\%E2\%80\%93Winograd\_algorithm}
-
-	\bibitem{strassen} Algoritmo de Strassen para la multiplicaci'on de matrices cuadradas:\\  {\it http://en.wikipedia.org/wiki/Strassen\_algorithm}
-
-	\bibitem{binpow} {\it http://wiki.octave.org/wiki.pl?CodaTutorial}
-
-\end{thebibliography}

@@ -20,6 +20,7 @@ public abstract class Ej3
 	static String ruta_contar_mul = "ej3\\dat\\Tp1Ej3(multiplicar).dat";
 	static String ruta_contar_cant_mul = "ej3\\dat\\Tp1Ej3(cant_mul).dat";
 	static String ruta_contar_pot = "ej3\\dat\\Tp1Ej3(potenciar).dat";
+	static String ruta_contar_pot_fb = "ej3\\dat\\Tp1Ej3(potenciar_fb).dat";
 	
 	// Contadores de operaciones
 	private static long op_mul;
@@ -104,6 +105,28 @@ public abstract class Ej3
 		}
 		Estadistica.GuardarDatos(ruta_contar_pot, estadistica);
 	}
+	
+	public static void Contar_Potenciar_FuerzaBruta()
+	{
+		System.out.println("Contando operaciones de Potenciar por Fuerza Bruta:");
+		System.out.println("===================================================");
+		
+		Matriz prueba;
+		List<Punto3d> estadistica = new LinkedList<Punto3d>();
+		
+		for(int k = 2; k <= 40; ++k)
+		{
+			prueba = new Matriz(k);
+			for(int n = 1; n <= 40; ++n)
+			{
+				op_mul = 0; op_pot = 0;
+				prueba = prueba.Potenciar_FuerzaBruta(n);
+				System.out.println("(k = " + k + ") n = " + n + " ---> " + (op_mul + op_pot));
+				estadistica.add(new Punto3d((long)k, (long)n, op_mul + op_pot));
+			}
+		}
+		Estadistica.GuardarDatos(ruta_contar_pot_fb, estadistica);
+	}
 
 	private static class Matriz
 	{
@@ -161,6 +184,31 @@ public abstract class Ej3
 						ret = ret.Multiplicar(pot2); ++op_pot; ++cant_mul;
 					}
 					pot2 = pot2.Multiplicar(pot2); ++op_pot; ++cant_mul;
+				}
+			}
+			
+			++op_pot;
+			return ret;
+		}
+		
+		public Matriz Potenciar_FuerzaBruta(int n)
+		{
+			Matriz ret; ++op_pot;
+			
+			if(n <= 0)
+			{
+				ret = new Matriz(k); op_pot += k*k;
+				ret.Identidad(); op_pot += k*k;
+			}
+			else
+			{
+				ret = new Matriz(this); ++op_pot;
+				
+				while(n > 1)
+				{
+					++op_pot;
+					ret = ret.Multiplicar(this); ++op_pot;
+					--n; ++op_pot;
 				}
 			}
 			
