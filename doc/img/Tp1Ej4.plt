@@ -20,5 +20,11 @@ set output "Tp1Ej4(factorizacion).png"
 plot '..\..\ej4\dat\Tp1Ej4(factorizacion).dat' tit 'Práctica', x*sqrt(x) tit 'Teórica [n*sqrt(n)]'
 
 
+set xlabel "Número entrada (n)"
+set ylabel "Operaciones básicas"
+set output "Tp1Ej4(factorizacion_fb).png"
+plot '..\..\ej4\dat\Tp1Ej4(factorizacion).dat' tit 'Óptimo', '..\..\ej4\dat\Tp1Ej4(factorizacion_fb).dat' tit 'Fuerza Bruta'
+
+
 set output
 set terminal win

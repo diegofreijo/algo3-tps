@@ -21,5 +21,12 @@ set output "Tp1Ej3(potenciar).png"
 splot '..\..\ej3\dat\Tp1Ej3(potenciar).dat' tit 'Práctica', log(y)/log(2)*x*x*x tit 'Teórica [log2(n)*k^3]', log(y)/log(2)*x*x*x + 7*x*x*x tit 'Teórica ajustada [log2(n)*k^3 + 7*k^3]'
 
 
+set xlabel "Dimensiones de la matriz (k)"
+set ylabel "Exponente (n)"
+set zlabel "Operaciones básicas"
+set output "Tp1Ej3(potenciar_fb).png"
+splot '..\..\ej3\dat\Tp1Ej3(potenciar).dat' tit 'Óptimo', '..\..\ej3\dat\Tp1Ej3(potenciar_fb).dat' tit 'Fuerza Bruta'
+
+
 set output
 set terminal win
