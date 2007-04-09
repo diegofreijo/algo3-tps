@@ -5,31 +5,111 @@
 % Introduccion
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Introducci'on}
+Para comenzar a pensar este ejercicio, se descarto de lleno la opcion de fuerza bruta. Se busco una que podara la mayoria de los casos que no sirven. Donde se ahorran la mayoria de los casos es al encontrar un caso que no sirve, se siga buscando en ese mismo conjunto, un elemento mas abajo.
+Lo que se hizo en este algoritmo es primero colocar los primeros elementos de ambos conjuntos, lo cual esta garantizado que es la tupla mas grande en valor. Luego, se elige arbitrariamente el primero de uno, con el segundo del otro. Se busca los mayores a esta tupla, descartando al encontrar un caso menor, ya que si, por ejemplo A[i]+B[j] es menor al valor de referencia, A[i]+B[j+1] tambien lo sera, por la precondici'on de que ambos conjuntos vienen ordenados. Luego de conseguir estas sumas, se vuelve a buscar mayores, pero en este caso con los proximos dos elementos del mismo indice. Esta vez se busca tanto las variaciones del conjunto B con el A, como las del A con el B. Luego, quedan generados 3 listas con candidatos para ingresar. Se ordena esta lista y se agregan a la lista final hasta que se llene. En caso contrario, que falten casos, se vuelve a implementar el procedimiento.
 
+Para ordenar la lista, primero se tienen que ordenar las listas candidatas. Para lo primero se utilizo un Quick Sort por sobre el Selection Sort, ya que, aunque ambos tienen la misma complejidad en peor caso, el Quick Sort se comporta mucho mejor en casos promedio, como se puede ver en el grafico de los resultados.
+Para el segundo, se utiliza un Merge Sort para crear una nueva lista ordenada desde las tres listas anteriores.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Detalles de implementacion
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Detalles de implementaci'on}
+Se cre'o la clase Datos para contener a los dos conjuntos iniciales y se cre'o la clase Instancia para contener ambos conjuntos y el n del tamaño.
 
+Como detalle, se puede mencionar que el algoritmo se optimizo un poco mas utilizando en algunos casos Linked Lists en vez de Array Lists, ya que las primeras tienen una complejidad de lectura constante y de inserci'on lineal. Esto hubiese ahorro la lectura de los conjuntos iniciales, que se realiza en varias oportunidades. Los conjuntos, tanto temporales como el del resultado, siguen siendo ArrayLists, ya que en ellos se inserta mas de lo que se lee, y en este caso, la insercion es constante.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Pseudocodigo
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Pseudoc'odigo}
-
+El resto del algoritmo se realiz'o como se detalla en la introducci'on.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Respuestas
+% Pseudocodigos
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Respuestas}
-????????????
+\clearpage
+\subsection{Pseudoc'odigos}
+
+\algoritmo{Mayores($A,B$)}{Devuelve mayores sumas entre $A$ y $B$}{O($4n^2+n$)}
+\begin{algorithmic}[1]
+\REQUIRE A y B ordenados
+\STATE $i \leftarrow 0$
+\WHILE{n > 0}
+	\STATE $ret.agregar(A[i],B[i])$ 
+	\STATE $valor \leftarrow A[i]+B[i+1]$
+	\STATE $mayores \leftarrow BuscoMayor(valor,A,B,i)$
+	\STATE $valor1 \leftarrow A[i+1]+B[i+1]$
+	\STATE $menores \leftarrow BuscoMayor(valor1,A,B,i)$
+	\STATE $menores1 \leftarrow BuscoMayor(valor1,B,A,i)$
+	\STATE $Ordenar(mayores)$
+	\STATE $Ordenar(menores)$
+	\STATE $Ordenar(menores1)$
+	\STATE $Ingresar.agregar(mayores,menores,menores1)$
+	\STATE $OrdenarListas(ingresar)$
+	\STATE $j \leftarrow 0$
+	\WHILE{n > 0}
+		\STATE $ret.agregar(ingresar(j))$
+		\STATE $j++$
+	\ENDWHILE
+	\STATE $i++$
+\ENDWHILE
+
+\end{algorithmic}
+
+\vspace{2em}
+
+\algoritmo{BuscoMayor(valor,A,B,i)}{Devuelve la lista de tuplas mayores a $valor$}{O($n^2$)}
+\begin{algorithmic}[1]
+\REQUIRE A y B ordenados
+\STATE $k \leftarrow 0$
+\WHILE{k <= i}
+	\STATE $j = i+1$
+	\WHILE{j < tamaño(A)}
+		\IF{A[j]+B[k] >= valor}
+			\STATE $ret.agregar(A[j],B[k])$
+			\STATE $j++$
+		\ELSE
+			\STATE $break$
+		\ENDIF
+	\ENDWHILE
+	\STATE $k++$
+\ENDWHILE
+\RETURN ret
+
+\end{algorithmic}
+
+\vspace{2em}
+
+Los Algoritmos Ordenar y OrdenarListas corresponden a los habituales algoritmos Quick Sort y Merge Sort, cambiando los enteros por la lista de tuplas. Sus complejidades respectivas en peor caso son $x^2$ y $x*log(x)$ respectivamente.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Analisis de complejidad
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Analisis de complejidad}
+\subsubsection{Mayores}
+{\bf\small Modelo Uniforme}
 
+Tamaño de la entrada = 2 * cantidad de elementos del conjuntos = x
+
+La complejidad de Mayores es de O($4x^2+x+x*log(x)$). Los $x^2$ corresponden a las 3 veces que llama al algoritmo BuscoMayor, la $x*log(x)$ corresponde al Merge Sort para ordenar a los candidates y la $x$ restante es del agregado de los candidatos a la lista de retorno Ret.
+El resto de las operaciones son basicas, o, en el caso del costo del acceso a las listas, las cuales son Linked Lists, que es constante.
+
+\subsubsection{BuscoMayor}
+
+Este algoritmo recorre $i$ veces la lista B desde $n-i$ hasta $n$. En el peor caso es que $i$ sea $n/2$, lo cual hace recorrer $x/2 * x/2$ veces. Por lo tanto, la complejidad del algoritmo es O($x^2$). Las restantes operaciones realizadas son O(1) dentro del algoritmo.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Resultados
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\subsection{Resultados}
+\imagen{img/Tp1Ej1(totales).png}{14}{Cantidad de operaciones b'asicas del algoritmo completo}
+\imagen{img/Tp1Ej1(val).png}{14}{Cantidad de operaciones b'asicas del algoritmo Valor}
+\imagen{img/Tp1Ej1(ord).png}{14}{Cantidad de operaciones b'asicas del algoritmo Ordenar}
+\imagen{img/Tp1Ej1(orl).png}{14}{Cantidad de operaciones b'asicas del algoritmo OrdenarListas}
+\imagen{img/Tp1Ej1(may).png}{14}{Cantidad de operaciones b'asicas del algoritmo Mayores}
+\imagen{img/Tp1Ej1(bus).png}{14}{Cantidad de operaciones b'asicas del algoritmo BuscoMayor}
+\imagen{img/Tp1Ej1(QS vs SS).png}{14}{Comparaci'on de Cantidad de operaciones b'asicas del algoritmo Quick Sort contra Selection Sort}
+\imagen{img/Tp1Ej1(ah vs bus).png}{14}{Cantidad de operaciones b'asicas ahorradas contra hechas}
+\clearpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Comentarios
@@ -44,4 +124,3 @@
 \begin{itemize}
     \item Referencias???
 \end{itemize}
-
