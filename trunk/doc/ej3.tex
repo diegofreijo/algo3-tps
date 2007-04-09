@@ -5,7 +5,7 @@
 % Introduccion
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Introducci'on}
-Al comenzar a pensar la soluci'on de 'este ejercicio, partimos de un algortimo por fuerza bruta e intentamos mejorarlo. Cre'imos que el punto clave en donde se podr'ian ahorrar operaciones era en la multiplicaci'on de matrices. Luego de varios intentos e investigaci'ones por internet, hallamos que exist'ian algoritmos de multiplicaci'on de matrices cuadradas m'as r'apidos que el {\it standart} de orden c'ubico sobre las dimensiones de la matriz. Por ejemplo, el algoritmo de Strassen\superindice{\cite{strassen}} del orden de O($k^{2.807}$) y el de Coppersmith-–Winograd\superindice{\cite{cw}} del orden de O($k^{2.376}$). Pero ninguno de ellos fue utilizado. La desici'on provino de notar que los algoritmos eran dif'iciles de implementar y solamente para obtener una peque'na disminuci'on en la complejidad. Evidentemente, el gran salto entre la fuerza bruta y un algoritmo m'as 'optimo no estaba all'i.
+Al comenzar a pensar la soluci'on de 'este ejercicio, partimos de un algortimo por fuerza bruta e intentamos mejorarlo. Cre'imos que el punto clave en donde se podr'ian ahorrar operaciones era en la multiplicaci'on de matrices. Luego de varios intentos e investigaci'ones por internet, hallamos que exist'ian algoritmos de multiplicaci'on de matrices cuadradas m'as r'apidos que el {\it standart} de orden c'ubico sobre las dimensiones de la matriz. Por ejemplo, el algoritmo de Strassen\superindice{\cite{strassen}} del orden de O($k^{2.807}$) y el de Coppersmith-–Winograd\superindice{\cite{cw}} del orden de O($k^{2.376}$). Pero ninguno de ellos fue utilizado. La desici'on provino de notar que los algoritmos eran dif'iciles de implementar y solamente para obtener una peque'na disminuci'on en la complejidad. Adem'as, los c'alculos de complejidad (especialmente en el modelo logar'itmico) se hubiesen complejizado demasiado. Evidentemente, el gran salto entre la fuerza bruta y un algoritmo m'as 'optimo no estaba all'i.
 
 Entonces se pens'o en atacar el problema m'as desde arriba. Cada multiplicaci'on entre matrices es una operaci'on muy costosa, por lo que nos pareci'o interesante lograr disminu'ir el n'umero de 'estas al realizar la potenciaci'on. La primer idea que surgi'o fue de suponer al exponente como potencia de 2, por ejemplo 4. Por fuerza bruta, el algoritmo hubiese hecho
 $$A = A*A*A*A$$
@@ -21,13 +21,13 @@ Con ello en mente, buscamos informaci'on sobre como aplicar la misma idea a cual
 	\item Claramente 
 \begin{equation}
 	\label{sumabin}
-	n = \sum_{i=0}^{k-1} b_i * 2^i
+	n = \sum_{i=0}^{k-1} b_i  2^i
 \end{equation}
 o sea que para formar a $n$ debo sumar aquellas potencias de 2 en donde su d'igito binario de $n$ es 1.
 	\item De 'esta forma es f'acil construirse el algoritmo. La matriz resultado comienza siendo la identidad (considerar que equivale a $A^0$). A su vez tengo otra matriz con exponentes de $A$ potencias de dos (comienza tambi'en siendo $A^0$). Voy tomando los valores de $b_0$ en adelante y en donde halla un uno, multiplico la matriz resultado por la de las potencias (ya que la multiplicaci'on entre las matrices repercute como una suma entre los exponentes). Al final de cada iteraci'on elevo al cuadrado la matriz de las potencias de 2 para pasar a la siguiente. Repitiendo con cada $b_i$ es como voy transformando el exponente del resultado en $n$. Al terminar con $b_{k-1}$, 'este va a ser efectivamente $n$ (y la justificaci'on es la sumatoria expresada en (\ref{sumabin})).
 \end{itemize}
 
-'Este algoritmo es del orden de $2*log_2(n)$ multiplicaciones en el peor caso, con lo que nos quedamos bastante satisfechos y fue el utilizado.
+'Este algoritmo es del orden de $2log_2(n)$ multiplicaciones en el peor caso, con lo que nos quedamos bastante satisfechos y fue el utilizado.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -50,7 +50,7 @@ Al algoritmo Potenciar se le hicieron peque'nos cambios al implementarlo con el 
 \clearpage
 \subsection{Pseudoc'odigos}
 
-\algoritmo{Potenciar($A,n$)}{Devuelve $A^n$}{O($log_2(n)*k^3$)}
+\algoritmo{Potenciar($A,n$)}{Devuelve $A^n$}{O($log_2(n)k^3$)}
 \begin{algorithmic}[1]
 \REQUIRE $A \in \nat^{k \times k}$
 \IF{$n = 0$}
@@ -78,7 +78,7 @@ Al algoritmo Potenciar se le hicieron peque'nos cambios al implementarlo con el 
 	\STATE $ret \in \nat^{k \times k}$
 	\FOR{$i = 1 \dots k$}
 		\FOR{$j = 1 \dots k$}
-			\STATE $ret_{ij} \leftarrow \sum_{t=1}^{k}{A_{it}*B_{tj}}$
+			\STATE $ret_{ij} \leftarrow \sum_{t=1}^{k}{A_{it}B_{tj}}$
 		\ENDFOR
 	\ENDFOR
 	\RETURN $ret$
@@ -94,38 +94,74 @@ Al algoritmo Potenciar se le hicieron peque'nos cambios al implementarlo con el 
 \subsection{An'alisis de complejidad}
 \subsubsection{Multiplicar}
 
-{\bf\small Modelo Uniforme}
+\subsubsubsection{Modelo Uniforme}
 
-F'acilmente se puede ver en el algoritmo que para cada fila de $A$ (las cuales son $k$) y cada columna de $B$ (las cuales tambi'en son $k$) se debe recorrer cada elemento de ellas (los cuales, nuevamente, son $k$).
+F'acilmente se puede ver en el algoritmo que para cada fila de $A$ (las cuales son $k$) y cada columna de $B$ (las cuales tambi'en son $k$) se debe recorrer cada elemento de ellas (los cuales, nuevamente, son $k$). Notar que siempre realiza lo mismo, sin importar de $k$ o los valores en la matriz, por lo que no hay mejor ni peor caso.
  
-Luego, la complejidad es O($k^3$).
+Luego, la complejidad uniforme es O($k^3$).
+
+Notar que el tama'no de la entrada ser'a la cantidad de elementos en la matriz, ya que el tama'no de cada uno de 'estos est'a acotado. Es decir, $t = 2k^2$. Por lo tanto, la complejidad uniforme es O($\sqrt{t/2}\ t/2$) = O($\sqrt{t}\ t$), con lo que es \negrita{superlineal} en funci'on del tama'no de entrada.
 
 \vspace{2em}
 
-{\bf\small Modelo Logar'itmico}
+\subsubsubsection{Modelo Logar'itmico}
 
-Si se considera que los valores de entrada no est'an acotados, entonces la complejidad de las multiplicaciones entre cada valor y al igual que las sumas de 'estas no ser'a constante.
+Si se considera que los valores de entrada no est'an acotados, entonces la complejidad de las multiplicaciones entre cada valor y de las sumas de 'estas no ser'a constante.
 
-Para facilitar los c'alculos, se considerar'a que todos los valores de la matriz ser'an el m'as grande de todos y que por consiguiente m'as espacio ocupe. 'Esto no afectar'a la validez del resultado ya que se estar'a calculando un orden, una cota superior. Supongo que $m$ es 'este valor. Luego, el espacio que ocupar'a su representaci'on binaria ser'a $t = \lceil \log_2(m) \rceil$. De 'esta forma, cada operaci'on aritm'etica entre elementos de la matriz costar'a $t$ operaciones b'asicas.
+Para facilitar los c'alculos, se considerar'a que todos los valores de la matriz ser'an el m'as grande de todos y el que, por consiguiente, m'as espacio ocupe. 'Esto no afectar'a la validez del resultado ya que se estar'a calculando un orden, una cota superior. Supongo que $m$ es 'este valor. Luego, el espacio que ocupar'a su representaci'on binaria ser'a $\lceil \log_2(m+1) \rceil$. Como es del orden de O($\log_2(m)$), simplemente se considerar'a a 'este como el tama'no de $m$. De 'esta forma, realizar $m+m$ y $m*m$ se considerar'a que cuestan O($2\log_2(m)$) = O($\log_2(m)$) cada operaci'on.
 
-Por lo tanto cada multiplicaci'on entre cada $A_{it}$ y $B_{tj}$ costar'a $t$. Notar que el resultado ser'a $m^2$, con lo que la primer suma de la sumatoria costar'a $\log_2(m^2) = 2\log_2(m) = 2t$. La segunda suma ser'a entre el resultado de la primera ($2m^2$) y $m^2$, por lo que costar'a
+En Multiplicar, para calcular cada valor del resultado se deben multiplicar $m$ con $m$ tantas veces como la dimension de la matriz. 'Estos productos deber'an ser sumados entre s'i. Primero $m^2+m^2$, luego $2m^2+m^2$, luego $3m^2+m^2$, etc. Es decir que cada suma costar'a 
+$$ O(\log_2(cm^2)+\log_2(m^2)) = O(2\log_2(m) + \log_2(c) + 2\log_2(m)) = O(\log_2(m))$$
+
+Por lo tanto, para calcular un valor de la matriz resultado, se deber'an calcular $k$ productos cada uno con un costo de O($\log_2(m)$) y $k-1$ sumas cada una con el mismo costo. 'Esto se deber'a realizar para cada elemento de la matriz resultado, la cual contiene $k^2$ de ellos. Luego, la complejidad logar'itmica de Multiplicar estar'a dada por
+$$O((k\log_2(m) + (k-1)\log_2(m))k^2) = O(k^3\log_2(m))$$
+
+Notar que si $m$ estuviese acotado se pasar'ia a hablar de modelo uniforme. Y la complejidad reci'en calculada lo refleja ya que O($\log_2(m)$) pasar'ia a ser O(1), dando la misma complejidad que en 'ese modelo: O($k^3$).
+
+El tama'no de la entrada ser'a igual a la suma de los tama'nos de todos los elementos de cada matriz:
+$$t = \sum_{i=1}^k\sum_{j=1}^k \log_2(A_{ij})+\log_2(B_{ij})$$
+
+Pero como se considera que todos los elementos de cada una son $m$, el tama'no se puede expresar como
+$$t = \sum_{i=1}^k\sum_{j=1}^k \log_2(m)+\log_2(m) = 2k^2\log_2(m)$$
+
+Por lo tanto, la complejidad logar'itmica ser'a 
+$$O\left(\sqrt{\frac{t}{2\log(m)}}\frac{t}{2}\right) = ?????????????????????????????$$
+con lo que ser'a \negrita{superlineal} en funci'on del tama'no de la entrada.
 
 
 \subsubsection{Potenciar}
-Dado que una multiplicaci'on entre matrices es muy costosa, y que es la m'as costosa en 'este algoritmo,  el peor de los casos para Potenciar ser'a cuando deba realizar la mayor cantidad de 'estas. Como $pot2$ siempre ser'a elevada al cuadrado, en cada iteraci'on se realizar'a por lo menos una multiplicaci'on. Pero la otra, correspondiente a $ret * pot2$, s'olo cuando el $n$ actual sea impar. 'Esto, como mejor se explic'o en la Introducci'on del presente, sucede si se encuentra un 1 en la representaci'on binaria de $n$. 
+
+\subsubsubsection{Modelo Uniforme}
+
+Dado que una multiplicaci'on entre matrices es muy costosa, y que es la m'as costosa en 'este algoritmo\footnote{Notar que el costo de copiar $A$ en $ret$ y $pot2$ es del orden O($k^2$) cada una, pero como s'olo se ejecutan una vez, y la complejidad de Multiplicar es mayor por ser O($k^3$), se desprecian.},  el peor de los casos para Potenciar ser'a cuando deba realizar la mayor cantidad de 'estas. Como $pot2$ siempre ser'a elevada al cuadrado, en cada iteraci'on se realizar'a por lo menos una multiplicaci'on. Pero la otra, correspondiente a $ret * pot2$, s'olo cuando el $n$ actual sea impar. 'Esto, como mejor se explic'o en la Introducci'on del presente, sucede si se encuentra un 1 en la representaci'on binaria de $n$. 
 
 Por lo tanto, el peor $n$ de entrada ser'a aquel con todos unos en su representaci'on binaria. Y 'esto es equivalente a decir que
 $$n = 2^t-1$$
-para alg'un $t \in \nat$.
+para alg'un $t\in\nat$.
 
-Ya que con un $n$ as'i se realizar'an 2 multiplicaciones por cada d'igito binario suyo, y que la cantidad de 'estos es $\log_2(n)$, la cantidad de multiplicaciones ser'an O($2*\log_2(n)$). Pero, como cada multiplicaci'on es O($k^3$), la complejidad de Potenciar ser'a
+Ya que con un $n$ as'i se realizar'an 2 multiplicaciones por cada d'igito binario suyo, y que la cantidad de 'estos es $\log_2(n)$, la cantidad de multiplicaciones ser'an O($2*\log_2(n)$). Pero, como cada multiplicaci'on es O($k^3$), la complejidad uniforme de Potenciar ser'a
 $$O(2*\log_2(n)*k^3) = O(\log_2(n)*k^3)$$
 
 Notar que el mejor caso ser'a aquel donde $n$ tenga la mayor cantidad de ceros posible en su representaci'on binaria. 'Es decir, $n = 100\dots 00$. Por lo tanto, el mejor caso ser'a con $n$ potencia de dos.
 
+El tama'no de la entrada estar'a dado por la cantidad de elementos de la matriz, ya que cada uno de 'estos (al igual 
+que $n$) estar'an acotados. Es decir, $t = k^2$. Por lo tanto, la complejidad uniforme ser'a O($\log_2(n)\sqrt{t}\ t$), con lo que ser'a \negrita{superlineal} en funci'on del tama'no de la entrada.
+
+
+\vspace{2em}
+
+\subsubsubsection{Modelo Logar'itmico}
+Dado el enunciado, se considerar'a que $n = 2^t$ para alg'un $t\in\nat$, adem'as de las suposiciones hechas en el c'alculo de Multiplicar.
+
+Dado que $n$ es potencia de 2, mientras que sea mayor a 1 se ejecutar'an dos divisiones enteras (costando cada una O($\log_2(n)$)) y una multiplicaci'on matricial (costando, como se demostr'o, O($k^3\log_2(m)$) siendo $m$ el mayor elemento de $pot2$). Notar que 'este ciclo se repetir'a $\log_2(n)$ veces. En la 'ultima iteraci'on, cuando $n=1$, se agregar'a una multiplicaci'on adicional. 'Esta costar'a O($k^3\log_2(m)$) con $m$ el mayor elemento en $pot2$ y $ret$, pero como $ret$ ser'a $A$ y las potencias de $A$ siempre incrementar'an el valor de todos sus naturales, $m$ contin'ua siendo el mayor elemento de $pot2$.
+
+Luego, la complejidad de Potenciar ser'a
+$$O(\log_2(n)(2\log_2(n)+k^3\log_2(m))+2\log_2(n)+2k^3\log_2(m)) = $$
+$$O(\log^2(n)+\log_2(n)k^3\log_2(m))$$
+
 
 \subsubsection{Fuerza Bruta}
-El cambio con respecto a la fuerza bruta recae en Potenciar exclusivamente. Aqu'i, para calcular $A^n$ se ir'a multiplicando el resultado actual con $A$ hasta formar $A^n$. M'as exactamente, se realizar'an $n-1$ multiplicaciones. Por lo tanto, la complejidad ser'a O($(n-1) * k^3$) = O($n*k^3$).
+El cambio con respecto a la fuerza bruta recae en Potenciar exclusivamente. Aqu'i, para calcular $A^n$ se ir'a multiplicando el resultado actual con $A$ hasta formar $A^n$. M'as exactamente, se realizar'an $n-1$ multiplicaciones. Por lo tanto, la complejidad ser'a O($(n-1)  k^3$) = O($nk^3$).
 
 
 
@@ -144,9 +180,9 @@ El cambio con respecto a la fuerza bruta recae en Potenciar exclusivamente. Aqu'
 % Discusion
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Discusi'on}
-El primer gr'afico muestra que la complejidad te'orica y pr'actica son pr'acticamente la misma. Era de esperar un comportamiento as'i ya que el algoritmo es muy simple. Adem'as, la curva pr'actica est'a bien definida por ser el algoritmo $\Theta$($k^3$) en cualquier caso, no simplemente el "peor" (porque, en realidad, aqu'i no existe peor caso). Las constantes a la hora de sumar los valores son los responsables de ese $5*k^2$ adicional en comparaci'on con el caso te'orico (siguen estando en el mismo orden por ser $k^2 < k^3$).
+El primer gr'afico muestra que la complejidad te'orica y pr'actica son pr'acticamente la misma. Era de esperar un comportamiento as'i ya que el algoritmo es muy simple. Adem'as, la curva pr'actica est'a bien definida por ser el algoritmo O($k^3$) en cualquier caso, no simplemente el "peor" (porque, en realidad, aqu'i no existe peor caso). Las constantes a la hora de sumar los valores son los responsables de ese $5k^2$ adicional en comparaci'on con el caso te'orico (siguen estando en el mismo orden por ser $k^2 < k^3$).
 
-En el segundo se ve la cantidad de multiplicaciones matriciales que realiza Potenciar en funci'on de $n$. Se verifica que en la pr'actica 'esta cantidad es exactamente $2*\log_2(n)$ en el peor caso. Es decir, es exactamente como se calcul'o te'oricamente. Notar que siempre el valor siguiente a un peor caso es de los mejores casos (es decir, cuando el exponente es potencia de 2) como tambi'en se calcul'o te'oricamente.
+En el segundo se ve la cantidad de multiplicaciones matriciales que realiza Potenciar en funci'on de $n$. Se verifica que en la pr'actica 'esta cantidad es exactamente $2\log_2(n)$ en el peor caso. Es decir, es exactamente como se calcul'o te'oricamente. Notar que siempre el valor siguiente a un peor caso es de los mejores casos (es decir, cuando el exponente es potencia de 2) como tambi'en se calcul'o te'oricamente.
 
 El tercer gr'afico se apoya en los dos anteriores. 'Es decir, como las complejidades te'oricas anteriores fueron v'alidas, es de esperar que 'esta tambi'en lo sea ya que, como se ve en el an'alisis de la complejidad, se basa en 'estas dos. Y efectivamente, el orden de la complejidad te'orica es buena cota de la complejidad pr'actica.
 

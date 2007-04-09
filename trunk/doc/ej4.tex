@@ -68,21 +68,62 @@ La otra lista utilizada fue la de $primos$ en Factorizaci'on. El acceso aleatori
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{An'alisis de complejidad}
 \subsubsection{EsPrimo}
+
+\subsubsubsection{Modelo Uniforme}
+
 La idea de este algoritmo se basa en la Criba de Erat'ostenes. Es decir, afirma que si para cierto n'umero $n$ no existe un primo $p$ menor a $\sqrt{n}$ tal que $p\ |\ n$, entonces $n$ es primo. 
 
 F'acilmente se ve que el peor caso es cuando $n$ efectivamente es primo, ya que fue necesario calcular todos los restos por divisi'on entera con los primos menores a $\sqrt{n}$. La mayor cantidad posible de valores le'idos es $\lfloor\sqrt{n}\rfloor$, y viene de suponer que todos los naturales menores a ese valor son primos.
 
 Luego, la complejidad es O($\sqrt{n}$).
 
+\vspace{2em}
+
+\subsubsubsection{Modelo Logar'itmico}
+
+Considero $n$ primo por ser 'este el peor caso. Calcular $\sqrt{n}$ es considerada que cuesta O($\log_2(n)$). Luego se deber'a iterar para cada primo menor o igual que $\sqrt{n}$, por lo que considero que ciclar'a $\sqrt{n}$ veces. Para cada iteraci'on, se deber'an realizar una comparaci'on y una divisi'on entera (en ralidad se calcula el resto, pero es pr'acticamente lo mismo), costando cada una de ellas O($\log_2(n)$). 
+
+Luego, la complejidad es O($\sqrt{n}\log_2(n)$).
+
+\vspace{2em}
+
+\subsubsubsection{En funci'on del tama'no de entrada}
+
+
 
 \subsubsection{Factorizacion}
+
+\subsubsubsection{Modelo Uniforme}
+
 'Este algoritmo devuelve una lista de naturales, ordenados de menor a mayor, representando cada uno a un producto de la factorizaci'on de $n$. 
 
 Para calcularla, comienza por el menor primo (el 2) y verifica si lo es. De serlo, lo agrega a una lista (utilizada luego para probar si los siguientes valores son primos) y comienza a agregarlo a la lista de factores tantas veces como divida a $n$. Luego, incrementa el natural a probar y repite el procedimiento hasta que se hallan obtenido todos los divisores primos.
 
 El peor de los casos es cuando $n$ es primo, ya que se deber'a llamar a EsPrimo $n$ veces (el 'unico divisor que se encontrar'a es $n$). De ser un n'umero compuesto, se llamar'a a lo sumo $n/t$ veces a 'esta funci'on, siendo $t$ el menor primo en la factorizaci'on. Adem'as, el bucle interno que verifica cuantas veces divide un primo a $n$ nunca se ejecutar'a en total (o sea, sumando para todos los primos divisibles) m'as de $\log_p{n}$ veces, siendo $p$ el m'aximo primo en la factorizaci'on.
 
-Por lo tanto, como EsPrimo se ejecuta a lo sumo $n$ veces, y en cada llamado cuesta O($\sqrt{n}$) operaciones, entonces la complejidad de Factorizacion es O($n \sqrt{n}$).
+Por lo tanto, como EsPrimo se ejecuta a lo sumo $n$ veces, y en cada llamado cuesta O($\sqrt{n}$) operaciones, entonces la complejidad de Factorizacion es O($n\sqrt{n}$).
+
+\vspace{2em}
+
+\subsubsubsection{Modelo Logar'itmico}
+
+Se supone nuevamente que $n$ es primo por ser el peor caso. Entonces, se deber'a iterar $n-1$ veces realizando en cada ciclo:
+\begin{itemize}
+\item Una comparaci'on contra 1 $\rightarrow$ O($\log_2(n)$).
+\item Una llamada a EsPrimo  $\rightarrow$ O($\sqrt{n}\log_2(n)$).
+\item Una suma a $p$, el cual nunca es mayor a $n$  $\rightarrow$ O($\log_2(n)$).
+\item Cuando $p = n$, en el bucle interno se realizan dos divisiones enteras y dos AgregarAtras  $\rightarrow$ O($4\log_2(n)$) = O($\log_2(n)$).
+\end{itemize}
+
+Por lo que cada iteraci'on costar'a la suma de todos los 'ordenes: O($\sqrt{n}\log_2(n)$).
+
+Luego, la complejidad de Factorizacion es O($n\sqrt{n}\log_2(n)$).
+
+\vspace{2em}
+
+\subsubsubsection{En funci'on del tama'no de entrada}
+
+
 
 \subsubsection{Fuerza Bruta}
 Las diferencias entre el algoritmo de fuerza bruta y el implementado son principalmente dos en EsPrimo:
@@ -113,7 +154,7 @@ $$T(2) = 2^{2-2} - 1 = 0$$
 \underline{Caso inductivo (se cumple para $T(n-1) \Longrightarrow$ se cumple para $T(n)$)}:
 $$T(n) = \sum_{i=2}^{n-1}{T(i)} + (n-2) = \sum_{i=2}^{n-2}{T(i)} + T(n-1) + (n-3+1) =$$
 $$\sum_{i=2}^{n-2}{T(i)} + (n-3) + T(n-1) + 1 = T(n-1) + T(n-1) + 1 =  (HI)$$
-$$2*(2^{n-3} - 1) + 1 = 2^{n-2} - 1 $$
+$$2(2^{n-3} - 1) + 1 = 2^{n-2} - 1 $$
 \begin{flushright}
 $\Box$   
 \end{flushright}
@@ -122,7 +163,7 @@ Por lo tanto la complejidad de EsPrimo por fuerza bruta es (en el peor caso)
 $$O(2^{n-2}-1) = O(2^n)$$
 
 con lo que de Factorizar por fuerza bruta es
-$$O(n*2^n)$$
+$$O(n2^n)$$
 
 
 
