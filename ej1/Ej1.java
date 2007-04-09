@@ -17,7 +17,9 @@ public class Ej1
 	private static long op_orl;
 	private static long op_ord;
 	private static long op_val;
-	static String ruta_estadisticas = "Tp1Ej1.dat";
+	private static long op_busc;
+	private static long op_ah;
+	static String ruta_estadisticas = "Tp1Ej1(busc).dat";
 	static String ruta_salida = "Tp1Ej1.out";
 	//static String ruta_entrada = "Tp1Ej1.in";
 	static String ruta_entrada = "Tp1Ej1pruebas.in";
@@ -35,11 +37,15 @@ public class Ej1
 		for(Instancia i : entradas)
 		{
 			System.out.println(i.Datos.S.size());
-			op_may=0;op_bus=0;op_orl=0;op_ord=0;op_val=0;
+			op_may=0;op_bus=0;op_orl=0;op_ord=0;op_val=0;op_ah=0;op_busc=0;
 			mayores = Mayores(i.Datos.S, i.Datos.T);
 			Parser.Escribir(ruta_salida, entradas.size(), mayores);
-			long operaciones = op_val+op_may+op_bus+op_orl+op_ord;
-			Parser.EscribirEstadisticas(ruta_estadisticas, i.Datos.S.size(), operaciones);
+			//long operaciones = op_val+op_may+op_bus+op_orl+op_ord;
+			long operaciones = op_bus;
+			System.out.println(operaciones);
+			Parser.EscribirEstadisticas(ruta_estadisticas, i.Datos.S.size(), op_busc);
+			Parser.EscribirEstadisticas("Tp1Ej1(ah).dat", i.Datos.S.size(), op_ah);
+			Parser.EscribirEstadisticas("Tp1Ej1(ah+bus).dat", i.Datos.S.size(), op_busc + op_ah);
 		}
 		System.out.println(op_val + " " + op_may + " " + op_bus + " " + op_orl + " " + op_ord);
 	}
@@ -121,8 +127,11 @@ public class Ej1
 					ret1.add(B.get(k));op_bus++;
 					ret.add(ret1);op_bus++;
 					j++;op_bus++;
+					op_busc++;
 				}else{
-					break;
+					op_ah++;
+					j++;
+					//break;
 				}
 			}	
 			k++;op_bus++;
@@ -154,8 +163,11 @@ public class Ej1
 					ret1.add(A.get(j));op_bus++;
 					ret.add(ret1);op_bus++;
 					j++; op_bus++;
+					op_busc++;
 				}else{
-					break;
+					op_ah++;
+					j++;
+					//break;
 				}
 			}	
 			k++;op_bus++;
@@ -304,7 +316,7 @@ public class Ej1
 		return ret;
 	}
 	
-/*	private static List<List<Integer>> Ordenar(List<List<Integer>> A){
+	private static List<List<Integer>> Ordenar(List<List<Integer>> A){
 		
 		List<List<Integer>> ret = new ArrayList<List<Integer>>();op_ord++;
 		List<Integer> maximo = new ArrayList<Integer>();op_ord++;
@@ -339,7 +351,7 @@ public class Ej1
 		}
 		op_ord++;
 		return ret;
-	}*/
+	}
 	
 	
 	private static List<List<Integer>> OrdenarQS(List<List<Integer>> A){
