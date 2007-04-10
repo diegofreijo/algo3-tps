@@ -140,7 +140,7 @@ Por lo tanto, el peor $n$ de entrada ser'a aquel con todos unos en su representa
 $$n = 2^r-1$$
 para alg'un $r\in\nat$.
 
-Ya que con un $n$ as'i se realizar'an 2 multiplicaciones por cada d'igito binario suyo, y que la cantidad de 'estos es $\log_2(n)$, la cantidad de multiplicaciones ser'an O($2*\log_2(n)$). Pero, como cada multiplicaci'on es O($k^3$), la complejidad uniforme de Potenciar ser'a
+Ya que con un $n$ as'i se realizar'an 2 multiplicaciones por cada d'igito binario suyo (excepto en la 'ultima iteraci'on que realiza s'olo una), y que la cantidad de 'estos es $\log_2(n)$, la cantidad de multiplicaciones ser'an O($2*\log_2(n) - 1$). Pero, como cada multiplicaci'on es O($k^3$), la complejidad uniforme de Potenciar ser'a
 $$O(2\log_2(n)k^3) = O(k^3\log_2(n))$$
 
 Notar que el mejor caso ser'a aquel donde $n$ tenga la mayor cantidad de ceros posible en su representaci'on binaria. 'Es decir, $n = 100\dots 00$. All'i, s'olo realizar'ia $\log_2(n)$ multiplicaciones para $pot2$ y luego una m'as para hacer $ret*pot2$ (que en realidad ser'ia $I*A^n$). Por lo tanto, el mejor caso ser'a con $n$ potencia de dos.
@@ -243,7 +243,7 @@ El cambio con respecto a la fuerza bruta recae en Potenciar exclusivamente. Aqu'
 \subsection{Discusi'on}
 El primer gr'afico muestra que la complejidad te'orica y pr'actica son pr'acticamente la misma. Era de esperar un comportamiento as'i ya que el algoritmo es muy simple. Adem'as, la curva pr'actica est'a bien definida por ser el algoritmo O($k^3$) en cualquier caso, no simplemente el "peor" (porque, en realidad, aqu'i no existe peor caso). Las constantes a la hora de sumar los valores son los responsables de ese $5k^2$ adicional en comparaci'on con el caso te'orico (siguen estando en el mismo orden por ser $k^2 < k^3$).
 
-En el segundo se ve la cantidad de multiplicaciones matriciales que realiza Potenciar en funci'on de $n$. Se verifica que en la pr'actica 'esta cantidad es exactamente $2\log_2(n)$ en el peor caso. Es decir, es exactamente como se calcul'o te'oricamente. Notar que siempre el valor siguiente a un peor caso es de los mejores casos (es decir, cuando el exponente es potencia de 2) y que la cantidad de multiplicaciones en 'estos casos es $\log_2(n)+1$ como tambi'en se calcul'o te'oricamente.
+En el segundo se ve la cantidad de multiplicaciones matriciales que realiza Potenciar en funci'on de $n$. Se verifica que en la pr'actica 'esta cantidad es exactamente $2\log_2(n) - 1$ en el peor caso. Es decir, es exactamente como se calcul'o te'oricamente. Notar que siempre el valor siguiente a un peor caso es de los mejores casos (es decir, cuando el exponente es potencia de 2) y que la cantidad de multiplicaciones en 'estos casos es $\log_2(n)+1$ como tambi'en se calcul'o te'oricamente.
 
 El tercer gr'afico se apoya en los dos anteriores. 'Es decir, como las complejidades te'oricas anteriores fueron v'alidas, es de esperar que 'esta tambi'en lo sea ya que, como se ve en el an'alisis de la complejidad, se basa en 'estas dos. Y efectivamente, el orden de la complejidad te'orica es buena cota de la complejidad pr'actica.
 
