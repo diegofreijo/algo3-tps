@@ -84,17 +84,21 @@ Los Algoritmos Ordenar y OrdenarListas corresponden a los habituales algoritmos 
 % Analisis de complejidad
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Analisis de complejidad}
-\subsubsection{Mayores}
 {\bf\small Modelo Uniforme}
+\subsubsection{Mayores}
 
-Tamaño de la entrada = 2 * cantidad de elementos del conjuntos = x
+Tamaño de la entrada = 2 * n = x
+con n cantidad de elementos del conjunto.
 
-La complejidad de Mayores es de O($4x^2+x+x*log(x)$). Los $x^2$ corresponden a las 3 veces que llama al algoritmo BuscoMayor, la $x*log(x)$ corresponde al Merge Sort para ordenar a los candidates y la $x$ restante es del agregado de los candidatos a la lista de retorno Ret.
+La complejidad de Mayores es de O($4n^2+n+n*log(n)$). Los $n^2$ corresponden a las 3 veces que llama al algoritmo BuscoMayor, la $n*log(n)$ corresponde al Merge Sort para ordenar a los candidates y la $n$ restante es del agregado de los candidatos a la lista de retorno Ret.
 El resto de las operaciones son basicas, o, en el caso del costo del acceso a las listas, las cuales son Linked Lists, que es constante.
+En función del tamaño de la entrada, la complejidad quedaria O($x^2$).
 
 \subsubsection{BuscoMayor}
 
-Este algoritmo recorre $i$ veces la lista B desde $n-i$ hasta $n$. En el peor caso es que $i$ sea $n/2$, lo cual hace recorrer $x/2 * x/2$ veces. Por lo tanto, la complejidad del algoritmo es O($x^2$). Las restantes operaciones realizadas son O(1) dentro del algoritmo.
+Este algoritmo recorre $i$ veces la lista B desde $n-i$ hasta $n$. En el peor caso es que $i$ sea $n/2$, lo cual hace recorrer $n/2 * n/2$ veces.
+Por lo tanto, la complejidad del algoritmo es O($n^2$). Las restantes operaciones realizadas son O(1) dentro del algoritmo.
+En funci'on del tamaño de la entrada, la complejidad queda cuadratica, O($x^2$).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Resultados
@@ -114,13 +118,9 @@ Este algoritmo recorre $i$ veces la lista B desde $n-i$ hasta $n$. En el peor ca
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Comentarios
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Conclusiones}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Referencias
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Referencias}
-\begin{itemize}
-    \item Referencias???
-\end{itemize}
+\subsection{Comentarios}
+De las figuras se pueden sacar las siguientes conclusiones:
+En la primera se ve que la complejidad teorica es mayor a la practica. Esto se debe a implementaciones internas de Java, las cuales amortizan muchos de los algoritmos de listas, haciendo menores la cantidad de operaciones.
+Desde la segunda a la sexta, se ven las cantidades de operaciones desglosadas en cada algoritmo en particular. Observar que la del algoritmo principal es practicamente lineal en funcion de la cantidad de elementos del conjunto. 
+En el séptimo se ve la comparacion entre Quick sort y Selection sort, y se nota la clara diferencia entre ambos. Si bien los dos tienen igual complejidad en peor caso, en caso del Quick Sort es $n*log(n)$ en caso promedio.
+En el octavo se ve claramente los ahorros de iteraciones en BuscoMayor al aplicar el break en el else del if. Esto ahorra muchisimas iteraciones innecesarias.

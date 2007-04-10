@@ -4,7 +4,7 @@ set term png
 set xlabel "Cantidad de elementos"
 set ylabel "Operaciones básicas"
 set output "Tp1Ej1(totales).png"
-plot 'Tp1Ej1(totales).dat' tit 'Práctica', 6*x + 4*(x**2) tit 'Teórica [O(6n + 3n^2 + n log(n)))]'
+plot 'Tp1Ej1(totales).dat' tit 'Práctica', 4*(x**2)+x+x*log(x) tit 'Teórica [O(4n^2+n+n*log(n))]'
 
 set xlabel "Cantidad de elementos"
 set ylabel "Operaciones básicas"
@@ -15,6 +15,11 @@ set xlabel "Cantidad de elementos"
 set ylabel "Operaciones básicas"
 set output "Tp1Ej1(ah vs bus).png"
 plot 'Tp1Ej1(ah).dat' tit 'Práctica [Iteraciones Ahorradas]', 'Tp1Ej1(busc).dat' tit 'Práctica[Interaciones Hechas]'
+
+set xlabel "Cantidad de elementos"
+set ylabel "Operaciones básicas"
+set output "Tp1Ej1(ah vs bus)2.png"
+plot x**2, 'Tp1Ej1(busc).dat' tit 'Práctica[Interaciones Hechas]'
 
 set xlabel "Cantidad de elementos"
 set ylabel "Operaciones básicas"

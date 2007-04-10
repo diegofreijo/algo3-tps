@@ -4,24 +4,24 @@ private static List<List<Integer>> BuscoMayor(int valor,final List<Integer> A, f
 		
 		int k = 0; // O(1)
 		
-		while(k <= i){	//O(i)													// Este ciclo se repite, i-k veces, cuando en peor caso i
-																				// es igual a n y k = 0, entonces i = k => el ciclo serepite 
-																				// en peor caso, n veces
+		while(k <= i){	//O(i)												// Este ciclo se repite, i-k veces, cuando en peor caso i
+																			// es igual a n y k = 0, entonces i = k => el ciclo serepite 
+																			// en peor caso, n veces
 			int j = i+1;	// O(1)													
-			while(j < A.size()) 											//Este algoritmo se repite tantas veces como n -j- 1, lo cual
-			{																// si i es n, como j es i+1, entonces, quedaria complejidad O(1)
-				int g = A.get(j); // O(N)
-				int h = B.get(k); // O(N)
+			while(j < A.size()) 										//Este algoritmo se repite tantas veces como n -j- 1, lo cual
+			{															// si i es n, como j es i+1, entonces, quedaria complejidad O(1)
+				int g = A.get(j); // O(1)
+				int h = B.get(k); // O(1)
 				
 				if (g+h >= valor)
 				{
 					List<Integer> ret1 = new ArrayList<Integer>(); // O(1)
-					ret1.add(A.get(j)); // O(N)
-					ret1.add(B.get(k)); // O(N)
+					ret1.add(A.get(j)); // O(1)
+					ret1.add(B.get(k)); // O(1)
 					ret.add(ret1); // O(1)
 					j++; // O(1)
 				}else{
-					j++; // O(1)
+					break; // O(1)
 				}
 			}	
 			k++; // O(1)

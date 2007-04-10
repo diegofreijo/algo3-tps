@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedList;
 
 
 
@@ -402,13 +403,13 @@ public class Ej1
 	
 	public static class Datos
 	{
-		private List<Integer> S;
-		private List<Integer> T;
+		private LinkedList<Integer> S;
+		private LinkedList<Integer> T;
 		
 		public Datos() {
 			super();
-			S = new ArrayList<Integer>();
-			T = new ArrayList<Integer>();
+			S = new LinkedList<Integer>();
+			T = new LinkedList<Integer>();
 		}
 	}
 	
