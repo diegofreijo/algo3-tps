@@ -75,7 +75,15 @@ La idea de este algoritmo se basa en la Criba de Erat'ostenes. Es decir, afirma 
 
 F'acilmente se ve que el peor caso es cuando $n$ efectivamente es primo, ya que fue necesario calcular todos los restos por divisi'on entera con los primos menores a $\sqrt{n}$. La mayor cantidad posible de valores le'idos es $\lfloor\sqrt{n}\rfloor$, y viene de suponer que todos los naturales menores a ese valor son primos.
 
-Luego, la complejidad es O($\sqrt{n}$).
+Luego, la complejidad uniforme es O($\sqrt{n}$).
+
+El tama'no de la entrada ser'a el de $n$ mas el de $primos$. El primero ser'a $\log_2(n)$, mientras que el segundo se puede acotar considerando que todos los valores de 2 a $n-1$ son primos. Como el logaritmo es creciente, el mayor de 'estos ser'a $n-1$. Asique, considerando que todos los valores son iguales a 'este, el tama'no de la lista quedar'ia como
+$$\sum_{i=2}^{n-1} \log_2(n-1) = (n-2)\log_2(n-1) \in O(n\log_2(n))$$
+
+Agreg'ando el tama'no de $n$ quedar'ia
+$$t = O(n\log_2(n) + \log_2(n)) = O(n\log_2(n))$$
+
+Por lo que la complejidad uniforme se podr'ia expresar como O($\sqrt{t}$), con lo que terminar'ia siendo \negrita{sublineal} en funci'on de la entrada.
 
 \vspace{2em}
 
@@ -83,12 +91,9 @@ Luego, la complejidad es O($\sqrt{n}$).
 
 Considero $n$ primo por ser 'este el peor caso. Calcular $\sqrt{n}$ es considerada que cuesta O($\log_2(n)$). Luego se deber'a iterar para cada primo menor o igual que $\sqrt{n}$, por lo que considero que ciclar'a $\sqrt{n}$ veces. Para cada iteraci'on, se deber'an realizar una comparaci'on y una divisi'on entera (en ralidad se calcula el resto, pero es pr'acticamente lo mismo), costando cada una de ellas O($\log_2(n)$). 
 
-Luego, la complejidad es O($\sqrt{n}\log_2(n)$).
+Luego, la complejidad logar'itmica es O($\sqrt{n}\log_2(n)$).
 
-\vspace{2em}
-
-\subsubsubsection{En funci'on del tama'no de entrada}
-
+El tama'no de entrada es $t = O(n\log_2(n))$ y f'acilmente se verifica que es mayor a la complejidad logar'itmica. Asique 'esta ser'a O($t$), con lo que es \negrita{lineal} en funci'on del tama'no de la entrada.
 
 
 \subsubsection{Factorizacion}
@@ -102,6 +107,10 @@ Para calcularla, comienza por el menor primo (el 2) y verifica si lo es. De serl
 El peor de los casos es cuando $n$ es primo, ya que se deber'a llamar a EsPrimo $n$ veces (el 'unico divisor que se encontrar'a es $n$). De ser un n'umero compuesto, se llamar'a a lo sumo $n/t$ veces a 'esta funci'on, siendo $t$ el menor primo en la factorizaci'on. Adem'as, el bucle interno que verifica cuantas veces divide un primo a $n$ nunca se ejecutar'a en total (o sea, sumando para todos los primos divisibles) m'as de $\log_p{n}$ veces, siendo $p$ el m'aximo primo en la factorizaci'on.
 
 Por lo tanto, como EsPrimo se ejecuta a lo sumo $n$ veces, y en cada llamado cuesta O($\sqrt{n}$) operaciones, entonces la complejidad de Factorizacion es O($n\sqrt{n}$).
+
+El tama'no de la entrada ser'a simplemente $t = \log_2(n)$. Notar que $2^{\log_2(n)} = 2^t = n$, por lo que la complejidad uniforme de Factorizacion se puede expresar como 
+$$O(2^t\sqrt{2^t}) = O(2^{3t/2})$$
+con lo que ser'ia \negrita{exponencial} en funci'on del tama'no de la entrada.
 
 \vspace{2em}
 
@@ -119,11 +128,9 @@ Por lo que cada iteraci'on costar'a la suma de todos los 'ordenes: O($\sqrt{n}\l
 
 Luego, la complejidad de Factorizacion es O($n\sqrt{n}\log_2(n)$).
 
-\vspace{2em}
-
-\subsubsubsection{En funci'on del tama'no de entrada}
-
-
+De forma equivalente al modelo uniforme, siendo $t = \log_2(n)$ el tama'no de la entrada, la complejidad logar'itmica se puede expresar como 
+$$O(2^t\sqrt{2^t}t) = O(2^{3t/2}t)$$
+con lo que 'esta ser'ia \negrita{exponencial} en funci'on del tama'no de la entrada.
 
 \subsubsection{Fuerza Bruta}
 Las diferencias entre el algoritmo de fuerza bruta y el implementado son principalmente dos en EsPrimo:
@@ -162,8 +169,7 @@ $\Box$
 Por lo tanto la complejidad de EsPrimo por fuerza bruta es (en el peor caso)
 $$O(2^{n-2}-1) = O(2^n)$$
 
-con lo que de Factorizar por fuerza bruta es
-$$O(n2^n)$$
+con lo que de Factorizar por fuerza bruta es del orden deO($n2^n$).
 
 
 
@@ -198,9 +204,10 @@ El tercer gr'afico se basa en los dos anteriores. El patr'on de rectas se sigue 
 
 Por 'ultimo, en el cuarto gr'afico se puede ver que nuesto algoritmo es mucho m'as eficiente en comparaci'on con el de fuerza bruta. Y era de esperar ya que nuestro algoritmo es polinomial y el de fuerza bruta, exponencial.
 
+\clearpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Conclusiones
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Conclusiones}
-?????????????????????????????????
+%\subsection{Conclusiones}
+%?????????????????????????????????
