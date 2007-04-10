@@ -57,15 +57,16 @@ public abstract class Ej3
 		
 		Matriz prueba;
 		List<Punto2d> estadistica = new LinkedList<Punto2d>();
+		long t = 0;
 		
-		for(int i = 2; i <= 150; ++i)
+		for(int k = 2; k <= 150; ++k)
 		{
-			prueba = new Matriz(i);
+			prueba = new Matriz(k);
 			prueba.Identidad();
 			op_mul = 0;
 			prueba = prueba.Multiplicar(prueba);
-			System.out.println("i = " + i + " ---> " + op_mul);
-			estadistica.add(new Punto2d((long)i, op_mul));
+			System.out.println("k = " + k + " ---> " + op_mul);
+			estadistica.add(new Punto2d((long)t, op_mul));
 		}
 		Estadistica.GuardarDatos(ruta_contar_mul, estadistica);
 	}
@@ -199,45 +200,7 @@ public abstract class Ej3
 			++op_pot;
 			return ret;
 		}
-		
-		/*public Matriz Potenciar(int n)
-		{
-			Matriz ret; ++op_pot;
-			
-			++op_pot;
-			if(n <= 0)
-			{
-				ret = new Matriz(k); op_pot += k*k;
-				ret.Identidad(); op_pot += k*k;
-			}
-			else
-			{
-				ret = new Matriz(this); op_pot += 2*k*k;
-				Matriz pot2 = new Matriz(this); op_pot += 2*k*k;
-				--n; ++op_pot;
 				
-				while(n >= 1)
-				{
-					++op_pot;
-					++op_pot;
-					if(n % 2 == 0)
-					{
-						n /= 2; ++op_pot;
-					}
-					else
-					{
-						--n; ++op_pot;
-						n /= 2; ++op_pot;
-						ret = ret.Multiplicar(pot2); ++op_pot; ++cant_mul;
-					}
-					pot2 = pot2.Multiplicar(pot2); ++op_pot; ++cant_mul;
-				}
-			}
-			
-			++op_pot;
-			return ret;
-		}*/
-		
 		public Matriz Potenciar_FuerzaBruta(int n)
 		{
 			Matriz ret; ++op_pot;
