@@ -11,7 +11,7 @@ plot '..\..\ej3\dat\Tp1Ej3(multiplicar).dat' tit 'Práctica', x*x*x tit 'Teórica 
 set xlabel "Exponente (n)"
 set ylabel "Cantidad de multiplicaciones"
 set output "Tp1Ej3(cant_mul).png"
-plot '..\..\ej3\dat\Tp1Ej3(cant_mul).dat' tit 'Práctica', log(x)/log(2) tit 'Teórica [log(n)]', log(x)/log(2) + 1 tit 'Mejor caso teórico [log2(n) + 1]', 2*log(x)/log(2) tit 'Teórica ajustada [2*log2(n)]'
+plot '..\..\ej3\dat\Tp1Ej3(cant_mul).dat' tit 'Práctica', log(x)/log(2) tit 'Teórica [log(n)]', log(x)/log(2) + 1 tit 'Mejor caso teórico [log2(n) + 1]', 2*log(x)/log(2) - 1 tit 'Teórica ajustada [2*log2(n) - 1]'
 
 
 set xlabel "Dimensiones de la matriz (k)"
