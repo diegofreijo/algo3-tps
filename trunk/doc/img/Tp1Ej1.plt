@@ -18,6 +18,11 @@ plot 'Tp1Ej1(ah).dat' tit 'Práctica [Iteraciones Ahorradas]', 'Tp1Ej1(busc).dat'
 
 set xlabel "Cantidad de elementos"
 set ylabel "Operaciones básicas"
+set output "Tp1Ej1(ah vs bus)2.png"
+plot x**2, 'Tp1Ej1(busc).dat' tit 'Práctica[Interaciones Hechas]'
+
+set xlabel "Cantidad de elementos"
+set ylabel "Operaciones básicas"
 set output "Tp1Ej1(bus).png"
 plot 'Tp1Ej1(bus).dat' tit 'Práctica [Iteraciones]'
 
