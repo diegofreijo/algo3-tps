@@ -5,12 +5,40 @@
 % Introduccion
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Introducci'on}
+El primer algoritmo pensado para resolver este problema fue el de fuerza bruta, el cual recorre los todos los nodos de un 'arbol de busqueda y calcula la altura cada vez que llega a una hoja.
+
+Dicho 'arbol empesar'ia con un nodo con un cero y cumple con la propiedad de que cada nodo (excepto las hojas) tiene una cantidad de hijos equivalente a: $$Cantidad\ Integrantes\ Familia - Valor\ Nodo - \# (enemistados\ con\ el)$$
+Los valores que toman los hijos van desde $Valor\ Nodo\ +\ 1$ hasta $Cantidad\ Integrantes\ Familia$ sin tener en cuenta los valores enemistados con el nodo padre.
+
+La cantidad de elementos, suponiendo que no hay enemistades en la familia, que tendria el 'arbol es $2^n\ -\ 1$, donde $n$ es la cantidad de integrantes de la familia.
+
+Luego de tener el algoritmo de fuerza bruta nos vimos con la necesidad de empezar a {\it podar}, debido a que se realizan muchas comparaciones innecesarias que aumentaban la complejidad.
+
+La {\it poda} se realizo teniendo en cuenta el siguiente razonamiento: se van calculando alturas (cada una equivale a un tama'no de fiesta), si la m'axima de 'estas es mayor a la cantidad personas que me quedan para armar una fiesta nueva, no sigo y me quedo con dicha altura.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Detalles de implementacion
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Detalles de implementaci'on}
+Para guardar los datos de entrada se creo una clase llamada $Datos$, la cual contiene el valor de $n$, de $m$ y una lista con los pares de enemitades.
+
+El algoritmo que resuelve el problema, $TimeForParty$, consta de dos partes:
+\begin{itemize}
+\item La primera refiere a la primer parte del algoritmo, la que calcula cuantos familiares pueden invitarse "de una"\ ya que no est'an enemistados con nadie.
+
+Adem'as en esta parte tambi'en se arman una lista con las personas que tienen alguna enemistad y una matriz, las cuales se usan en la segunda parte. Si la matriz tiene un $true$ en la posici'on $i\ j$ es porque $i$ y $j$ est'an enemistados entre si. En cambio, si hay un $false$, no.
+
+\item La segunda parte es la m'as costosa en complejidad algor'itmica. Es el algoritmo recursivo($MasQueridos$) que recorre el 'arbol (y realiza la poda correspondiente) buscando la fiesta m'as grande que se puede hacer con las personas enemistadas. Este resultado es, luego, sumado al obtenido en la parte 1.
+
+\end{itemize}
+
+Algunas decisiones que se tomaron con respecto a la entrada son:
+\begin{itemize}
+\item $n$ no puede ser menor que 2, si una persona sola conforma la familia entonces no tiene ningun problema para armar la fiesta ya que no puede estar enemistado con el mismo.
+\item $m$ no puede ser cero, si no hay enemistades en la familia no necesita el algoritmo.
+\end{itemize}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -18,30 +46,113 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Pseudoc'odigo}
 
+\algoritmo{TimeForParty($dato$)}{$La\ maxima\ cantidad\ de\ personas\ que\ se\ quieren$} %{O($log_2(n)*k^3$)}
+\begin{algorithmic}[1]
+\REQUIRE $n > 2,\ m > 0$
+\STATE $invitados \leftarrow 0$
+\FOR{$i = 1 \dots dato.n - 1$}
+	\IF{$EstaEnAlgunPar(i, dato.paresEnemistados)$)}
+		\STATE Agregar(listaProblematicos,$i$)
+	\ELSE
+		\STATE $invitados \leftarrow invitados + 1$
+	\ENDIF
+\ENDFOR
 
+\FOR{$j = 0 \dots dato.m$}
+	\STATE $matriz[(paresEnemistados(j))(0)][(paresEnemistados(j))(1)] = true$
+	\STATE $matriz[(paresEnemistados(j))(1)][(paresEnemistados(j))(0)] = true$
+\ENDFOR
+
+\STATE $temp \leftarrow listaProblematicos.tamano()$
+\STATE $Lista\ PosQueridos$
+\STATE $Lista\ ParaAlturas $
+\STATE $mayor\leftarrow 0$
+\STATE $mayorAnt \leftarrow 0$
+
+\FOR{$int i = 0 \dots temp$}
+	\IF{$(temp - i) > mayorAnt$}
+		\STATE $mayor = MasQueridos(matriz, listaProblematicos,PosQueridos,paraAlturas, i);$
+		\IF{$mayor > mayorAnt$}
+			\STATE $mayorAnt = mayor$
+		\ENDIF
+		\ELSE
+			\STATE $break$
+	\ENDIF
+\ENDFOR
+\STATE $invitados \leftarrow invitados + mayorAnt$
+
+\RETURN $invitados$
+
+\end{algorithmic}
+
+\vspace{2em}
+
+\algoritmo{MasQueridos($matriz\ m,Lista\ lP,Lista\ PQ,Lista\ pA,nat\ i$)}{Calcula la maxima cantidad de familiares peliados que se quieren}%{O($k^3$)}
+\begin{algorithmic}[1]
+\STATE $tam = lP.tamano()$
+\STATE $Agregar(PQ,lP(n))$
+\FOR{$k = n + 1 \dots tam - 1$}
+	\IF{$!TieneEnemigos(lP(k),PQ,m) \&\& (tam-(k)+ PQ.tamano()) > MaximoElemento(pA)$}
+		\STATE $Lista PQ2 \leftarrow PQ$
+		\STATE $MasQueridos(m, lP, PQ2, pA, k)$
+	\ENDIF
+\ENDFOR
+\STATE $Agregar(pA,PQ.tamano())$
+\STATE $PQ.vaciar()$
+
+\STATE $ret \leftarrow MaximoElemento(pA)$
+
+\RETURN $ret$;
+
+\end{algorithmic}
+
+Aclaraci'on sobre las funciones:
+\begin{itemize}
+\item $EstaEnAlgunPar(entero,\ listaDeParesEnemistados)$: devuelve $true$ en el caso en que el entero que entra como parametro este en alguna de las peleas contenida por la lista de enemistados.
+\item $TieneEnemigos(entero,\ lista,\ matriz)$: devuelve $true$ en el caso en que el entero este enemistado con alg'un elemento de la lista.
+\item $MaximoElemento(lista)$: devuelve el m'aximo elemento de la lista.
+\end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Respuestas
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Respuestas}
-????????????
+%\subsection{Respuestas}
+%????????????
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Analisis de complejidad
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Analisis de complejidad}
+Si la entrada tiene pocas peleas habr'a pocas llamadas recursivas y poca cantidad de operaciones. Ahora si hay demasiadas peleas, por ejemplo si todos estan enemistados con todos, no habr'a llamadas recursivas y por consiguiente la complejidad estar'a dada por la primera parte del algoritmo.El peor caso, para el algoritmo que resuelve el ejercicio, es cuando todos los elementos est'an peleados y pero no todos contra todos sino de forma disjunta.
 
+Como el an'alisis se har'a teniendo en cuenta el peor caso se va suponer que $m$ = $n/2$. %y que todas las peleas son disjuntas
 
+El tama'no de entrada es $2 * m = 2* n/2 = n$
+
+La complejidad de la primera parte del algoritmo es O($n^2$) debido a que recorro $n$ veces la lista de pares enemistados que tiene como tama'no $n/2$, m'as la complejidad de crear la matriz, que tambi'en es O($n^2$).
+
+La complejidad de la segunda parte del algoritmo est'a dada por $$O(cantidad de repeticiones)*O(MasQueridos)$$Como la cantidad de repeticiones ser'a menor o igual a $n$, la complejidad ser'a menor o igual a $$O(n)*O(MasQueridos)$$
+
+El algoritmo de fuerza bruta tiene complejidad O($n*2^n$) debido a que recorre todos los nodos del 'arbol y cada vez que llega a una hoja calcula la altura hasta ella. MasQueridos hace lo mismo a excepci'on que no recorre todo el 'arbol sino que usa la condici'on de $poda$. Igualmente dicha condici'on, si bien mejora un poco la complejidad para valores chicos de $n$, sigue siendo del mismo orden.
+
+Finalmente la complejidad del algoritmo TimeForParty es O($n^2*2^n$).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Resultados
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\subsection{Resultados}
+\imagen{img/Tp1Ej2.png}{14}{Cantidad de operaciones b'asicas del algoritmo completo}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Comentarios
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
 \subsection{Conclusiones}
-
-
+La complejidad te'orica es mayor que la pr'actica, esto se debe a que al aplicar O() perdemos algunas constantes que emparejar'ian m'as las lineas del gr'afico y a que algunas implentaciones de Java (sobre todo las hechas sobres listas) tiene baja complejidad (por ejemplo en el acceso ordenado a una lista).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Referencias
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Referencias}
-\begin{itemize}
-    \item Referencias???
-\end{itemize}
+%\subsection{Referencias}
+%\begin{itemize}
+%    \item Referencias???
+%\end{itemize}
 
