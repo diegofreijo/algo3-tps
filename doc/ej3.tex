@@ -100,7 +100,13 @@ F'acilmente se puede ver en el algoritmo que para cada fila de $A$ (las cuales s
  
 Luego, la complejidad uniforme es O($k^3$).
 
-Notar que el tama'no de la entrada ser'a la cantidad de elementos en la matriz. Es decir, $t = 2k^2$. Por lo tanto, la complejidad uniforme es O($\sqrt{t/2}\ t/2$) = O($t^{3/2}$), con lo que es \negrita{superlineal} en funci'on del tama'no de entrada.
+El tama'no de la entrada ser'a igual a la suma de los tama'nos de todos los elementos de cada matriz:
+$$t = \sum_{i=1}^k\sum_{j=1}^k \log_2(A_{ij})+\log_2(B_{ij})$$
+
+Pero como, para acotar, se considera que todos los elementos de cada una son el mayor de ambas (llamado $m$), el tama'no se puede expresar como
+$$t = \sum_{i=1}^k\sum_{j=1}^k \log_2(m)+\log_2(m) = 2k^2\log_2(m) \in O(k^2\log_2(m))$$
+
+Por lo tanto, la complejidad uniforme es O($\sqrt{t/2}\ t/2$) = O($t^{3/2}$), con lo que es \negrita{superlineal} en funci'on del tama'no de entrada.
 
 \vspace{2em}
 
@@ -114,15 +120,7 @@ $$ O(\log_2(cm^2)+\log_2(m^2)) = O(2\log_2(m) + \log_2(c) + 2\log_2(m)) = O(\log
 Por lo tanto, para calcular un valor de la matriz resultado, se deber'an calcular $k$ productos cada uno con un costo de O($\log_2(m)$) y $k-1$ sumas cada una con el mismo costo. 'Esto se deber'a realizar para cada elemento de la matriz resultado, la cual contiene $k^2$ de ellos. Luego, la complejidad logar'itmica de Multiplicar estar'a dada por
 $$O((k\log_2(m) + (k-1)\log_2(m))k^2) = O(k^3\log_2(m))$$
 
-Notar que si $m$ estuviese acotado se pasar'ia a hablar de modelo uniforme. Y la complejidad reci'en calculada lo refleja ya que O($\log_2(m)$) pasar'ia a ser O(1), dando la misma complejidad que en 'ese modelo: O($k^3$).
-
-El tama'no de la entrada ser'a igual a la suma de los tama'nos de todos los elementos de cada matriz:
-$$t = \sum_{i=1}^k\sum_{j=1}^k \log_2(A_{ij})+\log_2(B_{ij})$$
-
-Pero como se considera que todos los elementos de cada una son $m$, el tama'no se puede expresar como
-$$t = \sum_{i=1}^k\sum_{j=1}^k \log_2(m)+\log_2(m) = 2k^2\log_2(m) \in O(k^2\log_2(m))$$
-
-Luego, se verifica f'acilemnte que
+Se verifica f'acilemnte que
 $$t^2 \geq k^3\log_2(m) \Longleftrightarrow k^4\log^2_2(m) \geq k^3\log_2(m) \Longleftrightarrow k \geq 1$$
 
 Por lo tanto, la complejidad logar'itmica se puede expresar como
@@ -230,6 +228,8 @@ El cambio con respecto a la fuerza bruta recae en Potenciar exclusivamente. Aqu'
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
 \subsection{Resultados}
+Los gr'aficos a continuaci'on cuentan la cantidad de operaciones de los algoritmos en funci'on de las variables de entrada. Se decidi'o as'i en lugar de hacerlos en funci'on del tama'no de la entrada para que sean sencillos de analizar.
+
 \imagen{img/Tp1Ej3(multiplicar).png}{14}{Cantidad de operaciones b'asicas de Multiplicar en funci'on de las dimensiones de las matrices}
 \imagen{img/Tp1Ej3(cant_mul).png}{14}{Cantidad de multiplicaciones realizadas en Potenciar en funci'on del exponente}
 \imagen{img/Tp1Ej3(potenciar).png}{14}{Cantidad de operaciones b'asicas de Potenciar en funci'on del exponente y las dimensiones de las matrices}
