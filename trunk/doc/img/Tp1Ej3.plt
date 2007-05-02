@@ -25,7 +25,7 @@ set xlabel "Dimensiones de la matriz (k)"
 set ylabel "Exponente (n)"
 set zlabel "Operaciones básicas"
 set output "Tp1Ej3(potenciar_fb).png"
-splot '..\..\ej3\dat\Tp1Ej3(potenciar).dat' tit 'Óptimo', '..\..\ej3\dat\Tp1Ej3(potenciar_fb).dat' tit 'Fuerza Bruta'
+splot '..\..\ej3\dat\Tp1Ej3(potenciar).dat' tit 'Eficiente', '..\..\ej3\dat\Tp1Ej3(potenciar_fb).dat' tit 'Fuerza Bruta'
 
 
 set output
