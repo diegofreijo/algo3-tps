@@ -57,7 +57,6 @@ public abstract class Ej3
 		
 		Matriz prueba;
 		List<Punto2d> estadistica = new LinkedList<Punto2d>();
-		long t = 0;
 		
 		for(int k = 2; k <= 150; ++k)
 		{
@@ -66,7 +65,7 @@ public abstract class Ej3
 			op_mul = 0;
 			prueba = prueba.Multiplicar(prueba);
 			System.out.println("k = " + k + " ---> " + op_mul);
-			estadistica.add(new Punto2d((long)t, op_mul));
+			estadistica.add(new Punto2d((long)k, op_mul));
 		}
 		Estadistica.GuardarDatos(ruta_contar_mul, estadistica);
 	}

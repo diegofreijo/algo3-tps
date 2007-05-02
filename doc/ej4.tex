@@ -7,7 +7,7 @@
 \subsection{Introducci'on}
 Desde el principio, para resolver este problema se pens'o en armar la factorizaci'on probando todos los naturales (comenzando por el 2, ya que el 1 no es primo ni compuesto). Si 'este era primo, se verificaba si dividia al n'umero de entrada y se agregaban tantas repeticiones como fueran necesarias. Y ello fue lo que terminamos haciendo.
 
-Para verificar si un n'umero era primo o no se utiliz'o el corolario de la criba de Erat'ostenes, es decir, probar si alg'un otro primo menor a su ra'iz lo divide. De no ser as'i, es porque efectivamente lo era; caso contrario, no. Pero 'este algoritmo era extremadamente ineficiente ya que deb'ia efectuar llamadas recursivas para cada natural menor a la ra'iz de la entrada para verificar si 'este era o no primo (y luego verificar si lo divid'ia). Por eso se opt'o por reutilizar mucha de 'esta informaci'on. 'Esto es, evitar preguntar si un n'umero es primo mas de una vez. Para ello se agreg'o una lista ordenada como entrada en donde dever'an estar todos los primos menores al valor que se est'a pasando. La ganancia fue del orden exponencial.
+Para verificar si un n'umero era primo o no se utiliz'o el corolario de la criba de Erat'ostenes, es decir, probar si alg'un otro primo menor a su ra'iz lo divide. De no ser as'i, es porque efectivamente lo era; caso contrario, no. Pero 'este algoritmo era extremadamente ineficiente ya que deb'ia efectuar llamadas recursivas para cada natural menor a la ra'iz de la entrada para verificar si 'este era o no primo (y luego verificar si lo divid'ia). Por eso se opt'o por reutilizar mucha de 'esta informaci'on. 'Esto es, evitar preguntar si un n'umero es primo mas de una vez. Para ello se agreg'o una lista ordenada como entrada en donde dever'an estar todos los primos menores al valor que se est'a pasando. La ganancia fue una complejidad \negrita{polinomial} en lugar de una \negrita{exponencial}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -71,7 +71,7 @@ La otra lista utilizada fue la de $primos$ en Factorizaci'on. El acceso aleatori
 
 \subsubsubsection{Modelo Uniforme}
 
-La idea de este algoritmo se basa en la Criba de Erat'ostenes. Es decir, afirma que si para cierto n'umero $n$ no existe un primo $p$ menor a $\sqrt{n}$ tal que $p\ |\ n$, entonces $n$ es primo. 
+La idea de este algoritmo se basa en la Criba de Erat'ostenes; espec'ificamente, en el hecho que si para cierto n'umero $n$ no existe un primo $p$ menor a $\sqrt{n}$ tal que $p\ |\ n$, entonces $n$ es primo. 
 
 F'acilmente se ve que el peor caso es cuando $n$ efectivamente es primo, ya que fue necesario calcular todos los restos por divisi'on entera con los primos menores a $\sqrt{n}$. La mayor cantidad posible de valores le'idos es $\lfloor\sqrt{n}\rfloor$, y viene de suponer que todos los naturales menores a ese valor son primos.
 
@@ -169,7 +169,7 @@ $\Box$
 Por lo tanto la complejidad de EsPrimo por fuerza bruta es (en el peor caso)
 $$O(2^{n-2}-1) = O(2^n)$$
 
-con lo que de Factorizar por fuerza bruta es del orden deO($n2^n$).
+con lo que de Factorizar por fuerza bruta es del orden de O($n2^n$).
 
 
 
@@ -183,7 +183,7 @@ Los gr'aficos a continuaci'on cuentan la cantidad de operaciones de los algoritm
 \imagen{img/Tp1Ej4(es_primo).png}{14}{Cantidad de operaciones b'asicas de EsPrimo en funci'on del n'umero de entrada}
 \imagen{img/Tp1Ej4(cant_ep).png}{14}{Cantidad de llamadas a la funci'on EsPrimo desde Factorizacion en funci'on del n'umero a factorizar}
 \imagen{img/Tp1Ej4(factorizacion).png}{14}{Cantidad de operaciones b'asicas de Factorizacion en funci'on del n'umero a factorizar}
-\imagen{img/Tp1Ej4(factorizacion_fb).png}{14}{Cantidad de operaciones b'asicas de Factorizacion mediante el algoritmo 'optimo y el de fuerza bruta en funci'on del n'umero a factorizar}
+\imagen{img/Tp1Ej4(factorizacion_fb).png}{14}{Cantidad de operaciones b'asicas de Factorizacion mediante el algoritmo eficiente y el de fuerza bruta en funci'on del n'umero a factorizar}
 \clearpage
 
 
